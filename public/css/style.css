@@ -1033,6 +1033,10 @@ img {
   text-align: center;
   padding-bottom: 35px;
 }
+#aa-product .aa-product-area .aa-product-inner #sports {
+  text-align: center;
+  padding-bottom: 35px;
+}
 
 .aa-product-nav {
   display: inline-block;
@@ -1096,6 +1100,45 @@ img {
   font-size: 16px;
 }
 .aa-products-tab li.active a:hover, .aa-products-tab li.active a:focus {
+  border: none;
+  background-color: inherit;
+}
+
+.aa-popular-tab {
+  display: block;
+  text-align: center;
+  border: none;
+  margin-bottom: 20px;
+}
+.aa-popular-tab li {
+  border: none;
+  float: none;
+  display: inline-block;
+}
+.aa-popular-tab li a {
+  border: none;
+  font-size: 16px;
+  text-transform: uppercase;
+  border-radius: 0;
+  border-bottom: 1px solid #fff;
+  margin: 0 6px;
+  padding: 10px 12px;
+  -webkit-transition: all 0.5s;
+  -moz-transition: all 0.5s;
+  -ms-transition: all 0.5s;
+  -o-transition: all 0.5s;
+  transition: all 0.5s;
+}
+.aa-popular-tab li a:hover, .aa-popular-tab li a:focus {
+  color: #333;
+  background-color: inherit;
+}
+.aa-popular-tab li.active a {
+  border: none;
+  background-color: inherit;
+  font-size: 16px;
+}
+.aa-popular-tab li.active a:hover, .aa-popular-tab li.active a:focus {
   border: none;
   background-color: inherit;
 }
@@ -3831,6 +3874,11 @@ img {
     padding: 6px;
   }
 
+  .aa-popular-tab li a {
+    margin: 0 4px;
+    padding: 6px;
+  }
+
   .scrollToTop {
     font-size: 20px;
     height: 40px;
@@ -3959,6 +4007,10 @@ img {
   }
 
   .aa-popular-category .aa-products-tab {
+    text-align: left;
+  }
+
+  .aa-popular-category .aa-popular-tab {
     text-align: left;
   }
 

@@ -59,6 +59,9 @@ return [
 
     'asset_url' => env('ASSET_URL'),
 
+    'backend_endpoint' => 'http://localhost:3001/api',
+
+    'photo_product' => 'http://127.0.0.1:8001/img/gambar/produk/',
     /*
     |--------------------------------------------------------------------------
     | Application Timezone

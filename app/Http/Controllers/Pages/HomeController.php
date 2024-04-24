@@ -3,11 +3,29 @@
 namespace App\Http\Controllers\Pages;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Master\CategoryController;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 
 class HomeController extends Controller
 {
-    public function index(){
-        return view('home.index');
+    protected $apiUrl, $photoUrl;
+
+    public function __construct()
+    {
+        $this->apiUrl = config('app.backend_endpoint');
+        $this->photoUrl = config('app.photo_product');
+    }
+
+    public function index(Request $request){
+        $categoryController = new CategoryController();
+        $fiveCategory = $categoryController->getFiveCategories($request);
+        $threeCategory = $categoryController->getTHreeCategories($request);
+
+        return view('home.index', [
+            'promoBanner'   => $fiveCategory->getData(),
+            'threeCategory'   => $threeCategory->getData(),
+            'urlPhoto'           => $this->photoUrl
+        ]);
     }
 }
