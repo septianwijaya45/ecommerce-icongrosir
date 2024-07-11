@@ -157,7 +157,7 @@
                         <ul class="nav nav-tabs aa-products-tab">
                             <li><a href="#men" data-category-id="{{ isset($threeCategory[0]) ? $threeCategory[0]->category : 'Mens' }}" data-toggle="tab">{{ isset($threeCategory[0]) ? $threeCategory[0]->category : 'Mens' }}</a></li>
                             <li><a href="#women" data-category-id="{{ isset($threeCategory[1]) ? $threeCategory[1]->category : 'Womens' }}" data-toggle="tab">{{ isset($threeCategory[1]) ? $threeCategory[1]->category : 'Womens' }}</a></li>
-                            <li><a href="#sports" data-category-id="{{ isset($threeCategory[2]) ? $threeCategory[2]->category : 'Other' }}" data-toggle="tab">{{ isset($threeCategory[2]) ? $threeCategory[2]->category : 'Other' }}</a></li>
+                            <li><a href="#sports" data-category-id="{{ isset($threeCategory[3]) ? $threeCategory[3]->category : 'Other' }}" data-toggle="tab">{{ isset($threeCategory[3]) ? $threeCategory[3]->category : 'Other' }}</a></li>
                         </ul>
                         <!-- Tab panes -->
                         <div class="tab-content">
@@ -177,10 +177,10 @@
                             <!-- / women product category -->
                             <!-- start sports product category -->
                             <div class="tab-pane fade" id="sports">
-                                <ul class="aa-product-catg" id="product-{{ isset($threeCategory[2]) ? $threeCategory[2]->category : 'Others' }}">
+                                <ul class="aa-product-catg" id="product-{{ isset($threeCategory[3]) ? $threeCategory[3]->category : 'Others' }}">
                                                     
                                 </ul>
-                                <a class="aa-browse-btn" href="#">Lihat Semua Produk {{ isset($threeCategory[2]) ? $threeCategory[2]->category : 'Other' }}<span class="fa fa-long-arrow-right"></span></a>
+                                <a class="aa-browse-btn" href="#">Lihat Semua Produk {{ isset($threeCategory[3]) ? $threeCategory[3]->category : 'Other' }}<span class="fa fa-long-arrow-right"></span></a>
                             </div>            
                     </div>
                 </div>
@@ -357,6 +357,7 @@
                     // Loop melalui data produk dan tambahkan ke dalam daftar produk
                     response.forEach(function(product) {
                         if(product != null){
+                            let routeProductDetail = "{{route('getProductById', ':id')}}".replace(':id', product.uuid);
                             var productHtml = `
                                 <li>
                                     <figure>
@@ -369,8 +370,7 @@
                                     </figure>                        
                                     <div class="aa-product-hvr-content">
                                         <a href="#" data-toggle="tooltip" data-placement="top" title="Add to Wishlist"><span class="fa fa-heart-o"></span></a>
-                                        <a href="#" data-toggle="tooltip" data-placement="top" title="Compare"><span class="fa fa-exchange"></span></a>
-                                        <a href="#" data-toggle2="tooltip" data-placement="top" title="Quick View" data-toggle="modal" data-target="#quick-view-modal"><span class="fa fa-search"></span></a>                          
+                                        <a href="`+routeProductDetail+`" data-toggle2="tooltip" data-placement="top" title="Detail Product" ><span class="fa fa-eye"></span></a>
                                     </div>
                                     <span class="aa-badge aa-sale" href="#">SALE!</span>
                                 </li>
@@ -402,6 +402,7 @@
                     // Loop melalui data produk dan tambahkan ke dalam daftar produk
                     response.forEach(function(product) {
                         if(product != null){
+                            let routeProductDetail = "{{route('getProductById', ':id')}}".replace(':id', product.uuid);
                             var productHtml = `
                                 <li>
                                     <figure>
@@ -414,8 +415,7 @@
                                     </figure>                        
                                     <div class="aa-product-hvr-content">
                                         <a href="#" data-toggle="tooltip" data-placement="top" title="Add to Wishlist"><span class="fa fa-heart-o"></span></a>
-                                        <a href="#" data-toggle="tooltip" data-placement="top" title="Compare"><span class="fa fa-exchange"></span></a>
-                                        <a href="#" data-toggle2="tooltip" data-placement="top" title="Quick View" data-toggle="modal" data-target="#quick-view-modal"><span class="fa fa-search"></span></a>                          
+                                        <a href="`+routeProductDetail+`" data-toggle2="tooltip" data-placement="top" title="Detail Product" data-toggle="modal" data-target="#quick-view-modal"><span class="fa fa-eye"></span></a>
                                     </div>
                                     <span class="aa-badge aa-sale" href="#">SALE!</span>
                                 </li>
@@ -446,6 +446,7 @@
                     $('#list-popular').empty();
                     if(response.length != 0){
                         response.forEach(function(product) {
+                            let routeProductDetail = "{{route('getProductById', ':id')}}".replace(':id', product.uuid);
                                 var productHtml = `
                                     <li>
                                         <figure>
@@ -458,8 +459,7 @@
                                         </figure>                     
                                         <div class="aa-product-hvr-content">
                                             <a href="#" data-toggle="tooltip" data-placement="top" title="Add to Wishlist"><span class="fa fa-heart-o"></span></a>
-                                            <a href="#" data-toggle="tooltip" data-placement="top" title="Compare"><span class="fa fa-exchange"></span></a>
-                                            <a href="#" data-toggle2="tooltip" data-placement="top" title="Quick View" data-toggle="modal" data-target="#quick-view-modal"><span class="fa fa-search"></span></a>                            
+                                            <a href="`+routeProductDetail+`" data-toggle2="tooltip" data-placement="top" title="Quick View" data-toggle="modal" data-target="#quick-view-modal"><span class="fa fa-view"></span></a>                            
                                         </div>
                                         <span class="aa-badge aa-sale" href="#">SALE!</span>
                                     </li>  
@@ -504,7 +504,8 @@
                 success: function(response) {
                     $('#list-'+data).empty();
                     if(response.length != 0){
-                        response.forEach(function(product) {                   
+                        response.forEach(function(product) {
+                            let routeProductDetail = "{{route('getProductById', ':id')}}".replace(':id', product.uuid);                   
                             var productHtml = `
                                 <li>
                                     <figure>
@@ -517,8 +518,7 @@
                                     </figure>                        
                                     <div class="aa-product-hvr-content">
                                         <a href="#" data-toggle="tooltip" data-placement="top" title="Add to Wishlist"><span class="fa fa-heart-o"></span></a>
-                                        <a href="#" data-toggle="tooltip" data-placement="top" title="Compare"><span class="fa fa-exchange"></span></a>
-                                        <a href="#" data-toggle2="tooltip" data-placement="top" title="Quick View" data-toggle="modal" data-target="#quick-view-modal"><span class="fa fa-search"></span></a>                          
+                                        <a href="`+routeProductDetail+`" data-toggle2="tooltip" data-placement="top" title="Quick View" data-toggle="modal" data-target="#quick-view-modal"><span class="fa fa-eye"></span></a>                          
                                     </div>
                                     <span class="aa-badge aa-sale" href="#">SALE!</span>
                                 </li>

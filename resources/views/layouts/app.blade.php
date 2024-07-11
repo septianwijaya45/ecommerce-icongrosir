@@ -27,7 +27,7 @@
     <link rel="shortcut icon" href="{{ asset('img/logo/icongrosir.png') }}" type="image/x-icon">
 
     <!-- Main style sheet -->
-    <link href="css/style.css" rel="stylesheet">    
+    <link href="{{ asset('css/style.css') }}" rel="stylesheet">    
 
     <!-- Google Font -->
     <link href='https://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>

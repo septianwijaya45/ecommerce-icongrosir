@@ -3,6 +3,7 @@
 use App\Http\Controllers\Master\CategoryController;
 use App\Http\Controllers\Master\ProductController;
 use App\Http\Controllers\Pages\HomeController;
+use App\Http\Controllers\Pages\ProductDetailController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -33,4 +34,6 @@ Route::group(['prefix' => 'Product'], function(){
     Route::get('/get-product-popular', [ProductController::class, 'getProductPopular'])->name('getProductPopular');
     Route::get('/get-product-featured', [ProductController::class, 'getProductFeatured'])->name('getProductFeatured');
     Route::get('/get-product-latest', [ProductController::class, 'getProductLatest'])->name('getProductLatest');
+
+    Route::get('/Detail-Product/{id}', [ProductDetailController::class, 'getProductById'])->name('getProductById');
 });
