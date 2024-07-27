@@ -89,8 +89,8 @@
                       </p>
                     </div>
                     <div class="aa-prod-view-bottom">
-                      <a class="aa-add-to-cart-btn" id="cart" href="#"> Add To Cart</a>
-                      <a class="aa-add-to-cart-btn" id="wishlist" href="#">Wishlist</a>
+                      <a class="aa-add-to-cart-btn" id="cart" @if($token == null) data-toggle="modal" data-target="#login-modal" @endif> Add To Cart</a>
+                      <a class="aa-add-to-cart-btn" id="wishlist" @if($token == null) data-toggle="modal" data-target="#login-modal" @endif>Wishlist</a>
                     </div>
                   </div>
                 </div>
@@ -191,7 +191,7 @@
                   <li>
                     <figure>
                         <a class="aa-product-img" href="#"><img src="{{ $product['photos'] && count($product['photos']) > 0 ? $photoUrl+$photos[0].nama_file : asset('img/products/image-not-found.jpg') }}"  width="250px" alt="{{$product['nama_barang']}}"></a>
-                        <a class="aa-add-card-btn" href="#"><span class="fa fa-shopping-cart"></span>Add To Cart</a>
+                        <a class="aa-add-card-btn" @if($token == null) data-toggle="modal" data-target="#login-modal" @endif><span class="fa fa-shopping-cart"></span>Add To Cart</a>
                         <figcaption>
                             <h4 class="aa-product-title"><a href="#">{{$product['nama_barang']}}</a></h4>
                             <span class="aa-product-price">Rp {{ $product['harga'] != null ? $product['harga'] : 0 }}</span>
@@ -202,7 +202,7 @@
                         </figcaption>
                     </figure>                        
                     <div class="aa-product-hvr-content">
-                        <a href="#" data-toggle="tooltip" data-placement="top" title="Add to Wishlist"><span class="fa fa-heart-o"></span></a>
+                        <a @if($token == null) data-toggle="modal" data-target="#login-modal" @endif data-toggle="tooltip" data-placement="top" title="Add to Wishlist"><span class="fa fa-heart-o"></span></a>
                         <a href="`+routeProductDetail+`" data-toggle2="tooltip" data-placement="top" title="Quick View" data-toggle="modal" data-target="#quick-view-modal"><span class="fa fa-eye"></span></a>                          
                     </div>
                     <span class="aa-badge aa-sale" href="#">SALE!</span>
@@ -392,27 +392,4 @@
     </div>
   </footer>
   <!-- / footer -->
-  <!-- Login Modal -->  
-  <div class="modal fade" id="login-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">                      
-        <div class="modal-body">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-          <h4>Login or Register</h4>
-          <form class="aa-login-form" action="">
-            <label for="">Username or Email address<span>*</span></label>
-            <input type="text" placeholder="Username or email">
-            <label for="">Password<span>*</span></label>
-            <input type="password" placeholder="Password">
-            <button class="aa-browse-btn" type="submit">Login</button>
-            <label for="rememberme" class="rememberme"><input type="checkbox" id="rememberme"> Remember me </label>
-            <p class="aa-lost-password"><a href="#">Lost your password?</a></p>
-            <div class="aa-register-now">
-              Don't have an account?<a href="account.html">Register now!</a>
-            </div>
-          </form>
-        </div>                        
-      </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
-  </div>
 @stop

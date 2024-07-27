@@ -33,6 +33,9 @@
     <link href='https://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Raleway' rel='stylesheet' type='text/css'>  
 
+    <!-- Sweet alert -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css">
+
   </head>
   <body>
    <!-- wpf loader Two -->
@@ -57,17 +60,27 @@
         <div class="modal-content">                      
             <div class="modal-body">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-            <h4>Login or Register</h4>
-            <form class="aa-login-form" action="">
-                <label for="">Username or Email address<span>*</span></label>
-                <input type="text" placeholder="Username or email">
+            <h4>Login atau Daftar</h4>
+            @if(session('error'))
+                <div class="alert alert-danger text-white">
+                    {{ session('error') }}
+                </div>
+            @endif
+            @if(session('success'))
+                <div class="alert alert-success text-white">
+                    {{ session('success') }}
+                </div>
+            @endif
+            <form class="aa-login-form" method="POST" action="{{ route('login') }}" enctype="multipart/form-data">
+              @csrf
+                <label for="">Nomor Telepon atau Email<span>*</span></label>
+                <input type="text" placeholder="Nomor Telepon atau Email" name="username">
                 <label for="">Password<span>*</span></label>
-                <input type="password" placeholder="Password">
+                <input type="password" placeholder="Password" name="password">
                 <button class="aa-browse-btn" type="submit">Login</button>
-                <label for="rememberme" class="rememberme"><input type="checkbox" id="rememberme"> Remember me </label>
-                <p class="aa-lost-password"><a href="#">Lost your password?</a></p>
+                <p class="aa-lost-password"><a href="#">lupa password?</a></p>
                 <div class="aa-register-now">
-                Don't have an account?<a href="account.html">Register now!</a>
+                Tidak Punya Akun IconGrosir?<a href="{{ route('register') }}">Register sekaraing!</a>
                 </div>
             </form>
             </div>                        
@@ -79,6 +92,8 @@
 
     <!-- jQuery library -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
+
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="{{ asset('js/bootstrap.js') }}"></script>  
     <!-- SmartMenus jQuery plugin -->

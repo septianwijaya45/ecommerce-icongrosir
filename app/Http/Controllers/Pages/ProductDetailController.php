@@ -5,12 +5,13 @@ namespace App\Http\Controllers\Pages;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Session\SessionManager;
 
 class ProductDetailController extends Controller
 {
-    protected $apiUrl, $photoUrl;
+    protected $apiUrl, $photoUrl, $token;
 
-    public function __construct()
+    public function __construct(SessionManager $session)
     {
         $this->apiUrl = config('app.backend_endpoint');
         $this->photoUrl = config('app.photo_product');
@@ -32,7 +33,7 @@ class ProductDetailController extends Controller
         $productSize    = $productById['productSize'];
         $category       = $productById['category'];
         $productReviews = $productById['productReviews'];
-        $photo = $product['photos'];
+        $photo          = $product['photos'];
         
         $relatedProduct = $this->getRelatedProduct($category['category']);
 
@@ -44,7 +45,8 @@ class ProductDetailController extends Controller
             'category'          => $category,
             'productReviews'    => $productReviews,
             'photo'             => $photo,
-            'relatedProduct'    => $relatedProduct
+            'relatedProduct'    => $relatedProduct,
+            'token'         => getToken($request)
         ]);
     }
 }

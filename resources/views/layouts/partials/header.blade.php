@@ -45,11 +45,20 @@
               <!-- / header top left -->
               <div class="aa-header-top-right">
                 <ul class="aa-head-top-nav-right">
-                  <li><a href="account.html">Akun Saya</a></li>
-                  <li class="hidden-xs"><a href="wishlist.html">Wishlist</a></li>
-                  <li class="hidden-xs"><a href="cart.html">My Cart</a></li>
-                  <li class="hidden-xs"><a href="checkout.html">Checkout</a></li>
-                  <li><a href="" data-toggle="modal" data-target="#login-modal">Login</a></li>
+                  @if($token != null) 
+                    <li><a href="{{ route('account') }}">Akun Saya</a></li>
+                  @endif
+                  @if($token)
+                    <li class="hidden-xs"><a href="{{ route('wishlist') }}">Wishlist</a></li>
+                    <li class="hidden-xs"><a href="{{ route('cart') }}">My Cart</a></li>
+                    <li class="hidden-xs"><a href="{{ route('checkout') }}">Checkout</a></li>
+                    <li><a href="{{ route('logout') }}" data-toggle="modal">Logout</a></li>
+                  @else
+                    <li class="hidden-xs"><a href="" data-toggle="modal" data-target="#login-modal">Wishlist</a></li>
+                    <li class="hidden-xs"><a href="" data-toggle="modal" data-target="#login-modal">My Cart</a></li>
+                    <li class="hidden-xs"><a href="" data-toggle="modal" data-target="#login-modal">Checkout</a></li>
+                    <li><a href="" data-toggle="modal" data-target="#login-modal">Login</a></li>
+                  @endif
                 </ul>
               </div>
             </div>
@@ -68,15 +77,16 @@
               <!-- logo  -->
               <div class="aa-logo">
                 <!-- Text based logo -->
-                <a href="index.html">
+                <a href="{{ route('home') }}">
                   <span class="fa fa-shopping-cart"></span>
                   <p>Icon<strong>Grosir Shop</strong> <span>Your Shopping Partner</span></p>
                 </a>
                 <!-- img based logo -->
-                <!-- <a href="index.html"><img src="img/logo.jpg" alt="logo img"></a> -->
+                <!-- <a href="{{ route('home') }}"><img src="img/logo.jpg" alt="logo img"></a> -->
               </div>
               <!-- / logo  -->
                <!-- cart box -->
+               @if($token)
               <div class="aa-cartbox">
                 <a class="aa-cart-link" href="#">
                   <span class="fa fa-shopping-basket"></span>
@@ -113,15 +123,8 @@
                   <a class="aa-cartbox-checkout aa-primary-btn" href="checkout.html">Checkout</a>
                 </div>
               </div>
-              <!-- / cart box -->
-              <!-- search box -->
-              <div class="aa-search-box">
-                <form action="">
-                  <input type="text" name="" id="" placeholder="Search here ex. 'man' ">
-                  <button type="submit"><span class="fa fa-search"></span></button>
-                </form>
-              </div>
-              <!-- / search box -->             
+              @endif
+              <!-- / cart box -->     
             </div>
           </div>
         </div>

@@ -4,6 +4,11 @@ use App\Http\Controllers\Master\CategoryController;
 use App\Http\Controllers\Master\ProductController;
 use App\Http\Controllers\Pages\HomeController;
 use App\Http\Controllers\Pages\ProductDetailController;
+use App\Http\Controllers\Auth\AuthUserController;
+use App\Http\Controllers\Auth\AccountController;
+use App\Http\Controllers\Transaction\WishlistController;
+use App\Http\Controllers\Transaction\MyCartController;
+use App\Http\Controllers\Transaction\CheckoutController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -23,6 +28,18 @@ Route::get('/', function () {
 
 Route::get('home', [HomeController::class, 'index'])->name('home');
 
+// Authentication
+Route::post('login', [AuthUserController::class, 'loginUser'])->name('login');
+Route::get('logout', [AuthUserController::class, 'logout'])->name('logout');
+// login
+// register
+Route::get('register', [AuthUserController::class, 'register'])->name('register');
+Route::post('store', [AuthUserController::class, 'store'])->name('register.store');
+// otp
+Route::get('confirm-otp', [AuthUserController::class, 'confirmOtp'])->name('confirm-otp');
+Route::post('check-confirm-otp', [AuthUserController::class, 'checkConfirmOtp'])->name('checkConfirmOtp');
+Route::get('resend-otp/{id}', [AuthUserController::class, 'resendOtp'])->name('resendOtp');
+
 Route::group(['prefix' => 'Category'], function(){
     Route::get('get-five-category', [CategoryController::class, 'getFiveCategories'])->name('getFiveCategories');
     Route::get('get-three-category', [CategoryController::class, 'getThreeCategories'])->name('getThreeCategories');
@@ -36,4 +53,28 @@ Route::group(['prefix' => 'Product'], function(){
     Route::get('/get-product-latest', [ProductController::class, 'getProductLatest'])->name('getProductLatest');
 
     Route::get('/Detail-Product/{id}', [ProductDetailController::class, 'getProductById'])->name('getProductById');
+});
+
+Route::group(['prefix' => 'wishlish'], function(){
+    Route::get('/wishlist-saya', [WishlistController::class, 'index'])->name('wishlist');
+    Route::get('/create/{id}', [WishlistController::class, 'createWishlist'])->name('wishlist.store');
+    Route::get('/delete/{id}', [WishlistController::class, 'deleteWishlist'])->name('wishlist.delete');
+});
+
+Route::group(['prefix' => 'cart'], function(){
+    Route::get('/cart-saya', [MyCartController::class, 'index'])->name('cart');
+    Route::get('/cart-saya/tambah/{id}/{uuid}/{variant_id}', [MyCartController::class, 'store'])->name('cart.store');
+    Route::post('/cart-saya/update/{id}/{uuid}/{variant_id}', [MyCartController::class, 'updateQty'])->name('cart.update');
+    Route::get('/cart-saya/delete/{id}', [MyCartController::class, 'delete'])->name('cart.delete');
+});
+
+Route::group(['prefix' => 'checkout'], function(){
+    Route::get('/checkout-saya', [CheckoutController::class, 'index'])->name('checkout');
+    Route::get('/checkout-saya/simpan', [CheckoutController::class, 'store'])->name('checkout.store');
+    Route::post('/checkout-saya/confirm', [CheckoutController::class, 'storeConfirm'])->name('checkout.confirm');
+});
+
+Route::group(['prefix' => 'account-me'], function(){
+    Route::get('/my-profile', [AccountController::class, 'index'])->name('account');
+    Route::post('/my-profile/save', [AccountController::class, 'update'])->name('accountSave');
 });

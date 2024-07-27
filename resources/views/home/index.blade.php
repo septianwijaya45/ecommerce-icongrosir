@@ -1,8 +1,19 @@
 @extends('layouts.app')
 
 @section('content')
+
 <!-- Start slider -->
 <section id="aa-slider">
+    @if(session('error'))
+    <div class="alert alert-danger text-white text-center">
+        {{ session('error') }}
+    </div>
+    @endif
+    @if(session('success'))
+    <div class="alert alert-success text-white text-center">
+        {{ session('success') }}
+    </div>
+    @endif
     <div class="aa-slider-area">
         <div id="sequence" class="seq">
         <div class="seq-screen">
@@ -403,19 +414,21 @@
                     response.forEach(function(product) {
                         if(product != null){
                             let routeProductDetail = "{{route('getProductById', ':id')}}".replace(':id', product.uuid);
+                            let routeCreateWishlist = "{{route('wishlist.store', ':id')}}".replace(':id', product.uuid);
                             var productHtml = `
                                 <li>
                                     <figure>
                                         <a class="aa-product-img" href="#"><img src="${product.photos && product.photos.length > 0 ? urlPhoto+product.photos[0].nama_file : 'img/default/defaultProduct.png'}"  width="250px" alt="${product.nama_barang}"></a>
-                                        <a class="aa-add-card-btn" href="#"><span class="fa fa-shopping-cart"></span>Add To Cart</a>
+                                        <a class="aa-add-card-btn" @if($token == null) data-toggle="modal" data-target="#login-modal" @endif><span class="fa fa-shopping-cart"></span>Add To Cart</a>
                                         <figcaption>
                                             <h4 class="aa-product-title"><a href="#">${product.nama_barang}</a></h4>
                                             <span class="aa-product-price">Rp ${product.harga != null ? product.harga : 0}</span>${ product.diskon_tipe != null ? '<span class="aa-product-price"><del>'+ product.diskon_tipe +' </del></span>' : ''}
                                         </figcaption>
                                     </figure>                        
                                     <div class="aa-product-hvr-content">
-                                        <a href="#" data-toggle="tooltip" data-placement="top" title="Add to Wishlist"><span class="fa fa-heart-o"></span></a>
-                                        <a href="`+routeProductDetail+`" data-toggle2="tooltip" data-placement="top" title="Detail Product" data-toggle="modal" data-target="#quick-view-modal"><span class="fa fa-eye"></span></a>
+                                        <a href="`+routeCreateWishlist+`" data-toggle="tooltip" data-placement="top" title="Add to Wishlist"><span class="fa fa-heart-o"></span></a>
+                                        
+                                        <a href="`+routeProductDetail+`" ><span class="fa fa-eye"></span></a>
                                     </div>
                                     <span class="aa-badge aa-sale" href="#">SALE!</span>
                                 </li>
@@ -447,19 +460,21 @@
                     if(response.length != 0){
                         response.forEach(function(product) {
                             let routeProductDetail = "{{route('getProductById', ':id')}}".replace(':id', product.uuid);
+                            let routeCreateWishlist = "{{route('wishlist.store', ':id')}}".replace(':id', product.uuid);;
                                 var productHtml = `
                                     <li>
                                         <figure>
                                             <a class="aa-product-img" href="#"><img src="${product.photos && product.photos.length > 0 ? urlPhoto+product.photos[0].nama_file : 'img/default/defaultProduct.png'}" alt="${product.nama_barang}"></a>
-                                            <a class="aa-add-card-btn"href="#"><span class="fa fa-shopping-cart"></span>Add To Cart</a>
+                                            <a class="aa-add-card-btn" @if($token == null) data-toggle="modal" data-target="#login-modal" @endif><span class="fa fa-shopping-cart"></span>Add To Cart</a>
                                             <figcaption>
                                                 <h4 class="aa-product-title"><a href="#">${product.nama_barang}</a></h4>
                                                 <span class="aa-product-price">Rp ${product.harga != null ? product.harga : 0}</span>${ product.diskon_tipe != null ? '<span class="aa-product-price"><del>'+ product.diskon_tipe +' </del></span>' : ''}
                                             </figcaption>
                                         </figure>                     
                                         <div class="aa-product-hvr-content">
-                                            <a href="#" data-toggle="tooltip" data-placement="top" title="Add to Wishlist"><span class="fa fa-heart-o"></span></a>
-                                            <a href="`+routeProductDetail+`" data-toggle2="tooltip" data-placement="top" title="Quick View" data-toggle="modal" data-target="#quick-view-modal"><span class="fa fa-view"></span></a>                            
+                                            <a href="`+routeCreateWishlist+`" data-toggle="tooltip" data-placement="top" title="Add to Wishlist"><span class="fa fa-heart-o"></span></a>
+                                            
+                                            <a href="`+routeProductDetail+`" ><span class="fa fa-view"></span></a>                            
                                         </div>
                                         <span class="aa-badge aa-sale" href="#">SALE!</span>
                                     </li>  
@@ -505,20 +520,22 @@
                     $('#list-'+data).empty();
                     if(response.length != 0){
                         response.forEach(function(product) {
-                            let routeProductDetail = "{{route('getProductById', ':id')}}".replace(':id', product.uuid);                   
+                            let routeProductDetail = "{{route('getProductById', ':id')}}".replace(':id', product.uuid);  
+                            let routeCreateWishlist = "{{route('wishlist.store', ':id')}}".replace(':id', product.uuid);
                             var productHtml = `
                                 <li>
                                     <figure>
                                         <a class="aa-product-img" href="#"><img src="${product.photos && product.photos.length > 0 ? urlPhoto+product.photos[0].nama_file : 'img/default/defaultProduct.png'}"  width="250px" alt="${product.nama_barang}"></a>
-                                        <a class="aa-add-card-btn" href="#"><span class="fa fa-shopping-cart"></span>Add To Cart</a>
+                                        <a class="aa-add-card-btn" @if($token == null) data-toggle="modal" data-target="#login-modal" @endif><span class="fa fa-shopping-cart"></span>Add To Cart</a>
                                         <figcaption>
                                             <h4 class="aa-product-title"><a href="#">${product.nama_barang}</a></h4>
                                             <span class="aa-product-price">Rp ${product.harga != null ? product.harga : 0}</span>${ product.diskon_tipe != null ? '<span class="aa-product-price"><del>'+ product.diskon_tipe +' </del></span>' : ''}
                                         </figcaption>
                                     </figure>                        
                                     <div class="aa-product-hvr-content">
-                                        <a href="#" data-toggle="tooltip" data-placement="top" title="Add to Wishlist"><span class="fa fa-heart-o"></span></a>
-                                        <a href="`+routeProductDetail+`" data-toggle2="tooltip" data-placement="top" title="Quick View" data-toggle="modal" data-target="#quick-view-modal"><span class="fa fa-eye"></span></a>                          
+                                        <a href="`+routeCreateWishlist+`" data-toggle="tooltip" data-placement="top" title="Add to Wishlist"><span class="fa fa-heart-o"></span></a>
+                                        
+                                        <a href="`+routeProductDetail+`" title="Quick View"><span class="fa fa-eye"></span></a>                          
                                     </div>
                                     <span class="aa-badge aa-sale" href="#">SALE!</span>
                                 </li>

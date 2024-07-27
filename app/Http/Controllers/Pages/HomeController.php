@@ -6,12 +6,13 @@ use App\Http\Controllers\Controller;
 use App\Http\Controllers\Master\CategoryController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Session\SessionManager;
 
 class HomeController extends Controller
 {
     protected $apiUrl, $photoUrl;
 
-    public function __construct()
+    public function __construct(Request $request)
     {
         $this->apiUrl = config('app.backend_endpoint');
         $this->photoUrl = config('app.photo_product');
@@ -24,8 +25,9 @@ class HomeController extends Controller
 
         return view('home.index', [
             'promoBanner'   => $fiveCategory->getData(),
-            'threeCategory'   => $threeCategory->getData(),
-            'urlPhoto'           => $this->photoUrl
+            'threeCategory' => $threeCategory->getData(),
+            'urlPhoto'      => $this->photoUrl,
+            'token'         => getToken($request)
         ]);
     }
 }
