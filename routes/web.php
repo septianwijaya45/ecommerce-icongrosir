@@ -3,6 +3,7 @@
 use App\Http\Controllers\Master\CategoryController;
 use App\Http\Controllers\Master\ProductController;
 use App\Http\Controllers\Pages\HomeController;
+use App\Http\Controllers\Pages\ProductAllController;
 use App\Http\Controllers\Pages\ProductDetailController;
 use App\Http\Controllers\Auth\AuthUserController;
 use App\Http\Controllers\Auth\AccountController;
@@ -46,6 +47,7 @@ Route::group(['prefix' => 'Category'], function(){
 });
 
 Route::group(['prefix' => 'Product'], function(){
+    Route::get('/all-product', [ProductAllController::class, 'index'])->name('products');
     Route::get('/product/{categoryId}', [ProductController::class, 'getProduct'])->name('product');
     Route::get('/get-eight-product-by-category/{categoryId}', [ProductController::class, 'getEightProductByCategories'])->name('getEightProductByCategories');
     Route::get('/get-product-popular', [ProductController::class, 'getProductPopular'])->name('getProductPopular');

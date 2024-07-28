@@ -9,7 +9,7 @@
       <div class="aa-catg-head-banner-content">
         <h2>{{ $product['nama_barang'] }}</h2>
         <ol class="breadcrumb">
-          <li><a href="index.html">Home</a></li>         
+          <li><a href="{{ route('home') }}">Home</a></li>         
           <li><a href="#">Product</a></li>
           <li class="active">{{ $product['nama_barang'] }}</li>
         </ol>
@@ -67,7 +67,7 @@
                     <h4>Ukuran</h4>
                     <div class="aa-prod-view-size">
                         @foreach($productSize as $size)
-                          <select id="warna" class="aa-prod-view-size"  name="warna">
+                          <select id="warna"  name="warna" class="form-control">
                             <option value="" selected>Silahkan Pilih Ukuran</option>
                             <option value="0">{{$size['ukuran']}}</option>
                           </select>
@@ -76,14 +76,14 @@
                     <h4>Warna</h4>
                     <div class="aa-color-tag">
                         @foreach($productDetail as $color)
-                          <select id="warna" class="aa-prod-view-size"  name="warna">
+                          <select id="warna" name="warna" class="form-control">
                             <option value="" selected>Silahkan Pilih Warna</option>
                             <option value="0">{{$color['warna']}}</option>
                           </select>
                         @endforeach                      
                     </div>
                     <div class="aa-prod-quantity">
-                      <input type="text" id="qty" placeholder="QTY Pesanan">
+                      <input type="text" id="qty" placeholder="QTY Pesanan" class="form-control">
                       <p class="aa-prod-category">
                         Category:  <a href="#">{{ $category['category'] }}</a>
                       </p>

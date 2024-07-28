@@ -460,7 +460,7 @@
                     if(response.length != 0){
                         response.forEach(function(product) {
                             let routeProductDetail = "{{route('getProductById', ':id')}}".replace(':id', product.uuid);
-                            let routeCreateWishlist = "{{route('wishlist.store', ':id')}}".replace(':id', product.uuid);;
+                            let routeCreateWishlist = "{{route('wishlist.store', ':id')}}".replace(':id', product.uuid);
                                 var productHtml = `
                                     <li>
                                         <figure>

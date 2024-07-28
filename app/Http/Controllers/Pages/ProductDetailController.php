@@ -25,7 +25,7 @@ class ProductDetailController extends Controller
         return $getProduct;
     }
 
-    public function getProductById($id){
+    public function getProductById(Request $request, $id){
         $getProductById = Http::get($this->apiUrl.'/home/product/get-product-by-id/'.$id);
         $productById    = $getProductById->json();
         $product        = $productById['product'];

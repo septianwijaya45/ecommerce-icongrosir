@@ -8,7 +8,7 @@
       <div class="aa-catg-head-banner-content">
         <h2>Checkout Page</h2>
         <ol class="breadcrumb">
-          <li><a href="index.html">Home</a></li>                   
+          <li><a href="{{ route('home') }}">Home</a></li>                   
           <li class="active">Checkout</li>
         </ol>
       </div>
