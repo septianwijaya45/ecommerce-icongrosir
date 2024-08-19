@@ -9,10 +9,12 @@ use Illuminate\Support\Facades\Http;
 class AccountController extends Controller
 {
     protected $apiUrl;
+    protected $banner;
 
     public function __construct()
     {
         $this->apiUrl = config('app.backend_endpoint');
+        $this->banner = config('app.banner_app');
     }
 
     public function index(Request $request){
@@ -28,10 +30,13 @@ class AccountController extends Controller
         ])->get($this->apiUrl.'/account-me/my-account');
 
         $account = $getAccountMe->json();
+        $getBanners = Http::get($this->apiUrl.'/home/banner-app/get-data/');
         
         return view('account.index', [
             'user'  => $account['user'],
             'detail'  => $account['detail'],
+            'banners'       => $getBanners['data'],
+            'urlBanner'     => $this->banner,
             'token' => $token
         ]);
     }

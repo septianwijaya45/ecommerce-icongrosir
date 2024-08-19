@@ -29,7 +29,8 @@
         },
         "files": [
             "app/Helper/Auth.php",
-            "app/Helper/Global.php"
+            "app/Helper/Global.php",
+            "app/Helper/Product.php"
         ]
     },
     "autoload-dev": {

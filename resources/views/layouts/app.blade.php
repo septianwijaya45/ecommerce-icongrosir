@@ -3,17 +3,17 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">    
-    <title>Icon Grosir | Home</title>
-    
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Icon Grosir</title>
+
     <!-- Font awesome -->
     <link href="{{ asset('css/font-awesome.css') }}" rel="stylesheet">
     <!-- Bootstrap -->
-    <link href="{{ asset('css/bootstrap.css') }}" rel="stylesheet">   
+    <link href="{{ asset('css/bootstrap.css') }}" rel="stylesheet">
     <!-- SmartMenus jQuery Bootstrap Addon CSS -->
     <link href="{{ asset('css/jquery.smartmenus.bootstrap.css') }}" rel="stylesheet">
     <!-- Product view slider -->
-    <link rel="stylesheet" type="text/css" href="{{ asset('css/jquery.simpleLens.css') }}">    
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/jquery.simpleLens.css') }}">
     <!-- slick slider -->
     <link rel="stylesheet" type="text/css" href="{{ asset('css/slick.css') }}">
     <!-- price picker slider -->
@@ -27,11 +27,11 @@
     <link rel="shortcut icon" href="{{ asset('img/logo/icongrosir.png') }}" type="image/x-icon">
 
     <!-- Main style sheet -->
-    <link href="{{ asset('css/style.css') }}" rel="stylesheet">    
+    <link href="{{ asset('css/style.css') }}" rel="stylesheet">
 
     <!-- Google Font -->
     <link href='https://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
-    <link href='https://fonts.googleapis.com/css?family=Raleway' rel='stylesheet' type='text/css'>  
+    <link href='https://fonts.googleapis.com/css?family=Raleway' rel='stylesheet' type='text/css'>
 
     <!-- Sweet alert -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css">
@@ -39,11 +39,11 @@
   </head>
   <body>
    <!-- wpf loader Two -->
-    <div id="wpf-loader-two">          
+    <div id="wpf-loader-two">
       <div class="wpf-loader-two-inner">
         <span>Loading</span>
       </div>
-    </div> 
+    </div>
     <!-- / wpf loader Two -->
     <!-- SCROLL TOP BUTTON -->
         <a class="scrollToTop" href="#"><i class="fa fa-chevron-up"></i></a>
@@ -53,11 +53,11 @@
 
     @yield('content')
 
-  
-    <!-- Login Modal -->  
+
+    <!-- Login Modal -->
     <div class="modal fade" id="login-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
-        <div class="modal-content">                      
+        <div class="modal-content">
             <div class="modal-body">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
             <h4>Login atau Daftar</h4>
@@ -83,10 +83,10 @@
                 Tidak Punya Akun IconGrosir?<a href="{{ route('register') }}">Register sekaraing!</a>
                 </div>
             </form>
-            </div>                        
+            </div>
         </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
-    </div>    
+    </div>
 
     @include('layouts.partials.footer')
 
@@ -95,14 +95,14 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
 
     <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <script src="{{ asset('js/bootstrap.js') }}"></script>  
+    <script src="{{ asset('js/bootstrap.js') }}"></script>
     <!-- SmartMenus jQuery plugin -->
     <script type="text/javascript" src="{{ asset('js/jquery.smartmenus.js') }}"></script>
     <!-- SmartMenus jQuery Bootstrap Addon -->
-    <script type="text/javascript" src="{{ asset('js/jquery.smartmenus.bootstrap.js') }}"></script>  
+    <script type="text/javascript" src="{{ asset('js/jquery.smartmenus.bootstrap.js') }}"></script>
     <!-- To Slider JS -->
     <script src="{{ asset('js/sequence.js') }}"></script>
-    <script src="{{ asset('js/sequence-theme.modern-slide-in.js') }}"></script>  
+    <script src="{{ asset('js/sequence-theme.modern-slide-in.js') }}"></script>
     <!-- Product view slider -->
     <script type="text/javascript" src="{{ asset('js/jquery.simpleGallery.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/jquery.simpleLens.js') }}"></script>
@@ -111,7 +111,46 @@
     <!-- Price picker slider -->
     <script type="text/javascript" src="{{ asset('js/nouislider.js') }}"></script>
     <!-- Custom js -->
-    <script src="{{ asset('js/custom.js') }}"></script> 
+    <script src="{{ asset('js/custom.js') }}"></script>
+    <script>
+        function deleteDataCartHeader(id){
+            swal({
+                title: "Apakah Anda Yakin",
+                text: "Hapus Cart Anda?",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "Ya, Hapus!",
+                closeOnConfirm: false,
+            }, function() {
+                swal({
+                    title: "Loading...",
+                    text: "Proses Hapus List Keranjang Anda!",
+                    type: "warning",
+                    buttons: false,
+                    closeOnClickOutside: false,
+                    closeOnEsc: false,
+                    allowOutsideClick: false
+                });
+                $.ajax({
+                    url: "{{ route('cart.delete', ':id') }}".replace(':id', id),
+                    type: 'GET',
+                    data: {
+                        _token: '{{ csrf_token() }}'
+                    },
+                    success: function(response) {
+                    swal("Success!", "Berhasil Hapus Cart Anda!.", "success");
+                    setInterval(() => {
+                        window.location.reload();
+                    }, 1000);
+                    },
+                    error: function(xhr) {
+                        swal("Error!", "An error occurred while deleting the wishlist item.", "error");
+                    }
+                });
+            });
+        }
+    </script>
 
     @yield('script')
   </body>

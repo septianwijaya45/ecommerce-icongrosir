@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('content') 
+@section('content')
   <!-- catg header banner section -->
   <section id="aa-catg-head-banner">
    <img src="{{ asset('img/products/detail-product.jpg') }}" alt="fashion img">
@@ -9,7 +9,7 @@
       <div class="aa-catg-head-banner-content">
         <h2>{{ $product['nama_barang'] }}</h2>
         <ol class="breadcrumb">
-          <li><a href="{{ route('home') }}">Home</a></li>         
+          <li><a href="{{ route('home') }}">Home</a></li>
           <li><a href="#">Product</a></li>
           <li class="active">{{ $product['nama_barang'] }}</li>
         </ol>
@@ -28,8 +28,8 @@
             <div class="aa-product-details-content">
               <div class="row">
                 <!-- Modal view slider -->
-                <div class="col-md-5 col-sm-5 col-xs-12">                              
-                  <div class="aa-product-view-slider">                                
+                <div class="col-md-5 col-sm-5 col-xs-12">
+                  <div class="aa-product-view-slider">
                     <div id="demo-1" class="simpleLens-gallery-container">
                       <div class="simpleLens-container">
                         @if(count($photo) != 0)
@@ -41,8 +41,8 @@
                       <div class="simpleLens-thumbnails-container">
                         @if(count($photo) != 0)
                           @foreach($photo as $foto)
-                            <a data-big-image="{{ $photoUrl.$foto->nama_file }}" data-lens-image="{{ $photoUrl.$foto->nama_file }}" class="simpleLens-thumbnail-wrapper" href="#">
-                              <img src="{{ $photoUrl.$foto->nama_file }}" width="50px">
+                            <a data-big-image="{{ $photoUrl.$foto['nama_file'] }}" data-lens-image="{{ $photoUrl.$foto['nama_file'] }}" class="simpleLens-thumbnail-wrapper" href="#">
+                              <img src="{{ $photoUrl.$foto['nama_file'] }}" width="50px">
                             </a>
                           @endforeach
                         @else
@@ -80,7 +80,7 @@
                             <option value="" selected>Silahkan Pilih Warna</option>
                             <option value="0">{{$color['warna']}}</option>
                           </select>
-                        @endforeach                      
+                        @endforeach
                     </div>
                     <div class="aa-prod-quantity">
                       <input type="text" id="qty" placeholder="QTY Pesanan" class="form-control">
@@ -99,23 +99,23 @@
             <div class="aa-product-details-bottom">
               <ul class="nav nav-tabs" id="myTab2">
                 <li><a href="#description" data-toggle="tab">Description</a></li>
-                <li><a href="#review" data-toggle="tab">Reviews</a></li>                
+                <li><a href="#review" data-toggle="tab">Reviews</a></li>
               </ul>
 
               <!-- Tab panes -->
               <div class="tab-content">
                 <div class="tab-pane fade in active" id="description">
                   <p>
-                    @if(!is_null($product['deskripsi_detail'])) 
-                      $product['deskripsi_detail'] 
-                    @else 
-                      <span class="text-danger">Tidak Ada Deskripsi</span> 
+                    @if(!is_null($product['deskripsi_detail']))
+                      $product['deskripsi_detail']
+                    @else
+                      <span class="text-danger">Tidak Ada Deskripsi</span>
                     @endif
-                  </p>  
+                  </p>
                 </div>
                 <div class="tab-pane fade " id="review">
                  <div class="aa-product-review-area">
-                   <h4>{{ count($productReviews) }} Reviews for {{ $product['nama_barang'] }}</h4> 
+                   <h4>{{ count($productReviews) }} Reviews for {{ $product['nama_barang'] }}</h4>
                    <ul class="aa-review-nav">
                       @forelse($productReviews as $productReview)
                      <li>
@@ -139,11 +139,11 @@
                               @endif
                             </div>
                             <p>
-                              @if(!is_null($productReview->review_deskripsi)) 
-                                $productReview->review_deskripsi 
+                              @if(!is_null($productReview->review_deskripsi))
+                                $productReview->review_deskripsi
                               @else
                                 <span class="text-danger">Tidak Ada Deskripsi</span>
-                              @endif  
+                              @endif
                             </p>
                           </div>
                         </div>
@@ -170,7 +170,7 @@
                       <div class="form-group">
                         <label for="name">Name</label>
                         <input type="text" class="form-control" id="name" placeholder="Name">
-                      </div>  
+                      </div>
                       <div class="form-group">
                         <label for="email">Email</label>
                         <input type="email" class="form-control" id="email" placeholder="example@gmail.com">
@@ -179,7 +179,7 @@
                       <button type="submit" class="btn btn-default aa-review-submit">Submit</button>
                    </form>
                  </div>
-                </div>            
+                </div>
               </div>
             </div>
             <!-- Related product -->
@@ -190,35 +190,35 @@
                 @foreach($relatedProduct as $related)
                   <li>
                     <figure>
-                        <a class="aa-product-img" href="#"><img src="{{ $product['photos'] && count($product['photos']) > 0 ? $photoUrl+$photos[0].nama_file : asset('img/products/image-not-found.jpg') }}"  width="250px" alt="{{$product['nama_barang']}}"></a>
+                        <a class="aa-product-img" href="#"><img src="{{ $related['image'] ? $photoUrl.$related['image'] : asset('img/products/image-not-found.jpg') }}"  width="250px" height="300px" alt="{{$related['nama_barang']}}"></a>
                         <a class="aa-add-card-btn" @if($token == null) data-toggle="modal" data-target="#login-modal" @endif><span class="fa fa-shopping-cart"></span>Add To Cart</a>
                         <figcaption>
-                            <h4 class="aa-product-title"><a href="#">{{$product['nama_barang']}}</a></h4>
-                            <span class="aa-product-price">Rp {{ $product['harga'] != null ? $product['harga'] : 0 }}</span>
-                            @if($product['diskon_tipe'] != null)
-                              <span class="aa-product-price"><del> {{ $product['diskon_tipe'] }} </del></span>
+                            <h4 class="aa-product-title"><a href="#">{{$related['nama_barang']}}</a></h4>
+                            <span class="aa-product-price">Rp {{ $related['harga'] != null ? $related['harga'] : 0 }}</span>
+                            @if($related['diskon_tipe'] != null)
+                              <span class="aa-product-price"><del> {{ $related['diskon_tipe'] }} </del></span>
                             @else
                             @endif
                         </figcaption>
-                    </figure>                        
+                    </figure>
                     <div class="aa-product-hvr-content">
                         <a @if($token == null) data-toggle="modal" data-target="#login-modal" @endif data-toggle="tooltip" data-placement="top" title="Add to Wishlist"><span class="fa fa-heart-o"></span></a>
-                        <a href="`+routeProductDetail+`" data-toggle2="tooltip" data-placement="top" title="Quick View" data-toggle="modal" data-target="#quick-view-modal"><span class="fa fa-eye"></span></a>                          
+                        <a href="{{route('getProductById', $related['uuid'])}}"><span class="fa fa-eye"></span></a>
                     </div>
                     <span class="aa-badge aa-sale" href="#">SALE!</span>
                   </li>
-                @endforeach                                                                             
+                @endforeach
               </ul>
-              <!-- quick view modal -->                  
+              <!-- quick view modal -->
               <div class="modal fade" id="quick-view-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                 <div class="modal-dialog">
-                  <div class="modal-content">                      
+                  <div class="modal-content">
                     <div class="modal-body">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                       <div class="row">
                         <!-- Modal view slider -->
-                        <div class="col-md-6 col-sm-6 col-xs-12">                              
-                          <div class="aa-product-view-slider">                                
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <div class="aa-product-view-slider">
                             <div class="simpleLens-gallery-container" id="demo-1">
                               <div class="simpleLens-container">
                                   <div class="simpleLens-big-image-container">
@@ -232,7 +232,7 @@
                                      data-lens-image="img/view-slider/large/polo-shirt-1.png"
                                      data-big-image="img/view-slider/medium/polo-shirt-1.png">
                                       <img src="img/view-slider/thumbnail/polo-shirt-1.png">
-                                  </a>                                    
+                                  </a>
                                   <a href="#" class="simpleLens-thumbnail-wrapper"
                                      data-lens-image="img/view-slider/large/polo-shirt-3.png"
                                      data-big-image="img/view-slider/medium/polo-shirt-3.png">
@@ -286,12 +286,12 @@
                           </div>
                         </div>
                       </div>
-                    </div>                        
+                    </div>
                   </div><!-- /.modal-content -->
                 </div><!-- /.modal-dialog -->
               </div>
-              <!-- / quick view modal -->   
-            </div>  
+              <!-- / quick view modal -->
+            </div>
           </div>
         </div>
       </div>
@@ -299,7 +299,7 @@
   </section>
   <!-- / product category -->
 
-  <!-- footer -->  
+  <!-- footer -->
   <footer id="aa-footer">
     <!-- footer bottom -->
     <div class="aa-footer-top">

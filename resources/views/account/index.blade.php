@@ -9,7 +9,11 @@
  
  <!-- catg header banner section -->
  <section id="aa-catg-head-banner">
-   <img src="{{asset('img/account-me.jpg')}}" alt="fashion img">
+  @foreach($banners as $banner)
+    @if (strpos($banner['name_menu_banner'], 'account') !== false)
+      <img data-seq src="{{ ($banner['image'] != null || $banner['image'] != '' ? $urlBanner.$banner['image'] : asset('img/fashion/fashion-header-bg-8.jpg')) }}" alt="Men slide img" />
+    @endif
+  @endforeach
    <div class="aa-catg-head-banner-area">
     <div class="container">
      <div class="aa-catg-head-banner-content">
@@ -53,12 +57,6 @@
                     <input type="text" placeholder="Email Anda" name="email" value="{{ $user['email'] }}">
                     <label for="">Nomor Telepon<span>*</span></label>
                     <input type="text" placeholder="Nomor Telepon Anda" name="no_telepon" value="{{ $user['no_telepon'] }}">
-                    <label for="">Jenis Kelamin<span>*</span></label>
-                    <select name="jenis_kelamin" id="jenis_kelamin" class="form-control">
-                        <option value="" disabled selected>Pilih Jenis Kelamin</option>
-                        <option value="Laki-Laki" @if(isset($user['jenis_kelamin']) && $user['jenis_kelamin'] == "Laki-Laki") selected @endif>Laki-Laki</option>
-                        <option value="Perempuan" @if(isset($user['jenis_kelamin']) && $user['jenis_kelamin'] == "Perempuan") selected @endif>Perempuan</option>
-                    </select>
                     <label for="">Kota<span>*</span></label>
                     <input type="text" placeholder="Kota Anda" name="kota" value="{{ isset($detail['kota']) ? $detail['kota'] : '' }}">
                     <label for="">Kode Pos<span>*</span></label>

@@ -10,19 +10,19 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
-                </button>          
+                </button>
             </div>
             <div class="navbar-collapse collapse">
                 <!-- Left nav -->
                 <ul class="nav navbar-nav">
                 <li><a href="{{ route('home') }}">Home</a></li>
                 <li><a href="{{ route('products') }}">Katalog Kami</a></li>
-                <li><a href="{{ route('products') }}">Tentang Kami</a></li>
-                <li><a href="{{ route('products') }}">Kontak Kami</a></li>
+                <li><a href="{{ route('contactus') }}">Tentang Kami</a></li>
+                <li><a href="{{ route('contactus') }}">Kontak Kami</a></li>
                 </ul>
             </div><!--/.nav-collapse -->
             </div>
-        </div>       
+        </div>
     </div>
 </section>
   <!-- / menu -->
