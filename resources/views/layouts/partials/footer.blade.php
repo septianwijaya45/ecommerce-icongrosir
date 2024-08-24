@@ -1,4 +1,4 @@
-<!-- footer -->  
+<!-- footer -->
   <footer id="aa-footer">
     <!-- footer bottom -->
     <div class="aa-footer-top">
@@ -11,40 +11,42 @@
                 <div class="aa-footer-widget">
                   <h3>Main Menu</h3>
                   <ul class="aa-footer-nav">
-                    <li><a href="#">Home</a></li>
-                    <li><a href="#">Our Services</a></li>
-                    <li><a href="#">Our Products</a></li>
-                    <li><a href="#">About Us</a></li>
-                    <li><a href="#">Contact Us</a></li>
+                    <li><a href="{{ route('home') }}">Home</a></li>
+                    <li><a href="#">Blogger</a></li>
+                    <li><a href="#">Career</a></li>
+                    <li><a href="#">Katalog Kami</a></li>
+                    <li><a href="#">Tentang Kami</a></li>
                   </ul>
                 </div>
               </div>
-              <div class="col-md-3 col-sm-6">
+              <div class="col-md-2 col-sm-6">
                 <div class="aa-footer-widget">
-                  <div class="aa-footer-widget">
-                    <h3>Knowledge Base</h3>
-                    <ul class="aa-footer-nav">
-                      <li><a href="#">Delivery</a></li>
-                      <li><a href="#">Returns</a></li>
-                      <li><a href="#">Services</a></li>
-                      <li><a href="#">Discount</a></li>
-                      <li><a href="#">Special Offer</a></li>
-                    </ul>
-                  </div>
+
                 </div>
               </div>
               <div class="col-md-3 col-sm-6">
                 <div class="aa-footer-widget">
                   <div class="aa-footer-widget">
-                    <h3>Useful Links</h3>
+                    <h3>Et Cetera Menu</h3>
                     <ul class="aa-footer-nav">
-                      <li><a href="#">Site Map</a></li>
-                      <li><a href="#">Search</a></li>
-                      <li><a href="#">Advanced Search</a></li>
-                      <li><a href="#">Suppliers</a></li>
-                      <li><a href="#">FAQ</a></li>
+                        @if($token)
+                            <li class="hidden-xs"><a href="{{ route('wishlist') }}">Wishlist</a></li>
+                            <li class="hidden-xs"><a href="{{ route('cart') }}">My Cart</a></li>
+                            <li class="hidden-xs"><a href="{{ route('checkout') }}">Checkout</a></li>
+                            <li><a href="{{ route('account') }}" data-toggle="modal">My Account</a></li>
+                        @else
+                            <li class="hidden-xs"><a href="" data-toggle="modal" data-target="#login-modal">Wishlist</a></li>
+                            <li class="hidden-xs"><a href="" data-toggle="modal" data-target="#login-modal">My Cart</a></li>
+                            <li class="hidden-xs"><a href="" data-toggle="modal" data-target="#login-modal">Checkout</a></li>
+                            <li><a href="" data-toggle="modal" data-target="#login-modal">Login</a></li>
+                        @endif
                     </ul>
                   </div>
+                </div>
+              </div>
+              <div class="col-md-1 col-sm-6">
+                <div class="aa-footer-widget">
+
                 </div>
               </div>
               <div class="col-md-3 col-sm-6">
