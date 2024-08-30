@@ -190,7 +190,7 @@
                 @foreach($relatedProduct as $related)
                   <li>
                     <figure>
-                        <a class="aa-product-img" href="#"><img src="{{ $related['image'] ? $photoUrl.$related['image'] : asset('img/products/image-not-found.jpg') }}"  width="250px" height="300px" alt="{{$related['nama_barang']}}"></a>
+                        <a class="aa-product-img"><img src="{{ $related['image'] ? $photoUrl.$related['image'] : asset('img/products/image-not-found.jpg') }}"  width="250px" height="300px" alt="{{$related['nama_barang']}}"></a>
                         <a class="aa-add-card-btn" @if($token == null) data-toggle="modal" data-target="#login-modal" @endif><span class="fa fa-shopping-cart"></span>Add To Cart</a>
                         <figcaption>
                             <h4 class="aa-product-title"><a href="#">{{$related['nama_barang']}}</a></h4>
@@ -203,7 +203,7 @@
                     </figure>
                     <div class="aa-product-hvr-content">
                         <a @if($token == null) data-toggle="modal" data-target="#login-modal" @endif data-toggle="tooltip" data-placement="top" title="Add to Wishlist"><span class="fa fa-heart-o"></span></a>
-                        <a href="{{route('getProductById', $related['uuid'])}}"><span class="fa fa-eye"></span></a>
+                        <a href="{{route('getProductById', $related['uuid'])}}">Lihat Produk</a>
                     </div>
                     <span class="aa-badge aa-sale" href="#">SALE!</span>
                   </li>

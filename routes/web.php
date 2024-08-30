@@ -7,11 +7,13 @@ use App\Http\Controllers\Pages\ContactController;
 use App\Http\Controllers\Pages\ProductAllController;
 use App\Http\Controllers\Pages\ProductDetailController;
 use App\Http\Controllers\Auth\AuthUserController;
+use App\Http\Controllers\Auth\ConfirmOtpLogin;
 use App\Http\Controllers\Auth\AccountController;
 use App\Http\Controllers\Transaction\WishlistController;
 use App\Http\Controllers\Transaction\MyCartController;
 use App\Http\Controllers\Transaction\GetDetailProductController;
 use App\Http\Controllers\Transaction\CheckoutController;
+use App\Http\Controllers\Transaction\PesananSayaController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -34,6 +36,8 @@ Route::get('home', [HomeController::class, 'index'])->name('home');
 // Authentication
 Route::post('login', [AuthUserController::class, 'loginUser'])->name('login');
 Route::get('logout', [AuthUserController::class, 'logout'])->name('logout');
+
+Route::post('get-confirm-otp', [ConfirmOtpLogin::class, 'index'])->name('getConfirmOtp');
 // login
 // register
 Route::get('register', [AuthUserController::class, 'register'])->name('register');
@@ -90,6 +94,10 @@ Route::group(['prefix' => 'checkout'], function(){
 Route::group(['prefix' => 'account-me'], function(){
     Route::get('/my-profile', [AccountController::class, 'index'])->name('account');
     Route::post('/my-profile/save', [AccountController::class, 'update'])->name('accountSave');
+});
+
+Route::group(['prefix' => 'pesanan-saya'], function(){
+    Route::get('/', [PesananSayaController::class, 'index'])->name('pesananSaya');
 });
 
 Route::get('contact-us', [ContactController::class, 'index'])->name('contactus');

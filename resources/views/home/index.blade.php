@@ -195,7 +195,7 @@
                 <div class="tab-pane fade in active" id="popular">
                     <ul class="aa-product-catg aa-popular-slider" id="list-popular">
                     </ul>
-                    <a class="aa-browse-btn" href="#">Lihat Semua Produk Kami <span class="fa fa-long-arrow-right"></span></a>
+                    <a class="aa-browse-btn" href="{{ route('products') }}">Lihat Semua Produk Kami <span class="fa fa-long-arrow-right"></span></a>
                 </div>
                 <!-- / popular product category -->
 
@@ -203,7 +203,7 @@
                 <div class="tab-pane fade" id="featured">
                     <ul class="aa-product-catg aa-featured-slider" id="list-featured">
                     </ul>
-                    <a class="aa-browse-btn" href="#">Lihat Semua Produk Kami <span class="fa fa-long-arrow-right"></span></a>
+                    <a class="aa-browse-btn" href="{{ route('products') }}">Lihat Semua Produk Kami <span class="fa fa-long-arrow-right"></span></a>
                 </div>
                 <!-- / featured product category -->
 
@@ -211,7 +211,7 @@
                 <div class="tab-pane fade" id="latest">
                     <ul class="aa-product-catg aa-latest-slider" id="list-latest">
                     </ul>
-                    <a class="aa-browse-btn" href="#">Lihat Semua Produk Kami <span class="fa fa-long-arrow-right"></span></a>
+                    <a class="aa-browse-btn" href="{{ route('products') }}">Lihat Semua Produk Kami <span class="fa fa-long-arrow-right"></span></a>
                 </div>
                 <!-- / latest product category -->
                 </div>
@@ -357,7 +357,7 @@
                             var productHtml = `
                                 <li>
                                     <figure>
-                                        <a class="aa-product-img" href="#"><img src="${product.photos && product.photos.length > 0 ? urlPhoto+product.photos[0].nama_file : 'img/default/defaultProduct.png'}"  width="250px" alt="${product.nama_barang}"></a>
+                                        <a class="aa-product-img"><img src="${product.photos && product.photos.length > 0 ? urlPhoto+product.photos[0].nama_file : 'img/default/defaultProduct.png'}"  width="250px" alt="${product.nama_barang}"></a>
                                         <a class="aa-add-card-btn" href="#"><span class="fa fa-shopping-cart"></span>Add To Cart</a>
                                         <figcaption>
                                             <h4 class="aa-product-title"><a href="#">${product.nama_barang}</a></h4>
@@ -366,7 +366,7 @@
                                     </figure>
                                     <div class="aa-product-hvr-content">
                                         <a href="javascript:void(0);" onclick="addToWishlist('${routeCreateWishlist}')" data-toggle="tooltip" data-placement="top" title="Add to Wishlist"><span class="fa fa-heart-o"></span></a>
-                                        <a href="`+routeProductDetail+`" data-toggle2="tooltip" data-placement="top" title="Detail Product" ><span class="fa fa-eye"></span></a>
+                                        <a href="`+routeProductDetail+`" data-toggle2="tooltip" data-placement="top" title="Detail Product" >Lihat Produk</a>
                                     </div>
                                     <span class="aa-badge aa-sale" href="#">SALE!</span>
                                 </li>
@@ -403,7 +403,7 @@
                             var productHtml = `
                                 <li>
                                     <figure>
-                                        <a class="aa-product-img" href="#"><img src="${product.photos && product.photos.length > 0 ? urlPhoto+product.photos[0].nama_file : 'img/default/defaultProduct.png'}"  width="250px" alt="${product.nama_barang}"></a>
+                                        <a class="aa-product-img"><img src="${product.photos && product.photos.length > 0 ? urlPhoto+product.photos[0].nama_file : 'img/default/defaultProduct.png'}"  width="250px" alt="${product.nama_barang}"></a>
                                         <a class="aa-add-card-btn" @if($token == null) data-toggle="modal" data-target="#login-modal" @endif><span class="fa fa-shopping-cart"></span>Add To Cart</a>
                                         <figcaption>
                                             <h4 class="aa-product-title"><a href="#">${product.nama_barang}</a></h4>
@@ -413,7 +413,7 @@
                                     <div class="aa-product-hvr-content">
                                         <a href="javascript:void(0);" onclick="addToWishlist('${routeCreateWishlist}')" title="Add to Wishlist"><span class="fa fa-heart-o"></span></a>
 
-                                        <a href="`+routeProductDetail+`" ><span class="fa fa-eye"></span></a>
+                                        <a href="`+routeProductDetail+`" >Lihat Produk</a>
                                     </div>
                                     <span class="aa-badge aa-sale" href="#">SALE!</span>
                                 </li>
@@ -449,7 +449,7 @@
                                 var productHtml = `
                                     <li>
                                         <figure>
-                                            <a class="aa-product-img" href="#"><img src="${product.photos && product.photos.length > 0 ? urlPhoto+product.photos[0].nama_file : 'img/default/defaultProduct.png'}" alt="${product.nama_barang}"></a>
+                                            <a class="aa-product-img"><img src="${product.photos && product.photos.length > 0 ? urlPhoto+product.photos[0].nama_file : 'img/default/defaultProduct.png'}" alt="${product.nama_barang}"></a>
                                             <a class="aa-add-card-btn" @if($token == null) data-toggle="modal" data-target="#login-modal" @endif><span class="fa fa-shopping-cart"></span>Add To Cart</a>
                                             <figcaption>
                                                 <h4 class="aa-product-title"><a href="#">${product.nama_barang}</a></h4>
@@ -459,7 +459,7 @@
                                         <div class="aa-product-hvr-content">
                                         <a href="javascript:void(0);" onclick="addToWishlist('${routeCreateWishlist}')" title="Add to Wishlist"><span class="fa fa-heart-o"></span></a>
 
-                                            <a href="`+routeProductDetail+`" ><span class="fa fa-view"></span></a>
+                                            <a href="`+routeProductDetail+`" >Lihat Produk</a>
                                         </div>
                                         <span class="aa-badge aa-sale" href="#">SALE!</span>
                                     </li>
@@ -510,7 +510,7 @@
                             var productHtml = `
                                 <li>
                                     <figure>
-                                        <a class="aa-product-img" href="#"><img src="${product.photos && product.photos.length > 0 ? urlPhoto+product.photos[0].nama_file : 'img/default/defaultProduct.png'}"  width="250px" alt="${product.nama_barang}"></a>
+                                        <a class="aa-product-img"><img src="${product.photos && product.photos.length > 0 ? urlPhoto+product.photos[0].nama_file : 'img/default/defaultProduct.png'}"  width="250px" alt="${product.nama_barang}"></a>
                                         <a class="aa-add-card-btn" @if($token == null) data-toggle="modal" data-target="#login-modal" @endif><span class="fa fa-shopping-cart"></span>Add To Cart</a>
                                         <figcaption>
                                             <h4 class="aa-product-title"><a href="#">${product.nama_barang}</a></h4>
@@ -520,7 +520,7 @@
                                     <div class="aa-product-hvr-content">
                                         <a href="javascript:void(0);" onclick="addToWishlist('${routeCreateWishlist}')" title="Add to Wishlist"><span class="fa fa-heart-o"></span></a>
 
-                                        <a href="`+routeProductDetail+`" title="Quick View"><span class="fa fa-eye"></span></a>
+                                        <a href="`+routeProductDetail+`" title="Quick View">Lihat Produk</a>
                                     </div>
                                     <span class="aa-badge aa-sale" href="#">SALE!</span>
                                 </li>

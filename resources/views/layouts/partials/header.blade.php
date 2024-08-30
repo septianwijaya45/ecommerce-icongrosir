@@ -1,4 +1,4 @@
- <!-- Start header section -->
+<!-- Start header section -->
   <header id="aa-header">
     <!-- start header top  -->
     <div class="aa-header-top">
@@ -37,7 +37,7 @@
                 <!-- / currency -->
                 <!-- start cellphone -->
                 <div class="cellphone hidden-xs">
-                  <p><span class="fa fa-phone"></span>0857-0000-1111</p>
+                  <p><span class="fa fa-phone"></span>{{ $setting['no_telp'] }}</p>
                 </div>
                 <!-- / cellphone -->
               </div>
@@ -49,12 +49,12 @@
                   @endif
                   @if($token)
                     <li class="hidden-xs"><a href="{{ route('wishlist') }}">Wishlist</a></li>
-                    <li class="hidden-xs"><a href="{{ route('cart') }}">My Cart</a></li>
+                    <li class="hidden-xs"><a href="{{ route('cart') }}">Cart Saya</a></li>
                     <li class="hidden-xs"><a href="{{ route('checkout') }}">Checkout</a></li>
                     <li><a href="{{ route('logout') }}" data-toggle="modal">Logout</a></li>
                   @else
                     <li class="hidden-xs"><a href="" data-toggle="modal" data-target="#login-modal">Wishlist</a></li>
-                    <li class="hidden-xs"><a href="" data-toggle="modal" data-target="#login-modal">My Cart</a></li>
+                    <li class="hidden-xs"><a href="" data-toggle="modal" data-target="#login-modal">Cart Saya</a></li>
                     <li class="hidden-xs"><a href="" data-toggle="modal" data-target="#login-modal">Checkout</a></li>
                     <li><a href="" data-toggle="modal" data-target="#login-modal">Login</a></li>
                   @endif
@@ -77,8 +77,16 @@
               <div class="aa-logo">
                 <!-- Text based logo -->
                 <a href="{{ route('home') }}">
-                  <span class="fa fa-shopping-cart"></span>
-                  <p>Icon<strong>Grosir Shop</strong> <span>Your Shopping Partner</span></p>
+                    <div class="row">
+                        <div class="col-md-2">
+                            <span>
+                                <img id="imageShow" src="{{ $logoUrl.$setting['logo'] }}" alt="Preview" style="max-width: 50px; cursor: pointer;" class="text-center ml-2">
+                            </span>
+                        </div>
+                        <div class="col-md-9">
+                            <p><strong>{{ $setting['name_app'] }}</strong> <span>Your Shopping Partner</span></p>
+                        </div>
+                    </div>
                 </a>
                 <!-- img based logo -->
                 <!-- <a href="{{ route('home') }}"><img src="img/logo.jpg" alt="logo img"></a> -->
@@ -114,7 +122,7 @@
                                     @endif
                                 @endforeach
                             </ul>
-                            <a class="aa-cartbox-checkout aa-primary-btn" href="{{ route('checkout') }}">Checkout</a>
+                            <a class="aa-cartbox-checkout aa-primary-btn" href="{{ route('cart') }}">Cart Saya</a>
                             </div>
                         </div>
                     @else

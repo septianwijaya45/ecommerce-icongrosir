@@ -19,6 +19,9 @@
                 <li><a href="{{ route('products') }}">Katalog Kami</a></li>
                 <li><a href="{{ route('contactus') }}">Tentang Kami</a></li>
                 <li><a href="{{ route('contactus') }}">Kontak Kami</a></li>
+                @if($token)
+                <li><a href="{{ route('pesananSaya') }}">Pesanan Saya</a></li>
+                @endif
                 </ul>
             </div><!--/.nav-collapse -->
             </div>

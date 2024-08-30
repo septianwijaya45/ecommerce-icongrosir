@@ -237,7 +237,7 @@
                         if(response.status == true){
                         swal("Success!", "Berhasil Konfirmasi Pesanan Anda!.", "success");
                         setInterval(() => {
-                            window.location.href = "{{ route('home') }}";
+                            window.open(response.sendMessage, '_blank');
                         }, 1000);
                         }else{
                         swal("Gagal!", "Gagal Konfirmasi Pesanan Anda! Mungkin Sudah Terkonfirmasi.", "warning");

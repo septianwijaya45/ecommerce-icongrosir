@@ -55,7 +55,7 @@
                     <h3>Contact Us</h3>
                     <address>
                       <p>Surabaya, Jawa Timur</p>
-                      <p><span class="fa fa-phone"></span>0857-0000-1111</p>
+                      <p><span class="fa fa-phone"></span>{{ $setting['no_telp'] }}</p>
                       <p><span class="fa fa-envelope"></span>icongrosir@gmail.com</p>
                     </address>
                     <div class="aa-footer-social">

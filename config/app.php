@@ -63,6 +63,7 @@ return [
 
     'photo_product' => 'http://127.0.0.1:8000/img/gambar/produk/',
     'banner_app' => 'http://127.0.0.1:8000/img/gambar/banner/',
+    'logo_app' => 'http://127.0.0.1:8000/img/gambar/logoApp/',
     /*
     |--------------------------------------------------------------------------
     | Application Timezone

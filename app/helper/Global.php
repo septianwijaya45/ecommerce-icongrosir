@@ -22,3 +22,19 @@ function getMyCart($token){
         ]);
     }
 }
+
+function getSetting(){
+    try {
+        $apiUrl = config('app.backend_endpoint');
+        $setting = Http::get($apiUrl.'/setting/get-setting');
+        $jsonsetting = $setting->json();
+
+        return $jsonsetting['data'];
+    } catch (\Exception $e) {
+        \Log::error($e);
+        return redirect()->back()->with([
+            'success' => false,
+            'message' => 'Terjadi kesalahan saat menghubungi server.'
+        ]);
+    }
+}

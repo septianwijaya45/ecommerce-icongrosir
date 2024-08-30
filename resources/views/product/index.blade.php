@@ -245,7 +245,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const productHTML = `
                 <li class="col-md-4">
                     <figure>
-                        <a class="aa-product-img" href="#">
+                        <a class="aa-product-img">
                             <img src="${(product.image != null) ? urlPhoto + product.image : baseUrl + '/img/default/defaultProduct.png'}" alt="product image" width="250px" height="300px">
                         </a>
                         <a class="aa-add-card-btn" href="javascript:void(0);" onclick="addToCart('${routeCreateCart}')"><span class="fa fa-shopping-cart"></span>Add To Cart</a>
