@@ -1,72 +1,44 @@
 @extends('layouts.app')
 
 @section('content')
+
 <!-- Start slider -->
 <section id="aa-slider">
+    @if(session('error'))
+    <div class="alert alert-danger text-white text-center">
+        {{ session('error') }}
+    </div>
+    @endif
+    @if(session('success'))
+    <div class="alert alert-success text-white text-center">
+        {{ session('success') }}
+    </div>
+    @endif
     <div class="aa-slider-area">
         <div id="sequence" class="seq">
         <div class="seq-screen">
             <ul class="seq-canvas">
             <!-- single slide item -->
-            <li>
-                <div class="seq-model">
-                <img data-seq src="img/slider/slider4.jpg" alt="Men slide img" />
-                </div>
-                <div class="seq-title">
-                <span data-seq>Save Up to 75% Off</span>                
-                <h2 data-seq>Men Collection</h2>                
-                <p data-seq>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minus, illum.</p>
-                <a data-seq href="#" class="aa-shop-now-btn aa-secondary-btn">SHOP NOW</a>
-                </div>
-            </li>
-            <!-- single slide item -->
-            <li>
-                <div class="seq-model">
-                <img data-seq src="img/slider/slider2.jpg" alt="Wristwatch slide img" />
-                </div>
-                <div class="seq-title">
-                <span data-seq>Save Up to 40% Off</span>                
-                <h2 data-seq>Wristwatch Collection</h2>                
-                <p data-seq>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minus, illum.</p>
-                <a data-seq href="#" class="aa-shop-now-btn aa-secondary-btn">SHOP NOW</a>
-                </div>
-            </li>
-            <!-- single slide item -->
-            <li>
-                <div class="seq-model">
-                <img data-seq src="img/slider/slider7.jpg" alt="Women Jeans slide img" />
-                </div>
-                <div class="seq-title">
-                <span data-seq>Save Up to 75% Off</span>                
-                <h2 data-seq>Jeans Collection</h2>                
-                <p data-seq>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minus, illum.</p>
-                <a data-seq href="#" class="aa-shop-now-btn aa-secondary-btn">SHOP NOW</a>
-                </div>
-            </li>
-            <!-- single slide item -->           
-            <li>
-                <div class="seq-model">
-                <img data-seq src="img/slider/slider8.jpg" alt="Shoes slide img" />
-                </div>
-                <div class="seq-title">
-                <span data-seq>Save Up to 75% Off</span>                
-                <h2 data-seq>Exclusive Shoes</h2>                
-                <p data-seq>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minus, illum.</p>
-                <a data-seq href="#" class="aa-shop-now-btn aa-secondary-btn">SHOP NOW</a>
-                </div>
-            </li>
-            <!-- single slide item -->  
+            @foreach($banners as $banner)
+            @if (strpos($banner['name_menu_banner'], 'home_banner') !== false)
                 <li>
-                <div class="seq-model">
-                <img data-seq src="img/slider/slider5.jpg" alt="Male Female slide img" />
-                </div>
-                <div class="seq-title">
-                <span data-seq>Save Up to 50% Off</span>                
-                <h2 data-seq>Best Collection</h2>                
-                <p data-seq>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minus, illum.</p>
-                <a data-seq href="#" class="aa-shop-now-btn aa-secondary-btn">SHOP NOW</a>
-                </div>
-            </li>                   
+                    <div class="seq-model">
+                        @if($banner['image'] != null && $banner['image'] != '')
+                            <img data-seq src="{{ $urlBanner . $banner['image'] }}" alt="Men slide img" />
+                        @else
+                            <img data-seq src="img/fashion/fashion-header-bg-8.jpg" alt="Men slide img" />
+                        @endif
+                    </div>
+
+                    <div class="seq-title">
+                    <span data-seq>Dapatkan Diskon Sampai 50%</span>
+                    <h2 data-seq>Icon Grosir Collection</h2>
+                    <p data-seq>Kaos dengan bahan lembut dan berkualitas</p>
+                    <a data-seq href="{{ route('products') }}" class="aa-shop-now-btn aa-secondary-btn">SHOP NOW</a>
+                    </div>
+                </li>
+            @endif
+            @endforeach
             </ul>
         </div>
         <!-- slider navigation btn -->
@@ -86,13 +58,13 @@
             <div class="aa-promo-area">
             <div class="row">
                 <!-- promo left -->
-                <div class="col-md-5 no-padding">                
+                <div class="col-md-5 no-padding">
                 <div class="aa-promo-left">
-                    <div class="aa-promo-banner">                    
-                    <img src="img/products/clothwanita3.jpg" alt="img">                    
+                    <div class="aa-promo-banner">
+                    <img src="img/products/clothwanita3.jpg" alt="img">
                     <div class="aa-prom-content">
                         <span>75% Off</span>
-                        <h4><a href="#">For Women</a></h4>                      
+                        <h4><a href="#">For Women</a></h4>
                     </div>
                     </div>
                 </div>
@@ -101,38 +73,38 @@
                 <div class="col-md-7 no-padding">
                 <div class="aa-promo-right">
                     <div class="aa-single-promo-right">
-                    <div class="aa-promo-banner">                      
-                        <img src="img/products/clothpria1.jpg" alt="img">                      
+                    <div class="aa-promo-banner">
+                        <img src="img/products/clothpria1.jpg" alt="img">
                         <div class="aa-prom-content">
                         <span>Exclusive Item</span>
-                        <h4><a href="#">For Men</a></h4>                        
+                        <h4><a href="#">For Men</a></h4>
                         </div>
                     </div>
                     </div>
                     <div class="aa-single-promo-right">
-                    <div class="aa-promo-banner">                      
-                        <img src="img/slider/slider8.jpg" alt="img">                      
+                    <div class="aa-promo-banner">
+                        <img src="img/slider/slider8.jpg" alt="img">
                         <div class="aa-prom-content">
                         <span>Sale Off</span>
-                        <h4><a href="#">On Shoes</a></h4>                        
+                        <h4><a href="#">On Shoes</a></h4>
                         </div>
                     </div>
                     </div>
                     <div class="aa-single-promo-right">
-                    <div class="aa-promo-banner">                      
-                        <img src="img/products/clothkids1.jpg" alt="img">                      
+                    <div class="aa-promo-banner">
+                        <img src="img/products/clothkids1.jpg" alt="img">
                         <div class="aa-prom-content">
                         <span>New Arrivals</span>
-                        <h4><a href="#">For Kids</a></h4>                        
+                        <h4><a href="#">For Kids</a></h4>
                         </div>
                     </div>
                     </div>
                     <div class="aa-single-promo-right">
-                    <div class="aa-promo-banner">                      
-                        <img src="img/products/bags1.jpg" alt="img">                      
+                    <div class="aa-promo-banner">
+                        <img src="img/products/bags1.jpg" alt="img">
                         <div class="aa-prom-content">
                         <span>25% Off</span>
-                        <h4><a href="#">For Bags</a></h4>                        
+                        <h4><a href="#">For Bags</a></h4>
                         </div>
                     </div>
                     </div>
@@ -157,31 +129,39 @@
                         <ul class="nav nav-tabs aa-products-tab">
                             <li><a href="#men" data-category-id="{{ isset($threeCategory[0]) ? $threeCategory[0]->category : 'Mens' }}" data-toggle="tab">{{ isset($threeCategory[0]) ? $threeCategory[0]->category : 'Mens' }}</a></li>
                             <li><a href="#women" data-category-id="{{ isset($threeCategory[1]) ? $threeCategory[1]->category : 'Womens' }}" data-toggle="tab">{{ isset($threeCategory[1]) ? $threeCategory[1]->category : 'Womens' }}</a></li>
-                            <li><a href="#sports" data-category-id="{{ isset($threeCategory[2]) ? $threeCategory[2]->category : 'Other' }}" data-toggle="tab">{{ isset($threeCategory[2]) ? $threeCategory[2]->category : 'Other' }}</a></li>
+                            <li><a href="#sports" data-category-id="{{ isset($threeCategory[3]) ? $threeCategory[3]->category : 'Other' }}" data-toggle="tab">{{ isset($threeCategory[3]) ? $threeCategory[3]->category : 'Other' }}</a></li>
                         </ul>
                         <!-- Tab panes -->
                         <div class="tab-content">
                             <!-- Start men product category -->
                             <div class="tab-pane fade in active" id="men">
-                            <ul class="aa-product-catg" id="product-{{ isset($threeCategory[0]) ? $threeCategory[0]->category : 'Mens' }}">
+                            <ul class="aa-product-catg" style="width:100%">
+                                <div class="row" id="product-{{ isset($threeCategory[0]) ? $threeCategory[0]->category : 'Mens' }}" >
+
+                                </div>
                             </ul>
                             <a class="aa-browse-btn" href="#">Lihat Semua Produk {{ isset($threeCategory[0]) ? $threeCategory[0]->category : 'Mens' }}  <span class="fa fa-long-arrow-right"></span></a>
                             </div>
                             <!-- / men product category -->
                             <!-- start women product category -->
                             <div class="tab-pane fade" id="women">
-                            <ul class="aa-product-catg" id="product-{{ isset($threeCategory[1]) ? $threeCategory[1]->category : 'Womens' }}">
+                            <ul class="aa-product-catg" style="width:100%">
+                                <div class="row" id="product-{{ isset($threeCategory[1]) ? $threeCategory[1]->category : 'Womens' }}">
+
+                                </div>
                             </ul>
                             <a class="aa-browse-btn" href="#">Lihat Semua Produk {{ isset($threeCategory[1]) ? $threeCategory[1]->category : 'Womens' }}<span class="fa fa-long-arrow-right"></span></a>
                             </div>
                             <!-- / women product category -->
                             <!-- start sports product category -->
                             <div class="tab-pane fade" id="sports">
-                                <ul class="aa-product-catg" id="product-{{ isset($threeCategory[2]) ? $threeCategory[2]->category : 'Others' }}">
-                                                    
+                                <ul class="aa-product-catg" style="width:100%">
+                                    <div class="row" id="product-{{ isset($threeCategory[3]) ? $threeCategory[3]->category : 'Others' }}">
+
+                                    </div>
                                 </ul>
-                                <a class="aa-browse-btn" href="#">Lihat Semua Produk {{ isset($threeCategory[2]) ? $threeCategory[2]->category : 'Other' }}<span class="fa fa-long-arrow-right"></span></a>
-                            </div>            
+                                <a class="aa-browse-btn" href="#">Lihat Semua Produk {{ isset($threeCategory[3]) ? $threeCategory[3]->category : 'Other' }}<span class="fa fa-long-arrow-right"></span></a>
+                            </div>
                     </div>
                 </div>
             </div>
@@ -194,7 +174,7 @@
 <section id="aa-banner">
     <div class="container">
         <div class="row">
-        <div class="col-md-12">        
+        <div class="col-md-12">
             <div class="row">
             <div class="aa-banner-area">
             <a href="#"><img src="img/slider/slider1.png" alt="fashion banner img"></a>
@@ -215,36 +195,45 @@
                 <ul class="nav nav-tabs aa-popular-tab" id="popular-menu">
                     <li class="active"><a href="#popular" data-toggle="tab" data-list="popular">Popular</a></li>
                     <li><a href="#featured" data-toggle="tab" data-list="featured">Featured</a></li>
-                    <li><a href="#latest" data-toggle="tab" data-list="latest">Latest</a></li>                    
+                    <li><a href="#latest" data-toggle="tab" data-list="latest">Latest</a></li>
                 </ul>
                 <!-- Tab panes -->
                 <div class="tab-content">
                 <!-- Start men popular category -->
                 <div class="tab-pane fade in active" id="popular">
-                    <ul class="aa-product-catg aa-popular-slider" id="list-popular">                                                                               
+                    <ul class="aa-product-catg aa-popular-slider" style="width:100%">
+                        <div class="row" id="list-popular">
+
+                        </div>
                     </ul>
-                    <a class="aa-browse-btn" href="#">Lihat Semua Produk Kami <span class="fa fa-long-arrow-right"></span></a>
+                    <a class="aa-browse-btn" href="{{ route('products') }}">Lihat Semua Produk Kami <span class="fa fa-long-arrow-right"></span></a>
                 </div>
                 <!-- / popular product category -->
-                
+
                 <!-- start featured product category -->
                 <div class="tab-pane fade" id="featured">
-                    <ul class="aa-product-catg aa-featured-slider" id="list-featured">                                                                        
+                    <ul class="aa-product-catg" style="width:100%">
+                        <div class="row" id="list-featured">
+
+                        </div>
                     </ul>
-                    <a class="aa-browse-btn" href="#">Lihat Semua Produk Kami <span class="fa fa-long-arrow-right"></span></a>
+                    <a class="aa-browse-btn" href="{{ route('products') }}">Lihat Semua Produk Kami <span class="fa fa-long-arrow-right"></span></a>
                 </div>
                 <!-- / featured product category -->
 
                 <!-- start latest product category -->
                 <div class="tab-pane fade" id="latest">
-                    <ul class="aa-product-catg aa-latest-slider" id="list-latest">                                                                                
+                    <ul class="aa-product-catg" style="width:100%">
+                        <div class="row" id="list-latest">
+
+                        </div>
                     </ul>
-                    <a class="aa-browse-btn" href="#">Lihat Semua Produk Kami <span class="fa fa-long-arrow-right"></span></a>
+                    <a class="aa-browse-btn" href="{{ route('products') }}">Lihat Semua Produk Kami <span class="fa fa-long-arrow-right"></span></a>
                 </div>
-                <!-- / latest product category -->              
+                <!-- / latest product category -->
                 </div>
             </div>
-            </div> 
+            </div>
         </div>
         </div>
     </div>
@@ -287,7 +276,7 @@
 </section>
 <!-- / Support section -->
 <!-- Testimonial -->
-<section id="aa-testimonial">  
+<section id="aa-testimonial">
     <div class="container">
         <div class="row">
         <div class="col-md-12">
@@ -341,6 +330,53 @@
 @stop
 
 @section('script')
+<script>
+    function addToWishlist(route) {
+        swal({
+            title: "Apakah Anda Yakin?",
+            text: "Ingin Menambahkan Produk ke Wishlist?",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "Ya, Tambahkan!",
+            closeOnConfirm: false
+        }, function() {
+            swal({
+                title: "Loading...",
+                text: "Sedang Menambahkan ke Wishlist!",
+                type: "warning",
+                buttons: false,
+                closeOnClickOutside: false,
+                closeOnEsc: false,
+                allowOutsideClick: false
+            });
+            window.location.href = route;
+        });
+    }
+
+    function addToCart(route) {
+        swal({
+            title: "Apakah Anda Yakin?",
+            text: "Ingin Menambahkan Produk ke Keranjang?",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "Ya, Tambahkan!",
+            closeOnConfirm: false
+        }, function() {
+            swal({
+                title: "Loading...",
+                text: "Sedang Menambahkan ke Keranjang!",
+                type: "warning",
+                buttons: false,
+                closeOnClickOutside: false,
+                closeOnEsc: false,
+                allowOutsideClick: false
+            });
+            window.location.href = route;
+        });
+    }
+</script>
 <script type="text/javascript">
     $(document).ready(function(){
         // ***** Product Section ***** //
@@ -357,20 +393,22 @@
                     // Loop melalui data produk dan tambahkan ke dalam daftar produk
                     response.forEach(function(product) {
                         if(product != null){
+                            let routeProductDetail = "{{route('getProductById', ':id')}}".replace(':id', product.uuid);
+                            let routeCreateWishlist = "{{route('wishlist.store', ':id')}}".replace(':id', product.uuid);
+                            let routeCreateCart = "{{ route('cart.storeCartById', ':id') }}".replace(':id', product.uuid);
                             var productHtml = `
-                                <li>
+                                <li class="col-md-4">
                                     <figure>
-                                        <a class="aa-product-img" href="#"><img src="${product.photos && product.photos.length > 0 ? urlPhoto+product.photos[0].nama_file : 'img/default/defaultProduct.png'}"  width="250px" alt="${product.nama_barang}"></a>
-                                        <a class="aa-add-card-btn" href="#"><span class="fa fa-shopping-cart"></span>Add To Cart</a>
+                                        <a class="aa-product-img"><img src="${product.image != null ? urlPhoto+product.image : 'img/default/defaultProduct.png'}"  width="250px" height="300px" alt="${product.nama_barang}"></a>
+                                        <a class="aa-add-card-btn" @if($token == null) data-toggle="modal" data-target="#login-modal" @else href="javascript:void(0);" onclick="addToCart('${routeCreateCart}')" @endif><span class="fa fa-shopping-cart"></span>Add To Cart</a>
                                         <figcaption>
                                             <h4 class="aa-product-title"><a href="#">${product.nama_barang}</a></h4>
                                             <span class="aa-product-price">Rp ${product.harga != null ? product.harga : 0}</span>${ product.diskon_tipe != null ? '<span class="aa-product-price"><del>'+ product.diskon_tipe +' </del></span>' : ''}
                                         </figcaption>
-                                    </figure>                        
+                                    </figure>
                                     <div class="aa-product-hvr-content">
-                                        <a href="#" data-toggle="tooltip" data-placement="top" title="Add to Wishlist"><span class="fa fa-heart-o"></span></a>
-                                        <a href="#" data-toggle="tooltip" data-placement="top" title="Compare"><span class="fa fa-exchange"></span></a>
-                                        <a href="#" data-toggle2="tooltip" data-placement="top" title="Quick View" data-toggle="modal" data-target="#quick-view-modal"><span class="fa fa-search"></span></a>                          
+                                        <a href="javascript:void(0);" onclick="addToWishlist('${routeCreateWishlist}')" data-toggle="tooltip" data-placement="top" title="Add to Wishlist"><span class="fa fa-heart-o"></span></a>
+                                        <a href="`+routeProductDetail+`" data-toggle2="tooltip" data-placement="top" title="Detail Product" >Lihat Produk</a>
                                     </div>
                                     <span class="aa-badge aa-sale" href="#">SALE!</span>
                                 </li>
@@ -402,20 +440,23 @@
                     // Loop melalui data produk dan tambahkan ke dalam daftar produk
                     response.forEach(function(product) {
                         if(product != null){
+                            let routeProductDetail = "{{route('getProductById', ':id')}}".replace(':id', product.uuid);
+                            let routeCreateWishlist = "{{route('wishlist.store', ':id')}}".replace(':id', product.uuid);
+                            let routeCreateCart = "{{ route('cart.storeCartById', ':id') }}".replace(':id', product.uuid);
                             var productHtml = `
-                                <li>
+                                <li class="col-md-4">
                                     <figure>
-                                        <a class="aa-product-img" href="#"><img src="${product.photos && product.photos.length > 0 ? urlPhoto+product.photos[0].nama_file : 'img/default/defaultProduct.png'}"  width="250px" alt="${product.nama_barang}"></a>
-                                        <a class="aa-add-card-btn" href="#"><span class="fa fa-shopping-cart"></span>Add To Cart</a>
+                                        <a class="aa-product-img"><img src="${product.image != null ? urlPhoto+product.image : 'img/default/defaultProduct.png'}"  width="250px" height="300px" alt="${product.nama_barang}"></a>
+                                        <a class="aa-add-card-btn" @if($token == null) data-toggle="modal" data-target="#login-modal" @else href="javascript:void(0);" onclick="addToCart('${routeCreateCart}')" @endif><span class="fa fa-shopping-cart"></span>Add To Cart</a>
                                         <figcaption>
                                             <h4 class="aa-product-title"><a href="#">${product.nama_barang}</a></h4>
                                             <span class="aa-product-price">Rp ${product.harga != null ? product.harga : 0}</span>${ product.diskon_tipe != null ? '<span class="aa-product-price"><del>'+ product.diskon_tipe +' </del></span>' : ''}
                                         </figcaption>
-                                    </figure>                        
+                                    </figure>
                                     <div class="aa-product-hvr-content">
-                                        <a href="#" data-toggle="tooltip" data-placement="top" title="Add to Wishlist"><span class="fa fa-heart-o"></span></a>
-                                        <a href="#" data-toggle="tooltip" data-placement="top" title="Compare"><span class="fa fa-exchange"></span></a>
-                                        <a href="#" data-toggle2="tooltip" data-placement="top" title="Quick View" data-toggle="modal" data-target="#quick-view-modal"><span class="fa fa-search"></span></a>                          
+                                        <a href="javascript:void(0);" onclick="addToWishlist('${routeCreateWishlist}')" title="Add to Wishlist"><span class="fa fa-heart-o"></span></a>
+
+                                        <a href="`+routeProductDetail+`" >Lihat Produk</a>
                                     </div>
                                     <span class="aa-badge aa-sale" href="#">SALE!</span>
                                 </li>
@@ -446,23 +487,26 @@
                     $('#list-popular').empty();
                     if(response.length != 0){
                         response.forEach(function(product) {
+                            let routeProductDetail = "{{route('getProductById', ':id')}}".replace(':id', product.uuid);
+                            let routeCreateWishlist = "{{route('wishlist.store', ':id')}}".replace(':id', product.uuid);
+                            let routeCreateCart = "{{ route('cart.storeCartById', ':id') }}".replace(':id', product.uuid);
                                 var productHtml = `
-                                    <li>
+                                    <li class="col-md-4">
                                         <figure>
-                                            <a class="aa-product-img" href="#"><img src="${product.photos && product.photos.length > 0 ? urlPhoto+product.photos[0].nama_file : 'img/default/defaultProduct.png'}" alt="${product.nama_barang}"></a>
-                                            <a class="aa-add-card-btn"href="#"><span class="fa fa-shopping-cart"></span>Add To Cart</a>
+                                            <a class="aa-product-img"><img src="${product.image != null ? urlPhoto+product.image : 'img/default/defaultProduct.png'}" width="250px" height="300px" alt="${product.nama_barang}"></a>
+                                            <a class="aa-add-card-btn" @if($token == null) data-toggle="modal" data-target="#login-modal" @else href="javascript:void(0);" onclick="addToCart('${routeCreateCart}')" @endif><span class="fa fa-shopping-cart"></span>Add To Cart</a>
                                             <figcaption>
                                                 <h4 class="aa-product-title"><a href="#">${product.nama_barang}</a></h4>
                                                 <span class="aa-product-price">Rp ${product.harga != null ? product.harga : 0}</span>${ product.diskon_tipe != null ? '<span class="aa-product-price"><del>'+ product.diskon_tipe +' </del></span>' : ''}
                                             </figcaption>
-                                        </figure>                     
+                                        </figure>
                                         <div class="aa-product-hvr-content">
-                                            <a href="#" data-toggle="tooltip" data-placement="top" title="Add to Wishlist"><span class="fa fa-heart-o"></span></a>
-                                            <a href="#" data-toggle="tooltip" data-placement="top" title="Compare"><span class="fa fa-exchange"></span></a>
-                                            <a href="#" data-toggle2="tooltip" data-placement="top" title="Quick View" data-toggle="modal" data-target="#quick-view-modal"><span class="fa fa-search"></span></a>                            
+                                        <a href="javascript:void(0);" onclick="addToWishlist('${routeCreateWishlist}')" title="Add to Wishlist"><span class="fa fa-heart-o"></span></a>
+
+                                            <a href="`+routeProductDetail+`" >Lihat Produk</a>
                                         </div>
                                         <span class="aa-badge aa-sale" href="#">SALE!</span>
-                                    </li>  
+                                    </li>
                                 `;
                             $('#list-popular').append(productHtml);
                         });
@@ -472,7 +516,7 @@
                                             <figcaption>
                                                 <h4 class="aa-product-title"><a href="#">Tidak Ada Produk</a></h4>
                                             </figcaption>
-                                        </figure>   
+                                        </figure>
                                         <div class="aa-product-hvr-content">
                                         <div/>
                                     </li>`
@@ -504,26 +548,30 @@
                 success: function(response) {
                     $('#list-'+data).empty();
                     if(response.length != 0){
-                        response.forEach(function(product) {                   
+                        response.forEach(function(product) {
+
+                            let routeProductDetail = "{{route('getProductById', ':id')}}".replace(':id', product.uuid);
+                            let routeCreateWishlist = "{{route('wishlist.store', ':id')}}".replace(':id', product.uuid);
+                            let routeCreateCart = "{{ route('cart.storeCartById', ':id') }}".replace(':id', product.uuid);
                             var productHtml = `
-                                <li>
+                                <li class="col-md-4">
                                     <figure>
-                                        <a class="aa-product-img" href="#"><img src="${product.photos && product.photos.length > 0 ? urlPhoto+product.photos[0].nama_file : 'img/default/defaultProduct.png'}"  width="250px" alt="${product.nama_barang}"></a>
-                                        <a class="aa-add-card-btn" href="#"><span class="fa fa-shopping-cart"></span>Add To Cart</a>
+                                        <a class="aa-product-img"><img src="${product.image != null ? urlPhoto+product.image : 'img/default/defaultProduct.png'}"  width="250px" height="300px" alt="${product.nama_barang}"></a>
+                                        <a class="aa-add-card-btn" @if($token == null) data-toggle="modal" data-target="#login-modal" @else href="javascript:void(0);" onclick="addToCart('${routeCreateCart}')" @endif><span class="fa fa-shopping-cart"></span>Add To Cart</a>
                                         <figcaption>
                                             <h4 class="aa-product-title"><a href="#">${product.nama_barang}</a></h4>
                                             <span class="aa-product-price">Rp ${product.harga != null ? product.harga : 0}</span>${ product.diskon_tipe != null ? '<span class="aa-product-price"><del>'+ product.diskon_tipe +' </del></span>' : ''}
                                         </figcaption>
-                                    </figure>                        
+                                    </figure>
                                     <div class="aa-product-hvr-content">
-                                        <a href="#" data-toggle="tooltip" data-placement="top" title="Add to Wishlist"><span class="fa fa-heart-o"></span></a>
-                                        <a href="#" data-toggle="tooltip" data-placement="top" title="Compare"><span class="fa fa-exchange"></span></a>
-                                        <a href="#" data-toggle2="tooltip" data-placement="top" title="Quick View" data-toggle="modal" data-target="#quick-view-modal"><span class="fa fa-search"></span></a>                          
+                                        <a href="javascript:void(0);" onclick="addToWishlist('${routeCreateWishlist}')" title="Add to Wishlist"><span class="fa fa-heart-o"></span></a>
+
+                                        <a href="`+routeProductDetail+`" title="Quick View">Lihat Produk</a>
                                     </div>
                                     <span class="aa-badge aa-sale" href="#">SALE!</span>
                                 </li>
                             `;
-                            
+
                             $('#list-'+data).append(productHtml);
                         });
                     }else{
@@ -532,7 +580,7 @@
                                             <figcaption>
                                                 <h4 class="aa-product-title"><a href="#">Tidak Ada Produk</a></h4>
                                             </figcaption>
-                                        </figure>   
+                                        </figure>
                                     <div class="aa-product-hvr-content">
                                     <div/>
                                     </li>`

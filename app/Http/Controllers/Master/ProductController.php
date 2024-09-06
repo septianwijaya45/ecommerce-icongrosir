@@ -6,20 +6,28 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Session\SessionManager;
 
 class ProductController extends Controller
 {
     protected $apiUrl;
+    protected $token;
 
-    public function __construct()
+    public function __construct(SessionManager $session)
     {
         $this->apiUrl = config('app.backend_endpoint');
+        $this->token = $session->get('token');
     }
 
     public function getEightProductByCategories(Request $request, $categoryId){
         try {
-            $getFiveCategory = Http::get($this->apiUrl.'/home/product/get-eight-product-by-categories/'.$categoryId);
+            $token = getToken($request);
+            $getFiveCategory = Http::withHeaders([
+                'Authorization' => 'Bearer ' . $token,
+            ])->get($this->apiUrl.'/home/product/get-eight-product-by-categories/'.$categoryId);
+
             $jsonGetFiveCategory = $getFiveCategory->json();
+            
             $getFiveCategories = $jsonGetFiveCategory["data"];
 
             return response()->json($getFiveCategories);
