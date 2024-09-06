@@ -150,4 +150,36 @@ class WishlistController extends Controller
             ]);
         }
     }
+
+    public function createWishlistByDetailProduct(Request $request, $id, $varian, $warna, $ukuran, $qty){
+        try {
+            $token = getToken($request);
+
+            if(!$token){
+                $request->session()->forget('token');
+                return redirect()->route('home')->with('error', 'Session Anda Telah berakhir!');
+            }
+
+            $createWishlist = Http::withHeaders([
+                'Authorization' => 'Bearer ' . $token,
+            ])->get($this->apiUrl.'/transaction/wishlist/create-wishlist-by-product-detail/'.$id.'/'.$varian.'/'.$warna.'/'.$ukuran.'/'.$qty);
+            $jsoncreateWishlist = $createWishlist->json();
+
+            if($jsoncreateWishlist['status'] == true){
+                return redirect()->back()->with([
+                    'success' => 'Berhasil Menambahkan ke wishlist Anda, dilahkan cek kembali!.'
+                ]);
+            }else{
+                return redirect()->back()->with([
+                    'error' => 'Gagal Menambahkan ke wishlist Anda, mungkin Anda sudah masukkan ke wishlist cek kembali!.'
+                ])->withInput();
+            }
+        } catch (\Exception $e) {
+            \Log::error($e);
+            return redirect()->back()->with([
+                'success' => false,
+                'message' => 'Terjadi kesalahan saat menghubungi server.'
+            ]);
+        }
+    }
 }

@@ -112,7 +112,7 @@ class CheckoutController extends Controller
                 return response()->json([
                     'status' => true,
                     'code'   => 200,
-                    'sendMessage' => 'https://api.whatsapp.com/send?phone=6287874236963&text=' . urlencode($data['sendMessage'])
+                    'sendMessage' => 'https://api.whatsapp.com/send?phone='.$request->no_telp.'&text=' . urlencode($data['sendMessage'])
                 ]);
             } else {
                 $error = $response->json();

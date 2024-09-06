@@ -62,6 +62,8 @@
                                     $message = "Hallo Permisi,\n";
                                     $message .= "Saya " . $transaction['name'] . " ingin memesan produk yang sudah saya checkout melalui aplikasi website icongrosir.com dengan detail ini:\n";
 
+                                    $message .= "Nomor Order:".$transaction['kode_invoice'].'\n';
+                                    $message .= "Ekspedisi yang Dipilih:".$transaction['ekspedisi'].'\n';
                                     foreach ($transaction['products'] as $index => $product) {
                                         $message .= ($index + 1) . ". " . $product['nama_barang'] . " (" . $product['variasi'] . ") - " . $product['warna'] . " | ukuran: " . $product['ukuran'] . " sebanyak Qty: " . $product['qty'] . "\n";
                                     }
@@ -93,7 +95,7 @@
                                         @endif
                                     </td>
                                     <td>
-                                        <a href="https://api.whatsapp.com/send?phone=6287874236963&text={{ $message }}" class="btn btn-success" target="_blank">Kirim Pesan WA</a>
+                                        <a href="https://api.whatsapp.com/send?phone={{ $setting['no_telp'] }}&text={{ $message }}" class="btn btn-success" target="_blank">Kirim Pesan WA</a>
                                     </td>
                                 </tr>
                             @endforeach

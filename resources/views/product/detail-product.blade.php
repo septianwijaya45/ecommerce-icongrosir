@@ -3,6 +3,16 @@
 @section('content')
   <!-- catg header banner section -->
   <section id="aa-catg-head-banner">
+    @if(session('error'))
+    <div class="alert alert-danger text-white text-center">
+        {{ session('error') }}
+    </div>
+    @endif
+    @if(session('success'))
+    <div class="alert alert-success text-white text-center">
+        {{ session('success') }}
+    </div>
+    @endif
    <img src="{{ asset('img/products/detail-product.jpg') }}" alt="fashion img">
    <div class="aa-catg-head-banner-area">
      <div class="container">
@@ -60,27 +70,30 @@
                   <div class="aa-product-view-content">
                     <h3>{{ $product['nama_barang'] }}</h3>
                     <div class="aa-price-block">
-                      <span class="aa-product-view-price">Rp {{ $product['harga'] }}</span>
-                      <p class="aa-product-avilability">Stok:  @if($productDetail[0]['t_stok_details']['stock'] != 0) <span class="text-success">Tersedia</span>@else <span class="text-danger">Tidak Ada</span>  @endif</p>
+                        <span class="aa-product-view-price" id="harga-product">Rp {{ $product['harga'] }}</span>
+                        <p class="aa-product-avilability">Stok:  @if($productDetail[0]['t_stok_details']['stock'] != 0) <span class="text-success">Tersedia</span>@else <span class="text-danger">Tidak Ada</span>  @endif</p>
                     </div>
                     <p>{{ $product['deskripsi'] }}</p>
-                    <h4>Ukuran</h4>
+                    <h4>Varian</h4>
                     <div class="aa-prod-view-size">
-                        @foreach($productSize as $size)
-                          <select id="warna"  name="warna" class="form-control">
-                            <option value="" selected>Silahkan Pilih Ukuran</option>
-                            <option value="0">{{$size['ukuran']}}</option>
-                          </select>
-                        @endforeach
+                        <select id="varian"  name="varian" class="form-control">
+                            <option value="" selected>Silahkan Pilih Varian</option>
+                            @foreach($variants as $variant)
+                                <option value="{{$variant['variasi_detail']}}">{{$variant['variasi_detail']}}</option>
+                            @endforeach
+                        </select>
                     </div>
                     <h4>Warna</h4>
                     <div class="aa-color-tag">
-                        @foreach($productDetail as $color)
-                          <select id="warna" name="warna" class="form-control">
-                            <option value="" selected>Silahkan Pilih Warna</option>
-                            <option value="0">{{$color['warna']}}</option>
-                          </select>
-                        @endforeach
+                        <select id="warna" name="warna" class="form-control">
+                            <option value="" selected>Silahkan Pilih Varian Terlebih Dahulu</option>
+                        </select>
+                    </div>
+                    <h4>Ukuran</h4>
+                    <div class="aa-prod-view-size">
+                        <select id="ukuran"  name="ukuran" class="form-control">
+                            <option value="" selected>Silahkan Pilih Varian Terlebih Dahulu</option>
+                        </select>
                     </div>
                     <div class="aa-prod-quantity">
                       <input type="text" id="qty" placeholder="QTY Pesanan" class="form-control">
@@ -89,8 +102,8 @@
                       </p>
                     </div>
                     <div class="aa-prod-view-bottom">
-                      <a class="aa-add-to-cart-btn" id="cart" @if($token == null) data-toggle="modal" data-target="#login-modal" @endif> Add To Cart</a>
-                      <a class="aa-add-to-cart-btn" id="wishlist" @if($token == null) data-toggle="modal" data-target="#login-modal" @endif>Wishlist</a>
+                      <button type="button" class="aa-add-to-cart-btn" id="cart" @if($token == null) data-toggle="modal" data-target="#login-modal" @endif> Add To Cart</button>
+                      <button type="button" class="aa-add-to-cart-btn" id="wishlist" @if($token == null) data-toggle="modal" data-target="#login-modal" @endif>Wishlist</button>
                     </div>
                   </div>
                 </div>
@@ -299,97 +312,169 @@
   </section>
   <!-- / product category -->
 
-  <!-- footer -->
-  <footer id="aa-footer">
-    <!-- footer bottom -->
-    <div class="aa-footer-top">
-     <div class="container">
-        <div class="row">
-        <div class="col-md-12">
-          <div class="aa-footer-top-area">
-            <div class="row">
-              <div class="col-md-3 col-sm-6">
-                <div class="aa-footer-widget">
-                  <h3>Main Menu</h3>
-                  <ul class="aa-footer-nav">
-                    <li><a href="#">Home</a></li>
-                    <li><a href="#">Our Services</a></li>
-                    <li><a href="#">Our Products</a></li>
-                    <li><a href="#">About Us</a></li>
-                    <li><a href="#">Contact Us</a></li>
-                  </ul>
-                </div>
-              </div>
-              <div class="col-md-3 col-sm-6">
-                <div class="aa-footer-widget">
-                  <div class="aa-footer-widget">
-                    <h3>Knowledge Base</h3>
-                    <ul class="aa-footer-nav">
-                      <li><a href="#">Delivery</a></li>
-                      <li><a href="#">Returns</a></li>
-                      <li><a href="#">Services</a></li>
-                      <li><a href="#">Discount</a></li>
-                      <li><a href="#">Special Offer</a></li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-              <div class="col-md-3 col-sm-6">
-                <div class="aa-footer-widget">
-                  <div class="aa-footer-widget">
-                    <h3>Useful Links</h3>
-                    <ul class="aa-footer-nav">
-                      <li><a href="#">Site Map</a></li>
-                      <li><a href="#">Search</a></li>
-                      <li><a href="#">Advanced Search</a></li>
-                      <li><a href="#">Suppliers</a></li>
-                      <li><a href="#">FAQ</a></li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-              <div class="col-md-3 col-sm-6">
-                <div class="aa-footer-widget">
-                  <div class="aa-footer-widget">
-                    <h3>Contact Us</h3>
-                    <address>
-                      <p> 25 Astor Pl, NY 10003, USA</p>
-                      <p><span class="fa fa-phone"></span>+1 212-982-4589</p>
-                      <p><span class="fa fa-envelope"></span>dailyshop@gmail.com</p>
-                    </address>
-                    <div class="aa-footer-social">
-                      <a href="#"><span class="fa fa-facebook"></span></a>
-                      <a href="#"><span class="fa fa-twitter"></span></a>
-                      <a href="#"><span class="fa fa-google-plus"></span></a>
-                      <a href="#"><span class="fa fa-youtube"></span></a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-     </div>
-    </div>
-    <!-- footer-bottom -->
-    <div class="aa-footer-bottom">
-      <div class="container">
-        <div class="row">
-        <div class="col-md-12">
-          <div class="aa-footer-bottom-area">
-            <p>Designed by <a href="http://www.markups.io/">MarkUps.io</a></p>
-            <div class="aa-footer-payment">
-              <span class="fa fa-cc-mastercard"></span>
-              <span class="fa fa-cc-visa"></span>
-              <span class="fa fa-paypal"></span>
-              <span class="fa fa-cc-discover"></span>
-            </div>
-          </div>
-        </div>
-      </div>
-      </div>
-    </div>
-  </footer>
-  <!-- / footer -->
+@stop
+@section('script')
+<script type="text/javascript">
+    $(document).ready(function(){
+        function showError(pesan) {
+            swal({
+                title: "Warning",
+                text: pesan,
+                type: "warning",
+                confirmButtonText: "OK"
+            });
+        }
+
+        $('#varian').on('change', function(){
+            $(`#warna`).html('');
+            let product_id = "{{ $product_id }}";
+            let varian = $(this).val();
+
+            $.ajax({
+                url: `{{ route('getWarnaProductId', [':product_id', ':varian']) }}`.replace(':product_id', product_id).replace(':varian', varian),
+                type: 'GET',
+                data: {
+                    _token: '{{ csrf_token() }}'
+                },
+                success: function(response) {
+                    let options = '<option value="">Pilih Warna</option>';
+                    response.forEach(warna => {
+                        options += `<option value="${warna.warna}">${warna.warna}</option>`;
+                    });
+                    $(`#warna`).html(options);
+                },
+                error: function(xhr) {
+                    swal("Error!", "Terdapat kesalahan saat menambahkan ke keranjang anda!", "error");
+                }
+            })
+        })
+
+        $('#warna').on('change', function(){
+            $(`#ukuran`).html('');
+            let product_id = "{{ $product_id }}";
+            let varian = $('#varian').val();
+            let warna = $(this).val();
+
+            $.ajax({
+                url: `{{ route('getUkuranProductId', [':product_id', ':varian', ':warna']) }}`.replace(':product_id', product_id).replace(':varian', varian).replace(':warna', warna),
+                type: 'GET',
+                data: {
+                    _token: '{{ csrf_token() }}'
+                },
+                success: function(response) {
+                    let options = '<option value="">Pilih Ukuran</option>';
+                    response.forEach(ukuran => {
+                        options += `<option value="${ukuran.ukuran}">${ukuran.ukuran}</option>`;
+                    });
+                    $(`#ukuran`).html(options);
+                },
+                error: function(xhr) {
+                    swal("Error!", "Terdapat kesalahan saat menambahkan ke keranjang anda!", "error");
+                }
+            })
+        })
+
+        $('#ukuran').on('change', function(){
+            $(`#harga-product`).html('');
+            let product_id = "{{ $product_id }}";
+            let varian = $('#varian').val();
+            let warna = $('#warna').val();
+            let ukuran = $(this).val();
+
+            $.ajax({
+                url: `{{ route('getHargaProductId', [':product_id', ':varian', ':warna', ':ukuran']) }}`.replace(':product_id', product_id).replace(':varian', varian).replace(':warna', warna).replace(':ukuran', ukuran),
+                type: 'GET',
+                data: {
+                    _token: '{{ csrf_token() }}'
+                },
+                success: function(response) {
+                    $(`#harga-product`).html('Rp. '+response.harga);
+                },
+                error: function(xhr) {
+                    swal("Error!", "Terdapat kesalahan saat menambahkan ke keranjang anda!", "error");
+                }
+            })
+        })
+
+        $('#cart').on('click', function(){
+            let product_id = "{{ $product_id }}";
+            let varian = $('#varian').val();
+            let warna = $('#warna').val();
+            let ukuran = $('#ukuran').val();
+            let qty = $('#qty').val()
+
+            if (!varian) {
+                showError('Silakan pilih varian.');
+            } else if (!warna) {
+                showError('Silakan pilih warna.');
+            } else if (!ukuran) {
+                showError('Silakan pilih ukuran.');
+            } else if (!qty || qty <= 0) {
+                showError('Silakan masukkan jumlah yang valid.');
+            }else{
+                swal({
+                    title: "Apakah Anda Yakin?",
+                    text: "Ingin Menambahkan Produk ke Keranjang?",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#DD6B55",
+                    confirmButtonText: "Ya, Tambahkan!",
+                    closeOnConfirm: false
+                }, function() {
+                    swal({
+                        title: "Loading...",
+                        text: "Sedang Menambahkan ke Keranjang!",
+                        type: "warning",
+                        buttons: false,
+                        closeOnClickOutside: false,
+                        closeOnEsc: false,
+                        allowOutsideClick: false
+                    });
+                    window.location.href = `{{ route('cart.createCartByDetailProduct', [':product_id', ':varian', ':warna', ':ukuran', ':qty']) }}`.replace(':product_id', product_id).replace(':varian', varian).replace(':warna', warna).replace(':ukuran', ukuran).replace(':qty', qty)
+                });
+            }
+
+        })
+
+        $('#wishlist').on('click', function(){
+            let product_id = "{{ $product_id }}";
+            let varian = $('#varian').val();
+            let warna = $('#warna').val();
+            let ukuran = $('#ukuran').val();
+            let qty = $('#qty').val()
+
+            if (!varian) {
+                showError('Silakan pilih varian.');
+            } else if (!warna) {
+                showError('Silakan pilih warna.');
+            } else if (!ukuran) {
+                showError('Silakan pilih ukuran.');
+            } else if (!qty || qty <= 0) {
+                showError('Silakan masukkan jumlah yang valid.');
+            }else{
+                swal({
+                    title: "Apakah Anda Yakin?",
+                    text: "Ingin Menambahkan Produk ke Wishlist?",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#DD6B55",
+                    confirmButtonText: "Ya, Tambahkan!",
+                    closeOnConfirm: false
+                }, function() {
+                    swal({
+                        title: "Loading...",
+                        text: "Sedang Menambahkan ke Wishlist!",
+                        type: "warning",
+                        buttons: false,
+                        closeOnClickOutside: false,
+                        closeOnEsc: false,
+                        allowOutsideClick: false
+                    });
+                    window.location.href = `{{ route('wishlist.createWishlistByDetailProduct', [':product_id', ':varian', ':warna', ':ukuran', ':qty']) }}`.replace(':product_id', product_id).replace(':varian', varian).replace(':warna', warna).replace(':ukuran', ukuran).replace(':qty', qty)
+                });
+            }
+
+        })
+    })
+</script>
 @stop

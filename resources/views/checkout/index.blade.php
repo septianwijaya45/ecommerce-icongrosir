@@ -231,7 +231,8 @@
                     type: 'POST',
                     data: {
                             _token: '{{ csrf_token() }}',
-                            ekspedisi: ekspedisi
+                            ekspedisi: ekspedisi,
+                            no_telp: "{{ $setting['no_telp'] }}"
                     },
                     success: function(response) {
                         if(response.status == true){

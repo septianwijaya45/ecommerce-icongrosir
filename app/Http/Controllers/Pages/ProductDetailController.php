@@ -30,23 +30,24 @@ class ProductDetailController extends Controller
         $productById    = $getProductById->json();
         $product        = $productById['product'];
         $productDetail  = $productById['productDetail'];
-        $productSize    = $productById['productSize'];
         $category       = $productById['category'];
         $productReviews = $productById['productReviews'];
+        $variants       = $productById['variants'];
         $photo          = $product['photos'];
-        
+
         $relatedProduct = $this->getRelatedProduct($category['category']);
 
         return view('product.detail-product', [
             'photoUrl'          => $this->photoUrl,
             'product'           => $product,
             'productDetail'     => $productDetail,
-            'productSize'       => $productSize,
             'category'          => $category,
             'productReviews'    => $productReviews,
             'photo'             => $photo,
             'relatedProduct'    => $relatedProduct,
-            'token'         => getToken($request)
+            'variants'          => $variants,
+            'product_id'        => $id,
+            'token'             => getToken($request)
         ]);
     }
 }

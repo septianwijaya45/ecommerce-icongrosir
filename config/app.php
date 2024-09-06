@@ -61,7 +61,7 @@ return [
 
     'backend_endpoint' => 'http://localhost:3001/api',
 
-    'photo_product' => 'http://127.0.0.1:8000/img/gambar/produk/',
+    'photo_product' => 'http://127.0.0.1:8000/img/foto/produk/',
     'banner_app' => 'http://127.0.0.1:8000/img/gambar/banner/',
     'logo_app' => 'http://127.0.0.1:8000/img/gambar/logoApp/',
     /*

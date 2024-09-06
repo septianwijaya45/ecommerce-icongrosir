@@ -248,10 +248,10 @@ document.addEventListener('DOMContentLoaded', function() {
                         <a class="aa-product-img">
                             <img src="${(product.image != null) ? urlPhoto + product.image : baseUrl + '/img/default/defaultProduct.png'}" alt="product image" width="250px" height="300px">
                         </a>
-                        <a class="aa-add-card-btn" href="javascript:void(0);" onclick="addToCart('${routeCreateCart}')"><span class="fa fa-shopping-cart"></span>Add To Cart</a>
+                        <a class="aa-add-card-btn" @if($token == null) data-toggle="modal" data-target="#login-modal" @else href="javascript:void(0);" onclick="addToCart('${routeCreateCart}')" @endif><span class="fa fa-shopping-cart"></span>Add To Cart</a>
                         <figcaption>
                             <h4 class="aa-product-title"><a href="#">${product.nama_barang}</a></h4>
-                            <span class="aa-product-price">Rp ${product.harga}</span>
+                            <span class="aa-product-price">Rp ${product.harga != null ? product.harga : 0}</span>
                             <p class="aa-product-descrip">${(product.deskripsi != null) ? product.deskripsi : 'Tidak Ada Deskripsi'}</p>
                         </figcaption>
                     </figure>

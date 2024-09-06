@@ -58,6 +58,7 @@ class MyCartController extends Controller
                 'Authorization' => 'Bearer ' . $token,
             ])->get($this->apiUrl.'/transaction/cart/get-cart');
             $jsoncreateWishlist = $createWishlist->json();
+            // dd($jsoncreateWishlist);
 
             return $jsoncreateWishlist;
         } catch (\Exception $e) {
@@ -126,7 +127,6 @@ class MyCartController extends Controller
                 return redirect()->back()->with([
                     'error' => 'Gagal Menambahkan ke Keranjang Anda, Mungkin Anda Sudah Masukkan Ke Keranjang Checkout!.'
                 ]);
-
             }
 
         } catch (\Exception $e) {
@@ -248,6 +248,71 @@ class MyCartController extends Controller
             \Log::info($request);
 
             return response()->json($request);
+        } catch (\Exception $e) {
+            \Log::error($e);
+            return redirect()->back()->with([
+                'success' => false,
+                'message' => 'Terjadi kesalahan saat menghubungi server.'
+            ]);
+        }
+    }
+
+    public function duplicateProduct(Request $request, $product_id){
+        try {
+            $token = getToken($request);
+
+            if(!$token){
+                $request->session()->forget('token');
+                return redirect()->route('home')->with('error', 'Session Anda Telah berakhir!');
+            }
+
+            $duplicateData = Http::withHeaders([
+                'Authorization' => 'Bearer ' . $token,
+            ])->get($this->apiUrl.'/transaction/cart/duplicate-data/'.$product_id);
+            $jsonDuplicate = $duplicateData->json();
+
+            if($jsonDuplicate['status'] == true){
+                return response()->json([
+                    'status'    => true,
+                ]);
+            }else{
+                return response()->json([
+                    'status'    => false
+                ]);
+            }
+
+        } catch (\Exception $e) {
+            \Log::error($e);
+            return redirect()->back()->with([
+                'success' => false,
+                'message' => 'Terjadi kesalahan saat menghubungi server.'
+            ]);
+        }
+    }
+
+    public function createCartByDetailProduct(Request $request, $id, $varian, $warna, $ukuran, $qty){
+        try {
+            $token = getToken($request);
+
+            if(!$token){
+                $request->session()->forget('token');
+                return redirect()->route('home')->with('error', 'Session Anda Telah berakhir!');
+            }
+
+            $createWishlist = Http::withHeaders([
+                'Authorization' => 'Bearer ' . $token,
+            ])->get($this->apiUrl.'/transaction/cart/create-cart-by-detail/'.$id.'/'.$varian.'/'.$warna.'/'.$ukuran.'/'.$qty);
+            $jsoncreateWishlist = $createWishlist->json();
+
+            if($jsoncreateWishlist['status'] == true){
+                return redirect()->back()->with([
+                    'success' => 'Berhasil Menambahkan ke Keranjang Anda, Silahkan Checkout!.'
+                ]);
+            }else{
+                return redirect()->back()->with([
+                    'error' => 'Gagal Menambahkan ke Keranjang Anda, Mungkin Anda Sudah Masukkan Ke Keranjang Checkout!.'
+                ]);
+            }
         } catch (\Exception $e) {
             \Log::error($e);
             return redirect()->back()->with([

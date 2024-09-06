@@ -64,13 +64,19 @@ Route::group(['prefix' => 'Product'], function(){
     Route::get('/Warna-Product/{product_id}/{variant}/{wishlish}', [GetDetailProductController::class, 'getWarnaProduct'])->name('getWarnaProduct');
     Route::get('/Ukuran-Product/{product_id}/{variant}/{warna}/{wishlish}', [GetDetailProductController::class, 'getUkuranProduct'])->name('getUkuranProduct');
     Route::get('/Harga-Product/{product_id}/{variant}/{warna}/{ukuran}/{wishlish}', [GetDetailProductController::class, 'getHargaProduct'])->name('getHargaProduct');
+
+    Route::get('get-warna-product/{product_id}/{variant}', [GetDetailProductController::class, 'getWarnaProductId'])->name('getWarnaProductId');
+    Route::get('get-ukuran-product/{product_id}/{variant}/{warna}', [GetDetailProductController::class, 'getUkuranProductId'])->name('getUkuranProductId');
+    Route::get('get-harga-product/{product_id}/{variant}/{warna}/{ukuran}', [GetDetailProductController::class, 'getHargaProductId'])->name('getHargaProductId');
 });
 
-Route::group(['prefix' => 'wishlish'], function(){
+Route::group(['prefix' => 'wishlist'], function(){
     Route::get('/wishlist-saya', [WishlistController::class, 'index'])->name('wishlist');
     Route::get('/create/{id}', [WishlistController::class, 'createWishlist'])->name('wishlist.store');
     Route::get('/update/{product_id}/{variant}/{warna}/{ukuran}/{wishlish}/{qty}', [WishlistController::class, 'updateWishlist'])->name('wishlist.update');
     Route::get('/delete/{id}', [WishlistController::class, 'deleteWishlist'])->name('wishlist.delete');
+
+    Route::get('/tambah-cart-product-detail/{product_id}/{variant}/{warna}/{ukuran}/{qty}', [WishlistController::class, 'createWishlistByDetailProduct'])->name('wishlist.createWishlistByDetailProduct');
 });
 
 Route::group(['prefix' => 'cart'], function(){
@@ -79,6 +85,8 @@ Route::group(['prefix' => 'cart'], function(){
     Route::get('/cart-saya/tambah-cart-product/{id}', [MyCartController::class, 'storeCartById'])->name('cart.storeCartById');
     Route::post('/cart-saya/update/{id}/{uuid}/{variant_id}', [MyCartController::class, 'updateQty'])->name('cart.update');
     Route::get('/cart-saya/delete/{id}', [MyCartController::class, 'delete'])->name('cart.delete');
+    Route::get('cart-saya/duplicate-data/{id}', [MyCartController::class, 'duplicateProduct'])->name('cart.duplicateProduct');
+    Route::get('cart-saya/tambah-cart-product-detail/{product_id}/{variant}/{warna}/{ukuran}/{qty}', [MyCartController::class, 'createCartByDetailProduct'])->name('cart.createCartByDetailProduct');
 
     Route::get('/Warna-Product/{product_id}/{variant}/{wishlish}', [MyCartController::class, 'getWarnaProduct'])->name('cart.warna');
     Route::get('/Ukuran-Product/{product_id}/{variant}/{warna}/{wishlish}', [MyCartController::class, 'getUkuranProduct'])->name('cart.ukuran');

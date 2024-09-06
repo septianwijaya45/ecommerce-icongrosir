@@ -135,22 +135,30 @@
                         <div class="tab-content">
                             <!-- Start men product category -->
                             <div class="tab-pane fade in active" id="men">
-                            <ul class="aa-product-catg" id="product-{{ isset($threeCategory[0]) ? $threeCategory[0]->category : 'Mens' }}">
+                            <ul class="aa-product-catg" style="width:100%">
+                                <div class="row" id="product-{{ isset($threeCategory[0]) ? $threeCategory[0]->category : 'Mens' }}" >
+
+                                </div>
                             </ul>
                             <a class="aa-browse-btn" href="#">Lihat Semua Produk {{ isset($threeCategory[0]) ? $threeCategory[0]->category : 'Mens' }}  <span class="fa fa-long-arrow-right"></span></a>
                             </div>
                             <!-- / men product category -->
                             <!-- start women product category -->
                             <div class="tab-pane fade" id="women">
-                            <ul class="aa-product-catg" id="product-{{ isset($threeCategory[1]) ? $threeCategory[1]->category : 'Womens' }}">
+                            <ul class="aa-product-catg" style="width:100%">
+                                <div class="row" id="product-{{ isset($threeCategory[1]) ? $threeCategory[1]->category : 'Womens' }}">
+
+                                </div>
                             </ul>
                             <a class="aa-browse-btn" href="#">Lihat Semua Produk {{ isset($threeCategory[1]) ? $threeCategory[1]->category : 'Womens' }}<span class="fa fa-long-arrow-right"></span></a>
                             </div>
                             <!-- / women product category -->
                             <!-- start sports product category -->
                             <div class="tab-pane fade" id="sports">
-                                <ul class="aa-product-catg" id="product-{{ isset($threeCategory[3]) ? $threeCategory[3]->category : 'Others' }}">
+                                <ul class="aa-product-catg" style="width:100%">
+                                    <div class="row" id="product-{{ isset($threeCategory[3]) ? $threeCategory[3]->category : 'Others' }}">
 
+                                    </div>
                                 </ul>
                                 <a class="aa-browse-btn" href="#">Lihat Semua Produk {{ isset($threeCategory[3]) ? $threeCategory[3]->category : 'Other' }}<span class="fa fa-long-arrow-right"></span></a>
                             </div>
@@ -193,7 +201,10 @@
                 <div class="tab-content">
                 <!-- Start men popular category -->
                 <div class="tab-pane fade in active" id="popular">
-                    <ul class="aa-product-catg aa-popular-slider" id="list-popular">
+                    <ul class="aa-product-catg aa-popular-slider" style="width:100%">
+                        <div class="row" id="list-popular">
+
+                        </div>
                     </ul>
                     <a class="aa-browse-btn" href="{{ route('products') }}">Lihat Semua Produk Kami <span class="fa fa-long-arrow-right"></span></a>
                 </div>
@@ -201,7 +212,10 @@
 
                 <!-- start featured product category -->
                 <div class="tab-pane fade" id="featured">
-                    <ul class="aa-product-catg aa-featured-slider" id="list-featured">
+                    <ul class="aa-product-catg" style="width:100%">
+                        <div class="row" id="list-featured">
+
+                        </div>
                     </ul>
                     <a class="aa-browse-btn" href="{{ route('products') }}">Lihat Semua Produk Kami <span class="fa fa-long-arrow-right"></span></a>
                 </div>
@@ -209,7 +223,10 @@
 
                 <!-- start latest product category -->
                 <div class="tab-pane fade" id="latest">
-                    <ul class="aa-product-catg aa-latest-slider" id="list-latest">
+                    <ul class="aa-product-catg" style="width:100%">
+                        <div class="row" id="list-latest">
+
+                        </div>
                     </ul>
                     <a class="aa-browse-btn" href="{{ route('products') }}">Lihat Semua Produk Kami <span class="fa fa-long-arrow-right"></span></a>
                 </div>
@@ -336,6 +353,29 @@
             window.location.href = route;
         });
     }
+
+    function addToCart(route) {
+        swal({
+            title: "Apakah Anda Yakin?",
+            text: "Ingin Menambahkan Produk ke Keranjang?",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "Ya, Tambahkan!",
+            closeOnConfirm: false
+        }, function() {
+            swal({
+                title: "Loading...",
+                text: "Sedang Menambahkan ke Keranjang!",
+                type: "warning",
+                buttons: false,
+                closeOnClickOutside: false,
+                closeOnEsc: false,
+                allowOutsideClick: false
+            });
+            window.location.href = route;
+        });
+    }
 </script>
 <script type="text/javascript">
     $(document).ready(function(){
@@ -354,11 +394,13 @@
                     response.forEach(function(product) {
                         if(product != null){
                             let routeProductDetail = "{{route('getProductById', ':id')}}".replace(':id', product.uuid);
+                            let routeCreateWishlist = "{{route('wishlist.store', ':id')}}".replace(':id', product.uuid);
+                            let routeCreateCart = "{{ route('cart.storeCartById', ':id') }}".replace(':id', product.uuid);
                             var productHtml = `
-                                <li>
+                                <li class="col-md-4">
                                     <figure>
-                                        <a class="aa-product-img"><img src="${product.photos && product.photos.length > 0 ? urlPhoto+product.photos[0].nama_file : 'img/default/defaultProduct.png'}"  width="250px" alt="${product.nama_barang}"></a>
-                                        <a class="aa-add-card-btn" href="#"><span class="fa fa-shopping-cart"></span>Add To Cart</a>
+                                        <a class="aa-product-img"><img src="${product.image != null ? urlPhoto+product.image : 'img/default/defaultProduct.png'}"  width="250px" height="300px" alt="${product.nama_barang}"></a>
+                                        <a class="aa-add-card-btn" @if($token == null) data-toggle="modal" data-target="#login-modal" @else href="javascript:void(0);" onclick="addToCart('${routeCreateCart}')" @endif><span class="fa fa-shopping-cart"></span>Add To Cart</a>
                                         <figcaption>
                                             <h4 class="aa-product-title"><a href="#">${product.nama_barang}</a></h4>
                                             <span class="aa-product-price">Rp ${product.harga != null ? product.harga : 0}</span>${ product.diskon_tipe != null ? '<span class="aa-product-price"><del>'+ product.diskon_tipe +' </del></span>' : ''}
@@ -400,11 +442,12 @@
                         if(product != null){
                             let routeProductDetail = "{{route('getProductById', ':id')}}".replace(':id', product.uuid);
                             let routeCreateWishlist = "{{route('wishlist.store', ':id')}}".replace(':id', product.uuid);
+                            let routeCreateCart = "{{ route('cart.storeCartById', ':id') }}".replace(':id', product.uuid);
                             var productHtml = `
-                                <li>
+                                <li class="col-md-4">
                                     <figure>
-                                        <a class="aa-product-img"><img src="${product.photos && product.photos.length > 0 ? urlPhoto+product.photos[0].nama_file : 'img/default/defaultProduct.png'}"  width="250px" alt="${product.nama_barang}"></a>
-                                        <a class="aa-add-card-btn" @if($token == null) data-toggle="modal" data-target="#login-modal" @endif><span class="fa fa-shopping-cart"></span>Add To Cart</a>
+                                        <a class="aa-product-img"><img src="${product.image != null ? urlPhoto+product.image : 'img/default/defaultProduct.png'}"  width="250px" height="300px" alt="${product.nama_barang}"></a>
+                                        <a class="aa-add-card-btn" @if($token == null) data-toggle="modal" data-target="#login-modal" @else href="javascript:void(0);" onclick="addToCart('${routeCreateCart}')" @endif><span class="fa fa-shopping-cart"></span>Add To Cart</a>
                                         <figcaption>
                                             <h4 class="aa-product-title"><a href="#">${product.nama_barang}</a></h4>
                                             <span class="aa-product-price">Rp ${product.harga != null ? product.harga : 0}</span>${ product.diskon_tipe != null ? '<span class="aa-product-price"><del>'+ product.diskon_tipe +' </del></span>' : ''}
@@ -446,11 +489,12 @@
                         response.forEach(function(product) {
                             let routeProductDetail = "{{route('getProductById', ':id')}}".replace(':id', product.uuid);
                             let routeCreateWishlist = "{{route('wishlist.store', ':id')}}".replace(':id', product.uuid);
+                            let routeCreateCart = "{{ route('cart.storeCartById', ':id') }}".replace(':id', product.uuid);
                                 var productHtml = `
-                                    <li>
+                                    <li class="col-md-4">
                                         <figure>
-                                            <a class="aa-product-img"><img src="${product.photos && product.photos.length > 0 ? urlPhoto+product.photos[0].nama_file : 'img/default/defaultProduct.png'}" alt="${product.nama_barang}"></a>
-                                            <a class="aa-add-card-btn" @if($token == null) data-toggle="modal" data-target="#login-modal" @endif><span class="fa fa-shopping-cart"></span>Add To Cart</a>
+                                            <a class="aa-product-img"><img src="${product.image != null ? urlPhoto+product.image : 'img/default/defaultProduct.png'}" width="250px" height="300px" alt="${product.nama_barang}"></a>
+                                            <a class="aa-add-card-btn" @if($token == null) data-toggle="modal" data-target="#login-modal" @else href="javascript:void(0);" onclick="addToCart('${routeCreateCart}')" @endif><span class="fa fa-shopping-cart"></span>Add To Cart</a>
                                             <figcaption>
                                                 <h4 class="aa-product-title"><a href="#">${product.nama_barang}</a></h4>
                                                 <span class="aa-product-price">Rp ${product.harga != null ? product.harga : 0}</span>${ product.diskon_tipe != null ? '<span class="aa-product-price"><del>'+ product.diskon_tipe +' </del></span>' : ''}
@@ -505,13 +549,15 @@
                     $('#list-'+data).empty();
                     if(response.length != 0){
                         response.forEach(function(product) {
+
                             let routeProductDetail = "{{route('getProductById', ':id')}}".replace(':id', product.uuid);
                             let routeCreateWishlist = "{{route('wishlist.store', ':id')}}".replace(':id', product.uuid);
+                            let routeCreateCart = "{{ route('cart.storeCartById', ':id') }}".replace(':id', product.uuid);
                             var productHtml = `
-                                <li>
+                                <li class="col-md-4">
                                     <figure>
-                                        <a class="aa-product-img"><img src="${product.photos && product.photos.length > 0 ? urlPhoto+product.photos[0].nama_file : 'img/default/defaultProduct.png'}"  width="250px" alt="${product.nama_barang}"></a>
-                                        <a class="aa-add-card-btn" @if($token == null) data-toggle="modal" data-target="#login-modal" @endif><span class="fa fa-shopping-cart"></span>Add To Cart</a>
+                                        <a class="aa-product-img"><img src="${product.image != null ? urlPhoto+product.image : 'img/default/defaultProduct.png'}"  width="250px" height="300px" alt="${product.nama_barang}"></a>
+                                        <a class="aa-add-card-btn" @if($token == null) data-toggle="modal" data-target="#login-modal" @else href="javascript:void(0);" onclick="addToCart('${routeCreateCart}')" @endif><span class="fa fa-shopping-cart"></span>Add To Cart</a>
                                         <figcaption>
                                             <h4 class="aa-product-title"><a href="#">${product.nama_barang}</a></h4>
                                             <span class="aa-product-price">Rp ${product.harga != null ? product.harga : 0}</span>${ product.diskon_tipe != null ? '<span class="aa-product-price"><del>'+ product.diskon_tipe +' </del></span>' : ''}
