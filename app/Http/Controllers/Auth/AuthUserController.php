@@ -36,9 +36,10 @@ class AuthUserController extends Controller
             if ($response->successful()) {
                 $data = $response->json();
                 \Log::info($data);
-                return redirect()->route('confirm-otp')->with([
-                    'success' => 'Silahkan Cek Nomor Whatsapp Anda untuk Mendapatkan Kode OTP.',
-                    'user'    => $data['user']['uuid']
+                return redirect()->route('getConfirmOtp')->with([
+                    'success' => 'Silahkan Copy OTP Anda Melalui Button Kode OTP untuk Login ke Aplikasi.',
+                    'secretCode'    => $data['user']['uuid'],
+                    'otp'     => $data['otp']
                 ]);
             } else {
                 $error = $response->json();
@@ -53,9 +54,10 @@ class AuthUserController extends Controller
         }
     }
 
-    public function confirmOtp(){
+    public function confirmOtp($secretId){
         return view('auth.confirm-otp', [
-            'token' => $this->token
+            'token' => $this->token,
+            'userId' =>$secretId
         ]);
     }
 
@@ -70,7 +72,7 @@ class AuthUserController extends Controller
             \Log::info($statusResponse);
 
             if ($statusResponse['status'] == true) {
-                
+
                 $token = $statusResponse['accessToken'];
                 $request->session()->put('token', $token);
 
@@ -78,7 +80,7 @@ class AuthUserController extends Controller
             } else {
                 $error = $response->json();
                 return redirect()->back()->with([
-                    'error' => "Cannot Confirm OTP Because OTP Expired! Click 'Kirim Ulang OTP' ",
+                    'error' => "Cannot Confirm OTP Because OTP Expired! Click 'Buat Ulang OTP' ",
                     'user'    => $request->user
                 ]);
             }
@@ -100,9 +102,8 @@ class AuthUserController extends Controller
             if ($response->successful()) {
                 $data = $response->json();
 
-                return redirect()->back()->with([
-                    'success' => "Silahkan Cek Nomor Whatsapp Anda untuk Mendapatkan Kode OTP.",
-                    'user'    => $id
+                return redirect()->route('getConfirmOtp', $id)->with([
+                    'success' => 'Silahkan Copy OTP Anda Melalui Button Kode OTP untuk Login ke Aplikasi.',
                 ]);
             } else {
                 $error = $response->json();
@@ -140,9 +141,8 @@ class AuthUserController extends Controller
 
             $data = $response->json();
             if ($data['status'] == true) {
-                return redirect()->route('confirm-otp')->with([
-                    'success' => 'Silahkan Cek Nomor Whatsapp Anda untuk Mendapatkan Kode OTP.',
-                    'user'    => $data['user']['uuid']
+                return redirect()->route('getConfirmOtp', $data['user']['uuid'])->with([
+                    'success' => 'Silahkan Copy OTP Anda Melalui Button Kode OTP untuk Login ke Aplikasi.',
                 ]);
             } else {
                 $error = $response->json();
@@ -150,7 +150,8 @@ class AuthUserController extends Controller
             }
         } catch (\Exception $e) {
             \Log::info($e);
-            return response()->json([
+            return redirect()->back()->with([
+                'error'     => $data['message'],
                 'status'    => false,
                 'code'      => 500,
                 'message'   => 'Nomor Telepon/Email atau Password Salah!'

@@ -16,9 +16,9 @@ class ConfirmOtpLogin extends Controller
         $this->apiUrl = config('app.backend_endpoint');
     }
 
-    public function index(Request $request){
+    public function index($secretCode){
         try {
-            $userId = $request->secretCode;
+            $userId = $secretCode;
             if(!$userId || $userId == '-'){
                 return redirect()->route('home')->with([
                     'success' => false,
@@ -32,7 +32,10 @@ class ConfirmOtpLogin extends Controller
 
             $data = $response->json();
             if ($data['status'] == true) {
-                return view('auth.get-otp', $data);
+                return view('auth.get-otp', [
+                    'data' => $data,
+                    'userId' => $userId
+                ]);
             } else {
                 $error = $response->json();
                 return redirect()->route('home')->with('error', $data['message']);

@@ -37,13 +37,14 @@ Route::get('home', [HomeController::class, 'index'])->name('home');
 Route::post('login', [AuthUserController::class, 'loginUser'])->name('login');
 Route::get('logout', [AuthUserController::class, 'logout'])->name('logout');
 
-Route::post('get-confirm-otp', [ConfirmOtpLogin::class, 'index'])->name('getConfirmOtp');
+// Route::post('get-confirm-otp', [ConfirmOtpLogin::class, 'index'])->name('getConfirmOtp');
+Route::get('get-confirm-otp/{secretCode}', [ConfirmOtpLogin::class, 'index'])->name('getConfirmOtp');
 // login
 // register
 Route::get('register', [AuthUserController::class, 'register'])->name('register');
 Route::post('store', [AuthUserController::class, 'store'])->name('register.store');
 // otp
-Route::get('confirm-otp', [AuthUserController::class, 'confirmOtp'])->name('confirm-otp');
+Route::get('confirm-otp/{secretCode}', [AuthUserController::class, 'confirmOtp'])->name('confirm-otp');
 Route::post('check-confirm-otp', [AuthUserController::class, 'checkConfirmOtp'])->name('checkConfirmOtp');
 Route::get('resend-otp/{id}', [AuthUserController::class, 'resendOtp'])->name('resendOtp');
 

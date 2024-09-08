@@ -28,14 +28,7 @@
            <div class="row">
              <div class="col-md-12">
                <div class="aa-myaccount-register">
-                @php
-                    $userId = session('user');
-                    if(!$userId || is_null($userId) || empty($userId)){
-                    $userId='-';
-                    }
-                @endphp
-
-                <h4> @if($userId != '-') Konfirmasi OTP @else Register @endif</h4>
+                <h4> @if($userId != '-') Konfirmasi OTP @else Konfirmasi OTP @endif</h4>
                     @csrf
                     @if(session('error'))
                         <div class="alert alert-danger text-white">
@@ -47,14 +40,6 @@
                             {{ session('success') }}
                         </div>
                     @endif
-                    @if($userId != '-')
-                        <form method="POST" action="{{ route('getConfirmOtp') }}" target="_blank">
-                            @csrf
-                            <input type="text" name="secretCode" value="{{ $userId }}" hidden>
-                            <button type="submit" class="aa-browse-btn">Silahkan Cek OTP Anda</button>
-                        </form>
-                    @endif
-                    
                     <form action="{{ route('checkConfirmOtp') }}" method="POST" class="aa-login-form">
                         @csrf
                         <label for="">Konfirm OTP<span>*</span></label>
@@ -62,7 +47,7 @@
                         <input type="text" placeholder="Konfirmasi OTP" name="otp">
                         <button type="submit" class="aa-browse-btn">Konfirmasi Otp</button>
                         @if($userId == '-')
-                        <a href="{{ route('register') }}" >
+                        <a href="{{ route('home') }}" >
                             <button type="button" class="aa-browse-btn">Kembali</button>
                         </a>
                         @else

@@ -72,15 +72,26 @@
     <div class="container height-100 d-flex justify-content-center align-items-center">
         <div class="position-relative">
             <div class="card p-2 text-center">
+
+            @if(session('error'))
+                <div class="alert alert-danger text-danger">
+                    {{ session('error') }}
+                </div>
+            @endif
+            @if(session('success'))
+                <div class="alert alert-success text-danger">
+                    {{ session('success') }}
+                </div>
+            @endif
             <h6>Berikut adalah Kode tp Anda <br> untuk verifikasi akun Anda </h6>
             <div>
-                <small>Berlaku Sampai {{ date('d F Y H:i:s', strtotime($otp['expired_date'])) }}</small>
+                <small>Berlaku Sampai {{ date('d F Y H:i:s', strtotime($data['otp']['expired_date'])) }}</small>
                 <br>
                 <span>Kode OTP Anda:</span>
             </div>
             <div id="otp" class="inputs d-flex flex-row justify-content-center mt-2">
                 @php
-                    $kode_otp_digits = str_split(strval($otp['kode_otp']));
+                    $kode_otp_digits = str_split(strval($data['otp']['kode_otp']));
                 @endphp
                 <input class="m-2 text-center form-control rounded" type="text" id="first" maxlength="1" value="{{ $kode_otp_digits[0] }}" />
                 <input class="m-2 text-center form-control rounded" type="text" id="second" maxlength="1" value="{{ $kode_otp_digits[1] }}" />
@@ -121,6 +132,9 @@
                     title: 'Copied!',
                     text: 'OTP copied to clipboard: ' + otp
                 });
+                setInterval(() => {
+                    window.location.href = "{{ route('confirm-otp', $userId) }}"
+                }, 1000);
             }).catch(err => {
                 Swal.fire({
                     icon: 'error',
