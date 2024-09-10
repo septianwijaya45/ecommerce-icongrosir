@@ -1,4 +1,9 @@
 @extends('layouts.app')
+@php
+    $setting = getSetting();
+    $logoUrl = config('app.logo_app');
+@endphp
+
 
 @section('content')
 <section id="aa-catg-head-banner">
@@ -51,7 +56,7 @@
                            <div class="row">
                              <div class="col-md-6">
                                <div class="aa-checkout-single-bill">
-                                 <input type="number" placeholder="Nomor Telepon Anda" name="no_telepon" class="form-control" value="{{ $detail['no_telepon'] }}" required>
+                                 <input type="number" placeholder="Nomor Telepon Anda" name="no_telepon" class="form-control" value="{{ $user['no_telepon'] }}" required>
                                </div>
                              </div>
                               <div class="col-md-6">
@@ -63,19 +68,19 @@
                            <div class="row">
                               <div class="col-md-6">
                                 <div class="aa-checkout-single-bill">
-                                  <input type="text" placeholder="Kota Anda" name="kota" class="form-control" value="{{ $detail['kota'] }}" required>
+                                  <input type="text" placeholder="Kota Anda" name="kota" class="form-control" value="{{ !is_null($detail) ? $detail['kota'] : '' }}" required>
                                 </div>
                               </div>
                               <div class="col-md-6">
                                 <div class="aa-checkout-single-bill">
-                                  <input type="text" placeholder="Kode Pos Anda" name="kode_pos" class="form-control" value="{{ $detail['kode_pos'] }}" required>
+                                  <input type="text" placeholder="Kode Pos Anda" name="kode_pos" class="form-control" value="{{ !is_null($detail) ? $detail['kode_pos'] : '' }}" required>
                                 </div>
                               </div>
                            </div>
                            <div class="row">
                               <div class="col-md-12">
                                 <div class="aa-checkout-single-bill" required>
-                                  <textarea cols="8" rows="3" name="alamat" placeholder="Alamat Anda" class="form-control">{{$detail['alamat']}}</textarea>
+                                  <textarea cols="8" rows="3" name="alamat" placeholder="Alamat Anda" class="form-control">{{ !is_null($detail) ? $detail['alamat'] : ''}}</textarea>
                                 </div>
                               </div>
                            </div>
