@@ -133,7 +133,7 @@
                     text: 'OTP copied to clipboard: ' + otp
                 });
                 setInterval(() => {
-                    window.location.href = "{{ route('confirm-otp', $userId) }}"
+                    window.location.href = "{{ route('confirm-otp', ['secretCode' => $userId,  'register' => ($register ? $register : '-')]) }}"
                 }, 1000);
             }).catch(err => {
                 Swal.fire({

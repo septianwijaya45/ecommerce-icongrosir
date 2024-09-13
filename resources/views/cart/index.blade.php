@@ -220,8 +220,10 @@
                 if(response.status == true){
                     swal("Success!", "Berhasil Update Qty Pesanan Anda!.", "success");
                     $('#totalHarga').html(response.totalHarga)
+                    $('#qty-'+cart).val(response.newQty)
                 }else{
-                    swal("Gagal!", "Gagal Update Qty Pesanan Anda!.", "error");
+                    swal("Gagal!", "Gagal Update Qty Pesanan Anda! Mungkin QTY Melebihi Stok Toko!.", "error");
+                    $('#qty-'+cart).val(response.newQty)
                 }
                 },
                 error: function(xhr) {

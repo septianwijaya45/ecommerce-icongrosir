@@ -33,17 +33,19 @@ class AuthUserController extends Controller
                 'password'      => $request->password
             ]);
 
-            if ($response->successful()) {
-                $data = $response->json();
-                \Log::info($data);
+            $responseData = $response->json();
+            // dd($responseData['status'] == true);
+            if ($responseData['status']) {
+                \Log::info($responseData);
                 return redirect()->route('getConfirmOtp')->with([
                     'success' => 'Silahkan Copy OTP Anda Melalui Button Kode OTP untuk Login ke Aplikasi.',
-                    'secretCode'    => $data['user']['uuid'],
-                    'otp'     => $data['otp']
+                    'secretCode'    => $responseData['user']['uuid'],
+                    'otp'     => $responseData['otp'],
+                    'register' => true
                 ]);
             } else {
                 $error = $response->json();
-                return redirect()->back()->with('error', 'Failed to register.');
+                return redirect()->back()->with('error', $error['message'])->withInput();
             }
         } catch (\Exception $e) {
             \Log::error($e);
@@ -54,15 +56,17 @@ class AuthUserController extends Controller
         }
     }
 
-    public function confirmOtp($secretId){
+    public function confirmOtp($secretId, $register){
         return view('auth.confirm-otp', [
-            'token' => $this->token,
-            'userId' =>$secretId
+            'token'     => $this->token,
+            'userId'    => $secretId,
+            'register'  => $register
         ]);
     }
 
     public function checkConfirmOtp(Request $request){
         try {
+            $register = isset($request->register) && $request->register =! '-' ? $request->register : false;
             $response = Http::post($this->apiUrl . '/auth-ecommerce/confirm-otp', [
                 'user_id'          => $request->user,
                 'kode_otp'         => $request->otp
@@ -76,7 +80,12 @@ class AuthUserController extends Controller
                 $token = $statusResponse['accessToken'];
                 $request->session()->put('token', $token);
 
-                return redirect()->route('home')->with('success', 'Berhasil Login!');
+                if($register){
+                    return redirect()->route('home')->with('success', 'Berhasil Registrasi Akun!');
+                }else{
+                    return redirect()->route('home')->with('success', 'Berhasil Login!');
+                }
+
             } else {
                 $error = $response->json();
                 return redirect()->back()->with([
@@ -140,9 +149,12 @@ class AuthUserController extends Controller
             ]);
 
             $data = $response->json();
+
             if ($data['status'] == true) {
-                return redirect()->route('getConfirmOtp', $data['user']['uuid'])->with([
-                    'success' => 'Silahkan Copy OTP Anda Melalui Button Kode OTP untuk Login ke Aplikasi.',
+                return redirect()->route('getConfirmOtp')->with([
+                    'success'       => 'Silahkan Copy OTP Anda Melalui Button Kode OTP untuk Login ke Aplikasi.',
+                    'secretCode'    =>  $data['user']['uuid'],
+                    'register'      => false
                 ]);
             } else {
                 $error = $response->json();

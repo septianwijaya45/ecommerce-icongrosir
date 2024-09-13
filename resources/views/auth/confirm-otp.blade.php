@@ -44,6 +44,7 @@
                         @csrf
                         <label for="">Konfirm OTP<span>*</span></label>
                         <input type="text" placeholder="Konfirmasi OTP" name="user" value="{{ $userId }}" hidden>
+                        <input type="hidden" name="register" value="{{ $register }}">
                         <input type="text" placeholder="Konfirmasi OTP" name="otp">
                         <button type="submit" class="aa-browse-btn">Konfirmasi Otp</button>
                         @if($userId == '-')

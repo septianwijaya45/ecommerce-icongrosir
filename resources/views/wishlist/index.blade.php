@@ -31,7 +31,6 @@
     </div>
 </section>
 
-
 <section id="cart-view">
   <div class="container">
     <div class="row">
@@ -162,43 +161,50 @@
   }
 
   function addCart(id, uuid, variant){
-    swal({
-        title: "Apakah Anda Yakin",
-        text: "Tambahkan Ke Keranjang Anda?",
-        type: "warning",
-        showCancelButton: true,
-        confirmButtonColor: "#DD6B55",
-        confirmButtonText: "Ya, Tambahkan!",
-        closeOnConfirm: false,
-    }, function() {
+    let warna = $('#warna-'+uuid).val();
+    let ukuran = $('#ukuran-'+uuid).val();
 
+    if(warna == '' || ukuran == ''){
+        swal("Error!", "Warna atau ukuran belum dipilih!", "error");
+    }else{
         swal({
-            title: "Loading...",
-            text: "Proses Ke Keranjang Anda!",
+            title: "Apakah Anda Yakin",
+            text: "Tambahkan Ke Keranjang Anda?",
             type: "warning",
-            buttons: false,
-            closeOnClickOutside: false,
-            closeOnEsc: false,
-            allowOutsideClick: false
-        });
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "Ya, Tambahkan!",
+            closeOnConfirm: false,
+        }, function() {
 
-        $.ajax({
-            url: "{{ route('cart.store', [':id', ':uuid', ':variant_id']) }}".replace(':id', id).replace(':uuid', uuid).replace(':variant_id', variant),
-            type: 'GET',
-            data: {
-                _token: '{{ csrf_token() }}'
-            },
-            success: function(response) {
-              swal("Success!", "Berhasil Menambahkan Ke Keranjang Anda!.", "success");
-              setInterval(() => {
-                window.location.reload();
-              }, 1000);
-            },
-            error: function(xhr) {
-                swal("Error!", "Terdapat kesalahan saat menambahkan ke keranjang anda!", "error");
-            }
+            swal({
+                title: "Loading...",
+                text: "Proses Ke Keranjang Anda!",
+                type: "warning",
+                buttons: false,
+                closeOnClickOutside: false,
+                closeOnEsc: false,
+                allowOutsideClick: false
+            });
+
+            $.ajax({
+                url: "{{ route('cart.store', [':id', ':uuid', ':variant_id', ':warna', ':ukuran']) }}".replace(':id', id).replace(':uuid', uuid).replace(':variant_id', variant).replace(':warna', warna).replace(':ukuran', ukuran),
+                type: 'GET',
+                data: {
+                    _token: '{{ csrf_token() }}'
+                },
+                success: function(response) {
+                  swal("Success!", "Berhasil Menambahkan Ke Keranjang Anda!.", "success");
+                  setInterval(() => {
+                    window.location.reload();
+                  }, 1000);
+                },
+                error: function(xhr) {
+                    swal("Error!", "Terdapat kesalahan saat menambahkan ke keranjang anda!", "error");
+                }
+            });
         });
-    });
+    }
   }
 
   function loadVariant(product_id, variant, wishlist){
@@ -275,6 +281,10 @@
             _token: '{{ csrf_token() }}'
         },
         success: function(response) {
+            if(response.status == false){
+                swal("Stok Kurang!", response.message, "error");
+                $('#qty-'+product_id).val(response.stock)
+            }
         },
         error: function(xhr) {
             swal("Error!", "Terdapat kesalahan saat menambahkan ke keranjang anda!", "error");

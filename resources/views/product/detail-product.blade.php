@@ -442,16 +442,18 @@
             let warna = $('#warna').val();
             let ukuran = $('#ukuran').val();
             let qty = $('#qty').val()
+            if(qty == ''){
+                qty = 0
+            }
+            let routeCreateWishlist = "{{ route('wishlist.store', ':id') }}".replace(':id', product_id);
 
-            if (!varian) {
-                showError('Silakan pilih varian.');
-            } else if (!warna) {
-                showError('Silakan pilih warna.');
-            } else if (!ukuran) {
-                showError('Silakan pilih ukuran.');
-            } else if (!qty || qty <= 0) {
-                showError('Silakan masukkan jumlah yang valid.');
-            }else{
+            // if (!varian) {
+            //     showError('Silakan pilih varian.');
+            // } else if (!warna) {
+            //     showError('Silakan pilih warna.');
+            // } else if (!ukuran) {
+            //     showError('Silakan pilih ukuran.');
+            // } else{
                 swal({
                     title: "Apakah Anda Yakin?",
                     text: "Ingin Menambahkan Produk ke Wishlist?",
@@ -470,9 +472,10 @@
                         closeOnEsc: false,
                         allowOutsideClick: false
                     });
-                    window.location.href = `{{ route('wishlist.createWishlistByDetailProduct', [':product_id', ':varian', ':warna', ':ukuran', ':qty']) }}`.replace(':product_id', product_id).replace(':varian', varian).replace(':warna', warna).replace(':ukuran', ukuran).replace(':qty', qty)
+                    // window.location.href = `{{ route('wishlist.createWishlistByDetailProduct', [':product_id', ':varian', ':warna', ':ukuran', ':qty']) }}`.replace(':product_id', product_id).replace(':varian', varian).replace(':warna', warna).replace(':ukuran', ukuran).replace(':qty', qty)
+                    window.location.href = routeCreateWishlist;
                 });
-            }
+            // }
 
         })
     })

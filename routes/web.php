@@ -38,13 +38,13 @@ Route::post('login', [AuthUserController::class, 'loginUser'])->name('login');
 Route::get('logout', [AuthUserController::class, 'logout'])->name('logout');
 
 // Route::post('get-confirm-otp', [ConfirmOtpLogin::class, 'index'])->name('getConfirmOtp');
-Route::get('get-confirm-otp/{secretCode}', [ConfirmOtpLogin::class, 'index'])->name('getConfirmOtp');
+Route::get('get-confirm-otp', [ConfirmOtpLogin::class, 'index'])->name('getConfirmOtp');
 // login
 // register
 Route::get('register', [AuthUserController::class, 'register'])->name('register');
 Route::post('store', [AuthUserController::class, 'store'])->name('register.store');
 // otp
-Route::get('confirm-otp/{secretCode}', [AuthUserController::class, 'confirmOtp'])->name('confirm-otp');
+Route::get('confirm-otp/{secretCode}/{register}', [AuthUserController::class, 'confirmOtp'])->name('confirm-otp');
 Route::post('check-confirm-otp', [AuthUserController::class, 'checkConfirmOtp'])->name('checkConfirmOtp');
 Route::get('resend-otp/{id}', [AuthUserController::class, 'resendOtp'])->name('resendOtp');
 
@@ -82,7 +82,7 @@ Route::group(['prefix' => 'wishlist'], function(){
 
 Route::group(['prefix' => 'cart'], function(){
     Route::get('/cart-saya', [MyCartController::class, 'index'])->name('cart');
-    Route::get('/cart-saya/tambah/{id}/{uuid}/{variant_id}', [MyCartController::class, 'store'])->name('cart.store');
+    Route::get('/cart-saya/tambah/{id}/{uuid}/{variant_id}/{warna}/{ukuran}', [MyCartController::class, 'store'])->name('cart.store');
     Route::get('/cart-saya/tambah-cart-product/{id}', [MyCartController::class, 'storeCartById'])->name('cart.storeCartById');
     Route::post('/cart-saya/update/{id}/{uuid}/{variant_id}', [MyCartController::class, 'updateQty'])->name('cart.update');
     Route::get('/cart-saya/delete/{id}', [MyCartController::class, 'delete'])->name('cart.delete');

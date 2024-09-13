@@ -70,7 +70,7 @@ class MyCartController extends Controller
         }
     }
 
-    public function store(Request $request, $id, $uuid, $variant_id){
+    public function store(Request $request, $id, $uuid, $variant_id, $warna, $ukuran){
         try {
             $token = getToken($request);
 
@@ -81,7 +81,7 @@ class MyCartController extends Controller
 
             $createWishlist = Http::withHeaders([
                 'Authorization' => 'Bearer ' . $token,
-            ])->get($this->apiUrl.'/transaction/cart/create-cart-by-wishlist/'.$id.'/'.$uuid.'/'.$variant_id);
+            ])->get($this->apiUrl.'/transaction/cart/create-cart-by-wishlist/'.$id.'/'.$uuid.'/'.$variant_id.'/'.$warna.'/'.$ukuran);
             $jsoncreateWishlist = $createWishlist->json();
 
             if($jsoncreateWishlist->status == true){
@@ -156,12 +156,14 @@ class MyCartController extends Controller
             ])->post($this->apiUrl.'/transaction/cart/update-qty-cart/'.$id.'/'.$uuid.'/'.$variant_id, $reqData);
 
             $data = $response->json();
+            
 
             if ($data['status'] == true) {
                 return response()->json([
                     'status'  => $data['status'],
                     'message' => 'Berhasil Menambahkan Qty!',
-                    'totalHarga' => formatRupiah($data['totalHarga'] )
+                    'totalHarga' => formatRupiah($data['totalHarga'] ),
+                    'newQty'    => $data['newQty']
                 ]);
             } else {
                 $error = $response->json();

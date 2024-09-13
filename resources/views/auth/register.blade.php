@@ -21,6 +21,16 @@
 
 <!-- Cart view section -->
 <section id="aa-myaccount">
+    @if(session('error'))
+        <div class="alert alert-danger text-white text-center">
+            {{ session('error') }}
+        </div>
+    @endif
+    @if(session('success'))
+        <div class="alert alert-success text-white text-center">
+            {{ session('success') }}
+        </div>
+    @endif
   <div class="container">
     <div class="row">
       <div class="col-md-12">
