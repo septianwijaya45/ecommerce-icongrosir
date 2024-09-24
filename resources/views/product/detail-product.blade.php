@@ -73,7 +73,6 @@
                         <span class="aa-product-view-price" id="harga-product">Rp {{ $product['harga'] }}</span>
                         <p class="aa-product-avilability">Stok:  @if($productDetail[0]['t_stok_details']['stock'] != 0) <span class="text-success">Tersedia</span>@else <span class="text-danger">Tidak Ada</span>  @endif</p>
                     </div>
-                    <p>{{ $product['deskripsi'] }}</p>
                     <h4>Varian</h4>
                     <div class="aa-prod-view-size">
                         <select id="varian"  name="varian" class="form-control">
@@ -119,8 +118,8 @@
               <div class="tab-content">
                 <div class="tab-pane fade in active" id="description">
                   <p>
-                    @if(!is_null($product['deskripsi_detail']))
-                      $product['deskripsi_detail']
+                    @if(!is_null($product['deskripsi']))
+                      {{$product['deskripsi']}}
                     @else
                       <span class="text-danger">Tidak Ada Deskripsi</span>
                     @endif
