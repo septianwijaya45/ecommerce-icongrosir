@@ -136,7 +136,7 @@
                             <!-- Start men product category -->
                             <div class="tab-pane fade in active" id="men">
                             <ul class="aa-product-catg" style="width:100%">
-                                <div class="row" id="product-{{ isset($threeCategory[0]) ? $threeCategory[0]->category : 'Mens' }}" >
+                                <div class="row" id="product-{{ isset($threeCategory[0]) ? str_replace(' ', '_', $threeCategory[0]->category) : 'Mens' }}" >
 
                                 </div>
                             </ul>
@@ -146,7 +146,7 @@
                             <!-- start women product category -->
                             <div class="tab-pane fade" id="women">
                             <ul class="aa-product-catg" style="width:100%">
-                                <div class="row" id="product-{{ isset($threeCategory[1]) ? $threeCategory[1]->category : 'Womens' }}">
+                                <div class="row" id="product-{{ isset($threeCategory[1]) ? str_replace(' ', '_', $threeCategory[1]->category) : 'Womens' }}">
 
                                 </div>
                             </ul>
@@ -156,7 +156,7 @@
                             <!-- start sports product category -->
                             <div class="tab-pane fade" id="sports">
                                 <ul class="aa-product-catg" style="width:100%">
-                                    <div class="row" id="product-{{ isset($threeCategory[3]) ? $threeCategory[3]->category : 'Others' }}">
+                                    <div class="row" id="product-{{ isset($threeCategory[3]) ? str_replace(' ', '_', $threeCategory[3]->category) : 'Others' }}">
 
                                     </div>
                                 </ul>
@@ -201,7 +201,7 @@
                 <div class="tab-content">
                 <!-- Start men popular category -->
                 <div class="tab-pane fade in active" id="popular">
-                    <ul class="aa-product-catg aa-popular-slider" style="width:100%">
+                    <ul class="aa-product-catg" style="width:100%">
                         <div class="row" id="list-popular">
 
                         </div>
@@ -428,6 +428,7 @@
 
         $('.aa-products-tab').on('click', 'a', function(){
             $('#browserProduct').removeAttr('href');
+            var productHtml='';
             var categoryId = $(this).data('category-id');
             $('#browserProduct').attr('href', "{{ route('product', ':categoryId') }}".replace(':categoryId', categoryId));
             let urlPhoto = "{{$urlPhoto}}"
@@ -436,14 +437,14 @@
                 method: 'GET',
                 success: function(response) {
                     // Bersihkan daftar produk sebelum menambahkan yang baru
-                    $('#product-'+categoryId).empty();
+                    $('#product-'+categoryId.replace(/ /g, '_')).empty();
                     // Loop melalui data produk dan tambahkan ke dalam daftar produk
                     response.forEach(function(product) {
                         if(product != null){
                             let routeProductDetail = "{{route('getProductById', ':id')}}".replace(':id', product.uuid);
                             let routeCreateWishlist = "{{route('wishlist.store', ':id')}}".replace(':id', product.uuid);
                             let routeCreateCart = "{{ route('cart.storeCartById', ':id') }}".replace(':id', product.uuid);
-                            var productHtml = `
+                            productHtml += `
                                 <li class="col-md-4">
                                     <figure>
                                         <a class="aa-product-img"><img src="${product.image != null ? urlPhoto+product.image : 'img/default/defaultProduct.png'}"  width="250px" height="300px" alt="${product.nama_barang}"></a>
@@ -462,9 +463,9 @@
                                 </li>
                             `;
                         }else{
-                            var productHtml = '<li>Tidak Ada Data</li>'
+                            productHtml += '<li>Tidak Ada Data</li>'
                         }
-                        $('#product-' + categoryId).append(productHtml);
+                        $('#product-' + categoryId.replace(/ /g, '_')).append(productHtml);
                     });
                 },
                 error: function(xhr, status, error) {
@@ -532,7 +533,6 @@
 
         $('.aa-popular-tab').on('click', 'a', function(){
             let data = $(this).data('list');
-            console.log(data)
             let urlPhoto = "{{$urlPhoto}}"
             let urlData;
             if(data == 'popular'){

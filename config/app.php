@@ -69,7 +69,7 @@ return [
     // Server
     'backend_endpoint' => 'https://api-ecommerce.icongrosir.com/api',
 
-    'photo_product' => 'https://backoffice-ecommerce.icongrosir.com/img/gambar/produk/',
+    'photo_product' => 'https://backoffice-ecommerce.icongrosir.com/img/foto/produk/',
     'banner_app' => 'https://backoffice-ecommerce.icongrosir.com/img/gambar/banner/',
     'logo_app' => 'https://backoffice-ecommerce.icongrosir.com/img/gambar/logoApp/',
     /*
