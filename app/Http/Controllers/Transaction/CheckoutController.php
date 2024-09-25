@@ -102,7 +102,10 @@ class CheckoutController extends Controller
             $apiSend = Http::withHeaders([
                 'Authorization' => 'Bearer ' . $token,
             ])->post($this->apiUrl.'/transaction/checkout/confirm-pesanan', [
-                'ekspedisi_id' =>  $request->ekspedisi
+                'ekspedisi_id'  =>  $request->ekspedisi,
+                'kota'          =>  $request->kota,
+                'kode_pos'      =>  $request->kode_pos,
+                'alamat'        =>  $request->alamat
             ]);
 
             $data = $apiSend->json();
@@ -112,7 +115,7 @@ class CheckoutController extends Controller
                 return response()->json([
                     'status' => true,
                     'code'   => 200,
-                    'sendMessage' => 'https://api.whatsapp.com/send?phone='.$request->no_telp.'&text=' . urlencode($data['sendMessage'])
+                    'sendMessage' => 'https://api.whatsapp.com/send?phone='.convertPhoneToInternational($request->no_telp).'&text=' . urlencode($data['sendMessage'])
                 ]);
             } else {
                 $error = $response->json();

@@ -47,23 +47,42 @@ class PesananSayaController extends Controller
                     'name'  => $item['name'],
                     'alamat' => $item['alamat'],
                     'kode_invoice' => $kode_invoice,
+                    'ekspedisi' => $item['ekspedisi'],
                     'products' => [],
                     'total_harga' => 0,
                     'konfirmasi_admin' => $item['konfirmasi_admin'],
-                    'tanggal_pesan' => date('d F Y H:i:s', strtotime($item['createdAt']))
+                    'tanggal_pesan' => date('d F Y H:i:s', strtotime($item['createdAt'])),
+                    'total_harga' => $item['total_harga']
                 ];
             }
 
-            $transactions[$kode_invoice]['products'][] = [
-                'nama_barang' => $item['nama_barang'],
-                'variasi'   => $item['variasi'],
-                'warna'     => $item['warna'],
-                'ukuran'    => $item['ukuran'],
-                'qty' => $item['qty'],
-                'harga' => $item['harga'],
-            ];
+            $productExists = false;
 
-            $transactions[$kode_invoice]['total_harga'] += $item['qty'] * $item['harga'];
+            foreach ($transactions[$kode_invoice]['products'] as $product) {
+                \Log::info(
+                $product['variasi'] == $item['variasi'] &&
+                $product['warna'] == $item['warna'] &&
+                $product['ukuran'] == $item['ukuran']);
+                if (
+                    $product['nama_barang'] === $item['nama_barang'] &&
+                    $product['variasi'] === $item['variasi'] &&
+                    $product['warna'] === $item['warna'] &&
+                    $product['ukuran'] === $item['ukuran']
+                ) {
+                    $productExists = true;
+                    break;
+                }
+            }
+
+            if (!$productExists) {
+                $transactions[$kode_invoice]['products'][] = [
+                    'nama_barang' => $item['nama_barang'],
+                    'variasi'   => $item['variasi'],
+                    'warna'     => $item['warna'],
+                    'ukuran'    => $item['ukuran'],
+                    'qty' => $item['qty'],
+                ];
+            }
         }
 
         $transactions = array_values($transactions);

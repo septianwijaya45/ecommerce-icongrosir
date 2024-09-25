@@ -38,3 +38,10 @@ function getSetting(){
         ]);
     }
 }
+
+function convertPhoneToInternational($phone) {
+    if (substr($phone, 0, 1) === '0') {
+        return '62' . substr($phone, 1);
+    }
+    return $phone;
+}

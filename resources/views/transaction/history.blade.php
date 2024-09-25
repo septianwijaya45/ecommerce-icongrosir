@@ -12,6 +12,10 @@
 </div>
 @endif
 
+@php
+    $setting = getSetting();
+@endphp
+
 <section id="aa-catg-head-banner">
     @foreach($banners as $banner)
       @if (strpos($banner['name_menu_banner'], 'pesanan_saya') !== false)
@@ -95,7 +99,7 @@
                                         @endif
                                     </td>
                                     <td>
-                                        <a href="https://api.whatsapp.com/send?phone={{ $setting['no_telp'] }}&text={{ $message }}" class="btn btn-success" target="_blank">Kirim Pesan WA</a>
+                                        <a href="https://api.whatsapp.com/send?phone={{ convertPhoneToInternational($setting['no_telp']) }}&text={{ $message }}" class="btn btn-success" target="_blank">Kirim Pesan WA</a>
                                     </td>
                                 </tr>
                             @endforeach

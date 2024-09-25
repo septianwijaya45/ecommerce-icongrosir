@@ -68,19 +68,19 @@
                            <div class="row">
                               <div class="col-md-6">
                                 <div class="aa-checkout-single-bill">
-                                  <input type="text" placeholder="Kota Anda" name="kota" class="form-control" value="{{ !is_null($detail) ? $detail['kota'] : '' }}" required>
+                                  <input type="text" placeholder="Kota Anda" name="kota" class="form-control" id="kota" value="{{ !is_null($detail) ? $detail['kota'] : '' }}" required>
                                 </div>
                               </div>
                               <div class="col-md-6">
                                 <div class="aa-checkout-single-bill">
-                                  <input type="text" placeholder="Kode Pos Anda" name="kode_pos" class="form-control" value="{{ !is_null($detail) ? $detail['kode_pos'] : '' }}" required>
+                                  <input type="text" placeholder="Kode Pos Anda" name="kode_pos" id="kode_pos" class="form-control" value="{{ !is_null($detail) ? $detail['kode_pos'] : '' }}" required>
                                 </div>
                               </div>
                            </div>
                            <div class="row">
                               <div class="col-md-12">
                                 <div class="aa-checkout-single-bill" required>
-                                  <textarea cols="8" rows="3" name="alamat" placeholder="Alamat Anda" class="form-control">{{ !is_null($detail) ? $detail['alamat'] : ''}}</textarea>
+                                  <textarea cols="8" rows="3" name="alamat" placeholder="Alamat Anda" id="alamat" class="form-control">{{ !is_null($detail) ? $detail['alamat'] : ''}}</textarea>
                                 </div>
                               </div>
                            </div>
@@ -231,13 +231,50 @@
                     allowOutsideClick: false
                 });
 
+                var kota = $('#kota').val().trim();
+                var kodePos = $('#kode_pos').val().trim();
+                var alamat = $('#alamat').val().trim();
+
+                if (kota === '') {
+                    swal({
+                        title: "Gagal",
+                        text: "Kota Belum Diisi!",
+                        type: "error"
+                    });
+                    $('#kota').focus();
+                    return false;
+                }
+
+                if (kodePos === '') {
+                    swal({
+                        title: "Gagal",
+                        text: "Kode Pos Belum Diisi!",
+                        type: "error"
+                    });
+                    $('#kode_pos').focus();
+                    return false;
+                }
+
+                if (alamat === '') {
+                    swal({
+                        title: "Gagal",
+                        text: "Alamat Belum Diisi!",
+                        type: "error"
+                    });
+                    $('#alamat').focus();
+                    return false;
+                }
+
                 $.ajax({
                     url: "{{ route('checkout.confirm') }}",
                     type: 'POST',
                     data: {
                             _token: '{{ csrf_token() }}',
                             ekspedisi: ekspedisi,
-                            no_telp: "{{ $setting['no_telp'] }}"
+                            no_telp: "{{ $setting['no_telp'] }}",
+                            kota: $('#kota').val(),
+                            kode_pos: $('#kode_pos').val(),
+                            alamat: $('#alamat').val()
                     },
                     success: function(response) {
                         if(response.status == true){

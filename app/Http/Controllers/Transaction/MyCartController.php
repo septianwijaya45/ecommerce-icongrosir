@@ -156,7 +156,7 @@ class MyCartController extends Controller
             ])->post($this->apiUrl.'/transaction/cart/update-qty-cart/'.$id.'/'.$uuid.'/'.$variant_id, $reqData);
 
             $data = $response->json();
-            
+
 
             if ($data['status'] == true) {
                 return response()->json([
@@ -308,7 +308,7 @@ class MyCartController extends Controller
 
             if($jsoncreateWishlist['status'] == true){
                 return redirect()->back()->with([
-                    'success' => 'Berhasil Menambahkan ke Keranjang Anda, Silahkan Checkout!.'
+                    'success' => $jsoncreateWishlist['message']
                 ]);
             }else{
                 return redirect()->back()->with([
