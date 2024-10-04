@@ -81,9 +81,18 @@
             <form class="aa-login-form" method="POST" action="{{ route('login') }}" enctype="multipart/form-data">
               @csrf
                 <label for="">Nomor Telepon atau Email<span>*</span></label>
-                <input type="text" placeholder="Nomor Telepon atau Email" name="username">
+                <input type="text" placeholder="Nomor Telepon atau Email" name="username" id="username" oninput="validatePhoneNumber(this)">
                 <label for="">Password<span>*</span></label>
-                <input type="password" placeholder="Password" name="password">
+                <div class="row">
+                    <div class="col-md-10">
+                        <input type="password" name="password" placeholder="Password" id="password">
+                    </div>
+                    <div class="col-md-1" style="margin-left: -7%; margin-top:-3%;">
+                        <button type="button" onclick="togglePasswordLogin('password')" class="btn btn-sm btn-success toggle-password">
+                            <i class="fa fa-eye" id="eye-password"></i>
+                        </button>
+                    </div>
+                </div>
                 <button class="aa-browse-btn" type="submit">Login</button>
                 <p class="aa-lost-password"><a href="#">lupa password?</a></p>
                 <div class="aa-register-now">
@@ -157,6 +166,26 @@
                     }
                 });
             });
+        }
+    </script>
+    <script>
+        function togglePasswordLogin(fieldId) {
+            const passwordField = document.getElementById(fieldId);
+            const eyeIcon = document.getElementById('eye-password');
+
+            if (eyeIcon.classList.contains('fa-eye-slash')) {
+                passwordField.type = "password";
+                eyeIcon.classList.remove('fa-eye-slash');
+                eyeIcon.classList.add('fa-eye');
+            } else {
+                passwordField.type = "text";
+                eyeIcon.classList.remove('fa-eye');
+                eyeIcon.classList.add('fa-eye-slash');
+            }
+        }
+
+        function validatePhoneNumber(input) {
+            input.value = input.value.replace(/[^0-9]/g, '');
         }
     </script>
 

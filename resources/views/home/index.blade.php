@@ -135,7 +135,7 @@
                         <div class="tab-content">
                             <!-- Start men product category -->
                             <div class="tab-pane fade in active" id="men">
-                            <ul class="aa-product-catg" style="width:100%">
+                            <ul class="aa-product-catg" style="width:104%">
                                 <div class="row" id="product-{{ isset($threeCategory[0]) ? str_replace(' ', '_', $threeCategory[0]->category) : 'Mens' }}" >
 
                                 </div>
@@ -145,7 +145,7 @@
                             <!-- / men product category -->
                             <!-- start women product category -->
                             <div class="tab-pane fade" id="women">
-                            <ul class="aa-product-catg" style="width:100%">
+                            <ul class="aa-product-catg" style="width:104%">
                                 <div class="row" id="product-{{ isset($threeCategory[1]) ? str_replace(' ', '_', $threeCategory[1]->category) : 'Womens' }}">
 
                                 </div>
@@ -155,7 +155,7 @@
                             <!-- / women product category -->
                             <!-- start sports product category -->
                             <div class="tab-pane fade" id="sports">
-                                <ul class="aa-product-catg" style="width:100%">
+                                <ul class="aa-product-catg" style="width:104%">
                                     <div class="row" id="product-{{ isset($threeCategory[3]) ? str_replace(' ', '_', $threeCategory[3]->category) : 'Others' }}">
 
                                     </div>
@@ -201,7 +201,7 @@
                 <div class="tab-content">
                 <!-- Start men popular category -->
                 <div class="tab-pane fade in active" id="popular">
-                    <ul class="aa-product-catg" style="width:100%">
+                    <ul class="aa-product-catg" style="width:104%">
                         <div class="row" id="list-popular">
 
                         </div>
@@ -212,7 +212,7 @@
 
                 <!-- start featured product category -->
                 <div class="tab-pane fade" id="featured">
-                    <ul class="aa-product-catg" style="width:100%">
+                    <ul class="aa-product-catg" style="width:104%">
                         <div class="row" id="list-featured">
 
                         </div>
@@ -223,7 +223,7 @@
 
                 <!-- start latest product category -->
                 <div class="tab-pane fade" id="latest">
-                    <ul class="aa-product-catg" style="width:100%">
+                    <ul class="aa-product-catg" style="width:104%">
                         <div class="row" id="list-latest">
 
                         </div>
@@ -397,7 +397,7 @@
                             let routeCreateWishlist = "{{route('wishlist.store', ':id')}}".replace(':id', product.uuid);
                             let routeCreateCart = "{{ route('cart.storeCartById', ':id') }}".replace(':id', product.uuid);
                             var productHtml = `
-                                <li class="col-md-4">
+                                <li class="col-md-3">
                                     <figure>
                                         <a class="aa-product-img"><img src="${product.image != null ? urlPhoto+product.image : 'img/default/defaultProduct.png'}"  width="250px" height="300px" alt="${product.nama_barang}"></a>
                                         <a class="aa-add-card-btn" @if($token == null) data-toggle="modal" data-target="#login-modal" @else href="javascript:void(0);" onclick="addToCart('${routeCreateCart}')" @endif><span class="fa fa-shopping-cart"></span>Add To Cart</a>
@@ -445,7 +445,7 @@
                             let routeCreateWishlist = "{{route('wishlist.store', ':id')}}".replace(':id', product.uuid);
                             let routeCreateCart = "{{ route('cart.storeCartById', ':id') }}".replace(':id', product.uuid);
                             productHtml += `
-                                <li class="col-md-4">
+                                <li class="col-md-3">
                                     <figure>
                                         <a class="aa-product-img"><img src="${product.image != null ? urlPhoto+product.image : 'img/default/defaultProduct.png'}"  width="250px" height="300px" alt="${product.nama_barang}"></a>
                                         <a class="aa-add-card-btn" @if($token == null) data-toggle="modal" data-target="#login-modal" @else href="javascript:void(0);" onclick="addToCart('${routeCreateCart}')" @endif><span class="fa fa-shopping-cart"></span>Add To Cart</a>
@@ -492,7 +492,7 @@
                             let routeCreateWishlist = "{{route('wishlist.store', ':id')}}".replace(':id', product.uuid);
                             let routeCreateCart = "{{ route('cart.storeCartById', ':id') }}".replace(':id', product.uuid);
                                 var productHtml = `
-                                    <li class="col-md-4">
+                                    <li class="col-md-3">
                                         <figure>
                                             <a class="aa-product-img"><img src="${product.image != null ? urlPhoto+product.image : 'img/default/defaultProduct.png'}" width="250px" height="300px" alt="${product.nama_barang}"></a>
                                             <a class="aa-add-card-btn" @if($token == null) data-toggle="modal" data-target="#login-modal" @else href="javascript:void(0);" onclick="addToCart('${routeCreateCart}')" @endif><span class="fa fa-shopping-cart"></span>Add To Cart</a>
@@ -554,7 +554,7 @@
                             let routeCreateWishlist = "{{route('wishlist.store', ':id')}}".replace(':id', product.uuid);
                             let routeCreateCart = "{{ route('cart.storeCartById', ':id') }}".replace(':id', product.uuid);
                             var productHtml = `
-                                <li class="col-md-4">
+                                <li class="col-md-3">
                                     <figure>
                                         <a class="aa-product-img"><img src="${product.image != null ? urlPhoto+product.image : 'img/default/defaultProduct.png'}"  width="250px" height="300px" alt="${product.nama_barang}"></a>
                                         <a class="aa-add-card-btn" @if($token == null) data-toggle="modal" data-target="#login-modal" @else href="javascript:void(0);" onclick="addToCart('${routeCreateCart}')" @endif><span class="fa fa-shopping-cart"></span>Add To Cart</a>

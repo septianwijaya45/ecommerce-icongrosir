@@ -110,7 +110,7 @@
                                 @foreach($carts as $index => $cart)
                                     @if ($index < 3)
                                         <li>
-                                            <a class="aa-cartbox-img" href="#"><img src="{{ $cart['image'] != null ? $photoUrl.$cart['image'] : baseUrl+'/img/default/defaultProduct.png' }}" alt="img"></a>
+                                            <a class="aa-cartbox-img" href="#"><img src="{{ $cart['image'] != null ? $photoUrl.$cart['image'] : asset('/img/default/defaultProduct.png') }}" alt="img"></a>
                                             <div class="aa-cartbox-info">
                                                 <h4><a href="#">{{ $cart['nama_barang'] }}</a></h4>
                                                 <p>{{ $cart['qty'] }} {{ $cart['variasi'] }}</p>

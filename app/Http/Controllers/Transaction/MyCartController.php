@@ -84,15 +84,10 @@ class MyCartController extends Controller
             ])->get($this->apiUrl.'/transaction/cart/create-cart-by-wishlist/'.$id.'/'.$uuid.'/'.$variant_id.'/'.$warna.'/'.$ukuran);
             $jsoncreateWishlist = $createWishlist->json();
 
-            if($jsoncreateWishlist->status == true){
-                return redirect()->back()->with([
-                    'success' => 'Berhasil Menambahkan ke Keranjang Anda, Silahkan Checkout!.'
-                ]);
+            if($jsoncreateWishlist['status'] == true){
+                return redirect()->back()->with('success', 'Berhasil Menambahkan ke Keranjang Anda, Silahkan Checkout!.');
             }else{
-                return redirect()->back()->with([
-                    'error' => 'Gagal Menambahkan ke Keranjang Anda, Mungkin Anda Sudah Masukkan Ke Keranjang Checkout!.'
-                ]);
-
+                return redirect()->back()->with('error',$jsoncreateWishlist['message']);
             }
 
         } catch (\Exception $e) {
@@ -118,23 +113,15 @@ class MyCartController extends Controller
             ])->get($this->apiUrl.'/transaction/cart/create-cart/'.$id);
             $jsoncreateWishlist = $createWishlist->json();
 
-
-            if($jsoncreateWishlist->status == true){
-                return redirect()->back()->with([
-                    'success' => 'Berhasil Menambahkan ke Keranjang Anda, Silahkan Checkout!.'
-                ]);
+            if($jsoncreateWishlist['status'] == true){
+                return redirect()->back()->with('success','Berhasil Menambahkan ke Keranjang Anda, Silahkan Checkout!.');
             }else{
-                return redirect()->back()->with([
-                    'error' => 'Gagal Menambahkan ke Keranjang Anda, Mungkin Anda Sudah Masukkan Ke Keranjang Checkout!.'
-                ]);
+                return redirect()->back()->with('error', $jsoncreateWishlist['message']);
             }
 
         } catch (\Exception $e) {
             \Log::error($e);
-            return redirect()->back()->with([
-                'success' => false,
-                'message' => 'Terjadi kesalahan saat menghubungi server.'
-            ]);
+            return redirect()->back()->with('error','Terjadi kesalahan saat menghubungi server.');
         }
     }
 
@@ -311,9 +298,7 @@ class MyCartController extends Controller
                     'success' => $jsoncreateWishlist['message']
                 ]);
             }else{
-                return redirect()->back()->with([
-                    'error' => 'Gagal Menambahkan ke Keranjang Anda, Mungkin Anda Sudah Masukkan Ke Keranjang Checkout!.'
-                ]);
+                return redirect()->back()->with('error', $jsoncreateWishlist['message']);
             }
         } catch (\Exception $e) {
             \Log::error($e);
