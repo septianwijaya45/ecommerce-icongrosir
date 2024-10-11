@@ -12,11 +12,13 @@ class MyCartController extends Controller
     protected $apiUrl;
     protected $token;
     protected $banner;
+    protected $photoUrl;
 
     public function __construct(SessionManager $session)
     {
         $this->apiUrl = config('app.backend_endpoint');
         $this->banner = config('app.banner_app');
+        $this->photoUrl = config('app.photo_product');
     }
 
     public function index(Request $request){
@@ -49,6 +51,7 @@ class MyCartController extends Controller
             'carts'     => $carts,
             'banners'        => $getBanners['data'],
             'urlBanner'     => $this->banner,
+            'urlPhoto'      => $this->photoUrl,
         ]);
     }
 
@@ -148,7 +151,7 @@ class MyCartController extends Controller
             if ($data['status'] == true) {
                 return response()->json([
                     'status'  => $data['status'],
-                    'message' => 'Berhasil Menambahkan Qty!',
+                    'message' => $data['message'],
                     'totalHarga' => formatRupiah($data['totalHarga'] ),
                     'newQty'    => $data['newQty']
                 ]);

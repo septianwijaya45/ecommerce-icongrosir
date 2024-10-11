@@ -37,7 +37,6 @@
                           <th>Ukuran</th>
                           <th>Harga Satuan</th>
                           <th>Qty</th>
-                          <th></th>
                        </tr>
                      </thead>
                         <tbody id="list-product">
@@ -53,7 +52,7 @@
                                     <td><button type="button" class="btn btn-danger" id="btn-delete" onclick="deleteData(`{{ $data['id'] }}`)"><fa class="fa fa-trash"></fa></button></td>
                                     <td>
                                         <a href="#">
-                                            <img src="{{asset('img/man/polo-shirt-1.png')}}" alt="img">
+                                            <img src="{{ !is_null($data['image']) ? $urlPhoto.$data['image'] : 'img/default/defaultProduct.png'}}" alt="img">
                                         </a>
                                         <br>
                                         <p>{{ $data['nama_barang'] }}</p>
@@ -85,9 +84,6 @@
                                     <td>{{ formatRupiah($data['harga']) }}</td>
                                     <td width="10%">
                                         <input type="number" class="form-control" value="{{ $data['qty'] }}" placeholder="QTY Dipesan" onchange="changeQty(`{{ $data['uuid'] }}`, this.value, `{{ $data['id'] }}`)" oninput="changeQty(`{{ $data['uuid'] }}`, this.value, `{{ $data['id'] }}`)" id="qty-{{ $data['id'] }}" data-id="{{ $data['id'] }}" data-product="{{ $data['product_id'] }}" data-variant="{{ $data['variant_id'] }}">
-                                    </td>
-                                    <td>
-                                        <button type="button" class="btn btn-sm btn-success" onclick="addOtherVarian(`{{$data['id']}}`)">Tambah Varian Lain</button>
                                     </td>
                                 </tr>
                                 @empty
@@ -218,7 +214,7 @@
                 },
                 success: function(response) {
                 if(response.status == true){
-                    swal("Success!", "Berhasil Update Qty Pesanan Anda!.", "success");
+                    swal("Success!", response.message, "success");
                     $('#totalHarga').html(response.totalHarga)
                     $('#qty-'+cart).val(response.newQty)
                 }else{

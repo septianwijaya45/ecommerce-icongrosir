@@ -129,7 +129,7 @@
                         <ul class="nav nav-tabs aa-products-tab">
                             <li><a href="#men" data-category-id="{{ isset($threeCategory[0]) ? $threeCategory[0]->category : 'Mens' }}" data-toggle="tab">{{ isset($threeCategory[0]) ? $threeCategory[0]->category : 'Mens' }}</a></li>
                             <li><a href="#women" data-category-id="{{ isset($threeCategory[1]) ? $threeCategory[1]->category : 'Womens' }}" data-toggle="tab">{{ isset($threeCategory[1]) ? $threeCategory[1]->category : 'Womens' }}</a></li>
-                            <li><a href="#sports" data-category-id="{{ isset($threeCategory[3]) ? $threeCategory[3]->category : 'Other' }}" data-toggle="tab">{{ isset($threeCategory[3]) ? $threeCategory[3]->category : 'Other' }}</a></li>
+                            <li><a href="#sports" data-category-id="{{ isset($threeCategory[2]) ? $threeCategory[2]->category : 'Other' }}" data-toggle="tab">{{ isset($threeCategory[2]) ? $threeCategory[2]->category : 'Other' }}</a></li>
                         </ul>
                         <!-- Tab panes -->
                         <div class="tab-content">
@@ -156,11 +156,11 @@
                             <!-- start sports product category -->
                             <div class="tab-pane fade" id="sports">
                                 <ul class="aa-product-catg" style="width:104%">
-                                    <div class="row" id="product-{{ isset($threeCategory[3]) ? str_replace(' ', '_', $threeCategory[3]->category) : 'Others' }}">
+                                    <div class="row" id="product-{{ isset($threeCategory[2]) ? str_replace(' ', '_', $threeCategory[2]->category) : 'Others' }}">
 
                                     </div>
                                 </ul>
-                                <a class="aa-browse-btn" href="#">Lihat Semua Produk {{ isset($threeCategory[3]) ? $threeCategory[3]->category : 'Other' }}<span class="fa fa-long-arrow-right"></span></a>
+                                <a class="aa-browse-btn" href="#">Lihat Semua Produk {{ isset($threeCategory[2]) ? $threeCategory[2]->category : 'Other' }}<span class="fa fa-long-arrow-right"></span></a>
                             </div>
                     </div>
                 </div>
@@ -384,19 +384,21 @@
         function getDataEightProductFirst(){
             var categoryId = "{{isset($threeCategory[0]) ? $threeCategory[0]->category : 'Mens'}}"
             let urlPhoto = "{{$urlPhoto}}"
+            var productHtml = '';
             $.ajax({
                 url: "{{ route('getEightProductByCategories', ['categoryId' =>  isset($threeCategory[0]) ? $threeCategory[0]->category : 'Mens' ]) }}", // Ganti dengan URL endpoint Anda
                 method: 'GET',
                 success: function(response) {
                     // Bersihkan daftar produk sebelum menambahkan yang baru
-                    $('#product-'+categoryId).empty();
                     // Loop melalui data produk dan tambahkan ke dalam daftar produk
                     response.forEach(function(product) {
+                        $('#product-'+categoryId.replace(/ /g, '_')).empty();
                         if(product != null){
+
                             let routeProductDetail = "{{route('getProductById', ':id')}}".replace(':id', product.uuid);
                             let routeCreateWishlist = "{{route('wishlist.store', ':id')}}".replace(':id', product.uuid);
                             let routeCreateCart = "{{ route('cart.storeCartById', ':id') }}".replace(':id', product.uuid);
-                            var productHtml = `
+                            productHtml += `
                                 <li class="col-md-3">
                                     <figure>
                                         <a class="aa-product-img"><img src="${product.image != null ? urlPhoto+product.image : 'img/default/defaultProduct.png'}"  width="250px" height="300px" alt="${product.nama_barang}"></a>
@@ -410,11 +412,11 @@
                                         <a href="javascript:void(0);" onclick="addToWishlist('${routeCreateWishlist}')" data-toggle="tooltip" data-placement="top" title="Add to Wishlist"><span class="fa fa-heart-o"></span></a>
                                         <a href="`+routeProductDetail+`" data-toggle2="tooltip" data-placement="top" title="Detail Product" >Lihat Produk</a>
                                     </div>
-                                    <span class="aa-badge aa-sale" href="#">SALE!</span>
+                                    <span class="aa-badge aa-sale" href="#">Stok: ${product.T_Stocks.stock}</span>
                                 </li>
                             `;
                         }else{
-                            var productHtml = '<li>Tidak Ada Data</li>'
+                            productHtml += '<li>Tidak Ada Data</li>'
                         }
                         $('#product-' + categoryId).append(productHtml);
                     });
@@ -428,18 +430,18 @@
 
         $('.aa-products-tab').on('click', 'a', function(){
             $('#browserProduct').removeAttr('href');
-            var productHtml='';
             var categoryId = $(this).data('category-id');
             $('#browserProduct').attr('href', "{{ route('product', ':categoryId') }}".replace(':categoryId', categoryId));
             let urlPhoto = "{{$urlPhoto}}"
+            var productHtml = ''
             $.ajax({
                 url: "{{ route('getEightProductByCategories', ':categoryId') }}".replace(':categoryId', categoryId),
                 method: 'GET',
                 success: function(response) {
                     // Bersihkan daftar produk sebelum menambahkan yang baru
-                    $('#product-'+categoryId.replace(/ /g, '_')).empty();
-                    // Loop melalui data produk dan tambahkan ke dalam daftar produk
                     response.forEach(function(product) {
+                        $('#product-'+categoryId.replace(/ /g, '_')).empty();
+
                         if(product != null){
                             let routeProductDetail = "{{route('getProductById', ':id')}}".replace(':id', product.uuid);
                             let routeCreateWishlist = "{{route('wishlist.store', ':id')}}".replace(':id', product.uuid);
@@ -459,7 +461,7 @@
 
                                         <a href="`+routeProductDetail+`" >Lihat Produk</a>
                                     </div>
-                                    <span class="aa-badge aa-sale" href="#">SALE!</span>
+                                    <span class="aa-badge aa-sale" href="#">Stok: ${product.T_Stocks.stock}</span>
                                 </li>
                             `;
                         }else{
@@ -488,6 +490,7 @@
                     $('#list-popular').empty();
                     if(response.length != 0){
                         response.forEach(function(product) {
+
                             let routeProductDetail = "{{route('getProductById', ':id')}}".replace(':id', product.uuid);
                             let routeCreateWishlist = "{{route('wishlist.store', ':id')}}".replace(':id', product.uuid);
                             let routeCreateCart = "{{ route('cart.storeCartById', ':id') }}".replace(':id', product.uuid);
@@ -506,7 +509,7 @@
 
                                             <a href="`+routeProductDetail+`" >Lihat Produk</a>
                                         </div>
-                                        <span class="aa-badge aa-sale" href="#">SALE!</span>
+                                        <span class="aa-badge aa-sale" href="#">Stok: ${product.T_Stocks.stock}</span>
                                     </li>
                                 `;
                             $('#list-popular').append(productHtml);
@@ -549,7 +552,6 @@
                     $('#list-'+data).empty();
                     if(response.length != 0){
                         response.forEach(function(product) {
-
                             let routeProductDetail = "{{route('getProductById', ':id')}}".replace(':id', product.uuid);
                             let routeCreateWishlist = "{{route('wishlist.store', ':id')}}".replace(':id', product.uuid);
                             let routeCreateCart = "{{ route('cart.storeCartById', ':id') }}".replace(':id', product.uuid);
@@ -568,7 +570,7 @@
 
                                         <a href="`+routeProductDetail+`" title="Quick View">Lihat Produk</a>
                                     </div>
-                                    <span class="aa-badge aa-sale" href="#">SALE!</span>
+                                    <span class="aa-badge aa-sale" href="#">Stok: ${product.T_Stocks.stock}</span>
                                 </li>
                             `;
 

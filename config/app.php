@@ -60,18 +60,18 @@ return [
     'asset_url' => env('ASSET_URL'),
 
     // Development
-    // 'backend_endpoint' => 'http://localhost:3001/api',
+    'backend_endpoint' => 'http://localhost:3001/api',
 
     // 'photo_product' => 'http://127.0.0.1:8000/img/foto/produk/',
-    // 'banner_app' => 'http://127.0.0.1:8000/img/gambar/banner/',
-    // 'logo_app' => 'http://127.0.0.1:8000/img/gambar/logoApp/',
+    'banner_app' => 'http://127.0.0.1:8000/img/gambar/banner/',
+    'logo_app' => 'http://127.0.0.1:8000/img/gambar/logoApp/',
 
     // Server
-    'backend_endpoint' => 'https://api-ecommerce.icongrosir.com/api',
+    // 'backend_endpoint' => 'https://api-ecommerce.icongrosir.com/api',
 
     'photo_product' => 'https://backoffice-ecommerce.icongrosir.com/img/foto/produk/',
-    'banner_app' => 'https://backoffice-ecommerce.icongrosir.com/img/gambar/banner/',
-    'logo_app' => 'https://backoffice-ecommerce.icongrosir.com/img/gambar/logoApp/',
+    // 'banner_app' => 'https://backoffice-ecommerce.icongrosir.com/img/gambar/banner/',
+    // 'logo_app' => 'https://backoffice-ecommerce.icongrosir.com/img/gambar/logoApp/',
     /*
     |--------------------------------------------------------------------------
     | Application Timezone
