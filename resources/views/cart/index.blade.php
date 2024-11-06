@@ -45,7 +45,7 @@
                             @endphp
                             @forelse($carts as $data)
                             @php
-                            $total += $data['harga']*$data['qty'];
+                            $total += $data['hargas']*$data['qty'];
                             @endphp
 
                                 <tr>
@@ -81,7 +81,7 @@
                                         @endforeach
                                     </select>
                                     </td>
-                                    <td>{{ formatRupiah($data['harga']) }}</td>
+                                    <td>{{ formatRupiah($data['hargas']) }}</td>
                                     <td width="10%">
                                         <input type="number" class="form-control" value="{{ $data['qty'] }}" placeholder="QTY Dipesan" onchange="changeQty(`{{ $data['uuid'] }}`, this.value, `{{ $data['id'] }}`)" oninput="changeQty(`{{ $data['uuid'] }}`, this.value, `{{ $data['id'] }}`)" id="qty-{{ $data['id'] }}" data-id="{{ $data['id'] }}" data-product="{{ $data['product_id'] }}" data-variant="{{ $data['variant_id'] }}">
                                     </td>

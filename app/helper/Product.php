@@ -88,4 +88,11 @@ function getHargaProduct($product_id, $variant_id, $warna, $ukuran){
     return $response->json();
 }
 
+function getDiscountCategory($category_id){
+    $apiUrl = config('app.backend_endpoint');
+    $response = Http::get($apiUrl.'/home/product/get-discount-by-category/'.$category_id);
+
+    return $response->json();
+}
+
 ?>

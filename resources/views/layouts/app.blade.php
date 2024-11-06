@@ -182,6 +182,42 @@
         }
     </script>
 
+    <script>
+        function getDiscountCategory(categoryId) {
+            let apiUrl = "{{ config('app.backend_endpoint') }}";
+            let url = `${apiUrl}/home/product/get-discount-by-category/${categoryId}`;
+
+            return fetch(url)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    return response.json();
+                })
+                .catch(error => {
+                    console.error('There was a problem with the fetch operation:', error);
+                    return null;
+                });
+        }
+
+        function getDiscountProduct(product) {
+            let apiUrl = "{{ config('app.backend_endpoint') }}";
+            let url = `${apiUrl}/home/product/get-discount-by-product/${product}`;
+
+            return fetch(url)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    return response.json();
+                })
+                .catch(error => {
+                    console.error('There was a problem with the fetch operation:', error);
+                    return null;
+                });
+        }
+    </script>
+
     @yield('script')
   </body>
 </html>

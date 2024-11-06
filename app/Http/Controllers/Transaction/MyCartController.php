@@ -43,7 +43,7 @@ class MyCartController extends Controller
             $item['variants']   = $varian;
             $item['warnas']      = $warna;
             $item['ukurans']     = $ukuran;
-            $item['hargas']     = $harga;
+            $item['hargas']     = $harga['harga'];
         }
 
         return view('cart.index', [

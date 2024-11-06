@@ -190,6 +190,14 @@
             window.location.href = route;
         });
     }
+
+    function errorStock(nameProduct){
+        swal({
+            title: "Stok Habis",
+            text: `Stok Pada Produk ${nameProduct} Habis!`,
+            type: "error",
+        });
+    }
 </script>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
@@ -238,31 +246,82 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function renderProducts(products) {
         productContainer.innerHTML = '';
-        products.forEach(product => {
-            let routeProductDetail = "{{ route('getProductById', ':id') }}".replace(':id', product.uuid);
-            let routeCreateWishlist = "{{ route('wishlist.store', ':id') }}".replace(':id', product.uuid);
-            let routeCreateCart = "{{ route('cart.storeCartById', ':id') }}".replace(':id', product.uuid);
-            const productHTML = `
-                <li class="col-md-4">
-                    <figure>
-                        <a class="aa-product-img">
-                            <img src="${(product.image != null) ? urlPhoto + product.image : baseUrl + '/img/default/defaultProduct.png'}" alt="product image" width="250px" height="300px">
-                        </a>
-                        <a class="aa-add-card-btn" @if($token == null) data-toggle="modal" data-target="#login-modal" @else href="javascript:void(0);" onclick="addToCart('${routeCreateCart}')" @endif><span class="fa fa-shopping-cart"></span>Add To Cart</a>
-                        <figcaption>
-                            <h4 class="aa-product-title"><a href="#">${product.nama_barang}</a></h4>
-                            <span class="aa-product-price">Rp ${product.harga != null ? product.harga : 0}</span>
-                            <p class="aa-product-descrip">${(product.deskripsi != null) ? product.deskripsi : 'Tidak Ada Deskripsi'}</p>
-                        </figcaption>
-                    </figure>
-                    <div class="aa-product-hvr-content">
-                        <a href="javascript:void(0);" onclick="addToWishlist('${routeCreateWishlist}')" data-toggle="tooltip" data-placement="top" title="Add to Wishlist"><span class="fa fa-heart-o"></span></a>
-                        <a href="${routeProductDetail}">Lihat Produk</a>
-                    </div>
-                    <span class="aa-badge aa-sale" href="#">SALE!</span>
-                </li>
-            `;
-            productContainer.insertAdjacentHTML('beforeend', productHTML);
+        var productHtml = '';
+        let productPromises = products.map(product => {
+            return new Promise((resolve) => {
+                let newPrice = product.harga; // Start with the original price
+
+                getDiscountCategory(product.category_id).then(discountCategory => {
+                    // Check if discountCategory has valid data
+                    if (discountCategory && (discountCategory.diskon_persen != null || discountCategory.diskon_harga != null)) {
+                        // Calculate new price based on category discount
+                        if (discountCategory.diskon_persen != null && discountCategory.diskon_persen != 0) {
+                            let discount = product.harga * (discountCategory.diskon_persen / 100);
+                            newPrice -= discount; // Apply percentage discount
+                        }
+                        if (discountCategory.diskon_harga != null && discountCategory.diskon_harga != 0) {
+                            newPrice -= discountCategory.diskon_harga; // Apply flat discount
+                        }
+                    }
+
+                    return getDiscountProduct(product.id).then(discountProduct => {
+                        if (discountProduct) {
+                            if (discountProduct.diskon_persen != null && discountProduct.diskon_persen != 0) {
+                                let discount = product.harga * (discountProduct.diskon_persen / 100);
+                                newPrice -= discount; // Apply percentage discount
+                            }
+                            if (discountProduct.diskon_harga != null && discountProduct.diskon_harga != 0) {
+                                newPrice -= discountProduct.diskon_harga; // Apply flat discount
+                            }
+                        } else {
+                            console.warn('Discount product not found for product ID:', product.id);
+                        }
+
+                        // Resolve the promise with the updated product data
+                        resolve({ product, newPrice });
+                    }).catch(() => {
+                        console.warn('Error fetching discount for product ID:', product.id);
+                        resolve({ product, newPrice }); // Resolve with original price in case of error
+                    });
+                }).catch(() => {
+                    console.warn('Error fetching category discount for category ID:', product.category_id);
+                    resolve({ product, newPrice }); // Resolve with original price if there's an error
+                });
+            });
+        });
+
+        Promise.all(productPromises).then(productsWithPrices => {
+            productsWithPrices.forEach(({ product, newPrice }) => {
+                let routeProductDetail = "{{route('getProductById', ':id')}}".replace(':id', product.uuid);
+                let routeCreateWishlist = "{{route('wishlist.store', ':id')}}".replace(':id', product.uuid);
+                let routeCreateCart = "{{ route('cart.storeCartById', ':id') }}".replace(':id', product.uuid);
+
+                productHtml += `
+                    <li class="col-md-3">
+                        <figure>
+                            <a class="aa-product-img"><img src="${product.image != null ? urlPhoto + product.image : 'img/default/defaultProduct.png'}"  width="250px" height="300px" alt="${product.nama_barang}"></a>`
+
+                if(product.T_Stocks.stock == 0){
+                    productHtml += `<a class="aa-add-card-btn" @if($token == null) data-toggle="modal" data-target="#login-modal" @else href="javascript:void(0);" onclick="errorStock('${product.nama_barang}')" @endif><span class="fa fa-shopping-cart"></span>Add To Cart</a>`;
+                }else{
+                    productHtml += `<a class="aa-add-card-btn" @if($token == null) data-toggle="modal" data-target="#login-modal" @else href="javascript:void(0);" onclick="addToCart('${routeCreateCart}')" @endif><span class="fa fa-shopping-cart"></span>Add To Cart</a>`;
+                }
+
+                productHtml += `<figcaption>
+                                <h4 class="aa-product-title"><a href="#">${product.nama_barang}</a></h4>
+                                ${newPrice < product.harga ? `<span class="aa-product-price">Rp ${newPrice.toFixed(2)} </span><span class="aa-product-price"><del>Rp ${product.harga.toFixed(2)}</del></span>` : `<span class="aa-product-price">Rp ${newPrice.toFixed(2)} </span>`}
+                            </figcaption>
+                        </figure>
+                        <div class="aa-product-hvr-content">
+                        <a href="javascript:void(0);" onclick="addToWishlist('${routeCreateWishlist}')" title="Add to Wishlist"><span class="fa fa-heart-o"></span></a>`
+                         productHtml += `<a href="${routeProductDetail}">Lihat Produk</a>
+                        </div>
+                        <span class="aa-badge aa-sale" href="#">Stok: ${product.T_Stocks.stock}</span>
+                    </li>
+                `;
+            });
+
+            productContainer.insertAdjacentHTML('beforeend', productHtml);
         });
     }
 
