@@ -87,9 +87,9 @@
                     </div>
                 </div>
                 <button class="aa-browse-btn" type="submit">Login</button>
-                <p class="aa-lost-password"><a href="#">lupa password?</a></p>
+                <p class="aa-lost-password"><a href="{{ route('reset.index') }}">lupa password?</a></p>
                 <div class="aa-register-now">
-                Tidak Punya Akun IconGrosir?<a href="{{ route('register') }}">Register sekaraing!</a>
+                Tidak Punya Akun IconGrosir ?<a href="{{ route('register') }}">Register sekarang!</a>
                 </div>
             </form>
             </div>

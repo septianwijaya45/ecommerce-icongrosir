@@ -6,6 +6,7 @@ use App\Http\Controllers\Pages\HomeController;
 use App\Http\Controllers\Pages\ContactController;
 use App\Http\Controllers\Pages\ProductAllController;
 use App\Http\Controllers\Pages\ProductDetailController;
+use App\Http\Controllers\Pages\ResetPasswordController;
 use App\Http\Controllers\Auth\AuthUserController;
 use App\Http\Controllers\Auth\ConfirmOtpLogin;
 use App\Http\Controllers\Auth\AccountController;
@@ -43,6 +44,12 @@ Route::get('get-confirm-otp', [ConfirmOtpLogin::class, 'index'])->name('getConfi
 // register
 Route::get('register', [AuthUserController::class, 'register'])->name('register');
 Route::post('store', [AuthUserController::class, 'store'])->name('register.store');
+// reset password
+Route::get('reset-password', [ResetPasswordController::class, 'index'])->name('reset.index');
+Route::post('reset-password', [ResetPasswordController::class, 'store'])->name('reset.store');
+
+Route::get('change-password/{token}', [ResetPasswordController::class, 'indexReset'])->name('reset.password');
+Route::post('change-password/{token}', [ResetPasswordController::class, 'updatePassword'])->name('change.password');
 // otp
 Route::get('confirm-otp/{secretCode}/{register}', [AuthUserController::class, 'confirmOtp'])->name('confirm-otp');
 Route::post('check-confirm-otp', [AuthUserController::class, 'checkConfirmOtp'])->name('checkConfirmOtp');
