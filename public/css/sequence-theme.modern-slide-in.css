@@ -20,7 +20,7 @@
  * Copyright © 2015 Ian Lunn Design Limited unless otherwise stated.
  */
 
-@import url(http://fonts.googleapis.com/css?family=Oxygen:700|Source+Sans+Pro:300);
+@import url(https://fonts.googleapis.com/css?family=Oxygen:700|Source+Sans+Pro:300);
 
 body,
 html,
@@ -138,9 +138,9 @@ html,
   position: absolute;
   top: 50%;
   margin-top: -33px;
-  padding: 10px 15px;  
+  padding: 10px 15px;
   line-height: 45px;
-  border: 1px solid transparent;  
+  border: 1px solid transparent;
   cursor: pointer;
   text-align: center;
   pointer-events: auto;
@@ -148,9 +148,9 @@ html,
   transition-duration: .2s;
   -webkit-transform: translate3d(0, 0, 0);
   -ms-transform: translate3d(0, 0, 0);
-  transform: translate3d(0, 0, 0);    
+  transform: translate3d(0, 0, 0);
   font-size:50px;
-  text-shadow: none; 
+  text-shadow: none;
 }
 
 .seq .seq-next {
@@ -159,7 +159,7 @@ html,
 }
 
 .seq .seq-next:focus,
-.seq .seq-next:hover {  
+.seq .seq-next:hover {
   -webkit-transform: translate3d(4px, 0, 0);
   -ms-transform: translate3d(4px, 0, 0);
   transform: translate3d(4px, 0, 0);
@@ -337,7 +337,7 @@ html,
   .seq .seq-model {
     top: 0;
     bottom: 0;
-    width: 100%;    
+    width: 100%;
   }
 
   .seq .seq-model img {
