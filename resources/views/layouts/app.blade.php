@@ -15,17 +15,12 @@
     <link href="{{ asset('css/font-awesome.css') }}" rel="stylesheet">
     <!-- Bootstrap -->
     <link href="{{ asset('css/bootstrap.css') }}" rel="stylesheet">
-    <!-- SmartMenus jQuery Bootstrap Addon CSS -->
-    {{-- <link href="{{ asset('css/jquery.smartmenus.bootstrap.css') }}" rel="stylesheet"> --}}
-    <!-- Product view slider -->
-    {{-- <link rel="stylesheet" type="text/css" href="{{ asset('css/jquery.simpleLens.css') }}"> --}}
     <!-- slick slider -->
     <link rel="stylesheet" type="text/css" href="{{ asset('css/slick.css') }}">
     <!-- price picker slider -->
     <link rel="stylesheet" type="text/css" href="{{ asset('css/nouislider.css') }}">
     <!-- Theme color -->
     <link id="switcher" href="{{ asset('css/theme-color/default-theme.css') }}" rel="stylesheet">
-    {{-- <!-- <link id="switcher" href="css/theme-color/bridge-theme.css" rel="stylesheet"> --> --}}
     <!-- Top Slider CSS -->
     <link href="{{ asset('css/sequence-theme.modern-slide-in.css') }}" rel="stylesheet" media="all">
     <!-- Icon -->
@@ -35,12 +30,12 @@
     <link href="{{ asset('css/style.css') }}" rel="stylesheet">
 
     <!-- Google Font -->
-    <link href='https://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
-    <link href='https://fonts.googleapis.com/css?family=Raleway' rel='stylesheet' type='text/css'>
+    <link href='{{ asset('fonts/lato.css') }}' rel='stylesheet' type='text/css'>
+    <link href='{{ asset('fonts/raleway.css') }}' rel='stylesheet' type='text/css'>
 
     <!-- Sweet alert -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css">
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css"/>
+    <link rel="stylesheet" href="{{ asset('css/sweetalert.min.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/jquery.dataTables.min.css') }}"/>
     @yield('header')
 
   </head>
@@ -100,9 +95,9 @@
     @include('layouts.partials.footer')
 
     <!-- jQuery library -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
-    <script type="text/javascript" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+    <script src="{{ asset('js/jquery.min.js') }}"></script>
+    <script src="{{ asset('js/sweetalert.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/jquery.dataTables.min.js') }}"></script>
 
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="{{ asset('js/bootstrap.js') }}"></script>
