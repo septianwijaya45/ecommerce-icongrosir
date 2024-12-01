@@ -16,16 +16,16 @@
     <!-- Bootstrap -->
     <link href="{{ asset('css/bootstrap.css') }}" rel="stylesheet">
     <!-- SmartMenus jQuery Bootstrap Addon CSS -->
-    <link href="{{ asset('css/jquery.smartmenus.bootstrap.css') }}" rel="stylesheet">
+    {{-- <link href="{{ asset('css/jquery.smartmenus.bootstrap.css') }}" rel="stylesheet"> --}}
     <!-- Product view slider -->
-    <link rel="stylesheet" type="text/css" href="{{ asset('css/jquery.simpleLens.css') }}">
+    {{-- <link rel="stylesheet" type="text/css" href="{{ asset('css/jquery.simpleLens.css') }}"> --}}
     <!-- slick slider -->
     <link rel="stylesheet" type="text/css" href="{{ asset('css/slick.css') }}">
     <!-- price picker slider -->
     <link rel="stylesheet" type="text/css" href="{{ asset('css/nouislider.css') }}">
     <!-- Theme color -->
     <link id="switcher" href="{{ asset('css/theme-color/default-theme.css') }}" rel="stylesheet">
-    <!-- <link id="switcher" href="css/theme-color/bridge-theme.css" rel="stylesheet"> -->
+    {{-- <!-- <link id="switcher" href="css/theme-color/bridge-theme.css" rel="stylesheet"> --> --}}
     <!-- Top Slider CSS -->
     <link href="{{ asset('css/sequence-theme.modern-slide-in.css') }}" rel="stylesheet" media="all">
     <!-- Icon -->
