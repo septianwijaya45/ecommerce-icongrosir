@@ -331,7 +331,7 @@ document.addEventListener('DOMContentLoaded', function() {
             let routeProductDetail = "{{route('getProductById', ':id')}}".replace(':id', product.uuid);
             const productHTML = `
                 <li>
-                    <a href="${routeProductDetail}" class="aa-cartbox-img"><img alt="img" src="${(product.image != null) ? urlPhoto+product.image : baseUrl+'/img/default/defaultProduct.png'}"></a>
+                    <a href="${routeProductDetail}" class="aa-cartbox-img"><img alt="img" style="height:110px" src="${(product.image != null) ? urlPhoto+product.image : baseUrl+'/img/default/defaultProduct.png'}""></a>
                     <div class="aa-cartbox-info">
                         <h4><a href="#">${product.nama_barang}</a></h4>
                         <p>Rp ${product.harga}</p>

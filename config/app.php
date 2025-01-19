@@ -70,6 +70,7 @@ return [
     // 'backend_endpoint' => 'https://api-ecommerce.icongrosir.com/api',
 
     'photo_product' => 'https://backoffice-ecommerce.icongrosir.com/img/foto/produk/',
+    'video_product' => 'https://backoffice-ecommerce.icongrosir.com/img/video/produk/',
     // 'banner_app' => 'https://backoffice-ecommerce.icongrosir.com/img/gambar/banner/',
     // 'logo_app' => 'https://backoffice-ecommerce.icongrosir.com/img/gambar/logoApp/',
     /*

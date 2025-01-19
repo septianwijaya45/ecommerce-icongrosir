@@ -13,7 +13,11 @@
         {{ session('success') }}
     </div>
     @endif
-   <img src="{{ asset('img/products/detail-product.jpg') }}" alt="fashion img">
+    @foreach($banners as $banner)
+      @if (strpos($banner['name_menu_banner'], 'katalog') !== false)
+        <img data-seq src="{{ ($banner['image'] != null || $banner['image'] != '' ? $urlBanner.$banner['image'] : asset('img/fashion/fashion-header-bg-8.jpg')) }}" alt="Men slide img" />
+      @endif
+    @endforeach
    <div class="aa-catg-head-banner-area">
      <div class="container">
       <div class="aa-catg-head-banner-content">
@@ -43,21 +47,42 @@
                     <div id="demo-1" class="simpleLens-gallery-container">
                       <div class="simpleLens-container">
                         @if(count($photo) != 0)
-                          <div class="simpleLens-big-image-container"><a data-lens-image="{{ $photoUrl.$photo[0]['nama_file'] }}" class="simpleLens-lens-image"><img src="{{ $photoUrl.$photo[0]['nama_file'] }}" class="simpleLens-big-image"></a></div>
+                            @if (!str_ends_with($photo[0]['nama_file'], '.mp4'))
+                                <div class="simpleLens-big-image-container">
+                                    <a href="#aa-product-details" data-lens-image="{{ $photoUrl.$photo[0]['nama_file'] }}" class="simpleLens-lens-image">
+                                        <img src="{{ $photoUrl.$photo[0]['nama_file'] }}" class="simpleLens-big-image">
+                                    </a>
+                                </div>
+                            @else
+                                <div class="simpleLens-big-image-container">
+                                    <a href="#aa-product-details" data-lens-image="{{ $videoUrl.$photo[0]['nama_file'] }}" class="simpleLens-lens-image">
+                                        <video width="250" height="300" class="simpleLens-big-image">
+                                            <source src="{{ $videoUrl.$photo[0]['nama_file'] }}" type="video/mp4" >
+                                        </video>
+                                    </a>
+                                </div>
+                            @endif
                         @else
-                          <div class="simpleLens-big-image-container"><a data-lens-image="{{ asset('img/products/image-not-found.jpg') }}" class="simpleLens-lens-image"><img src="{{ asset('img/products/image-not-found.jpg') }}" class="simpleLens-big-image"></a></div>
+                          <div class="simpleLens-big-image-container"><a href="#aa-product-details" data-lens-image="{{ asset('img/products/image-not-found.jpg') }}" class="simpleLens-lens-image"><img src="{{ asset('img/products/image-not-found.jpg') }}" class="simpleLens-big-image"></a></div>
                         @endif
                       </div>
                       <div class="simpleLens-thumbnails-container">
                         @if(count($photo) != 0)
                           @foreach($photo as $foto)
-                            <a data-big-image="{{ $photoUrl.$foto['nama_file'] }}" data-lens-image="{{ $photoUrl.$foto['nama_file'] }}" class="simpleLens-thumbnail-wrapper" href="#">
-                              <img src="{{ $photoUrl.$foto['nama_file'] }}" width="50px">
-                            </a>
+                            @if(!Str::endsWith($foto['nama_file'], '.mp4'))
+                                {{-- Jika bukan .mp4 --}}
+                                <a href="#aa-product-details" data-big-image="{{ $photoUrl.$foto['nama_file'] }}" data-lens-image="{{ $photoUrl.$foto['nama_file'] }}" class="simpleLens-thumbnail-wrapper">
+                                    <img src="{{ $photoUrl.$foto['nama_file'] }}" width="50px">
+                                </a>
+                            @else
+                                <a href="#aa-product-details" data-big-image="{{ $videoUrl.$foto['nama_file'] }}" data-lens-image="{{ $videoUrl.$foto['nama_file'] }}" class="simpleLens-thumbnail-wrapper">
+                                    <img src="{{ asset('img/play-button.png') }}" width="50px">
+                                </a>
+                            @endif
                           @endforeach
                         @else
                           <br>
-                          <a data-big-image="{{ asset('img/products/image-not-found.jpg') }}" data-lens-image="{{ asset('img/products/image-not-found.jpg') }}" class="simpleLens-thumbnail-wrapper" href="#">
+                          <a href="#aa-product-details" data-big-image="{{ asset('img/products/image-not-found.jpg') }}" data-lens-image="{{ asset('img/products/image-not-found.jpg') }}" class="simpleLens-thumbnail-wrapper" >
                             <img src="{{ asset('img/products/image-not-found.jpg') }}" width="50px">
                           </a>
                         @endif
