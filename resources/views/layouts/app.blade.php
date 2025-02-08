@@ -69,7 +69,7 @@
             <form class="aa-login-form" method="POST" action="{{ route('login') }}" enctype="multipart/form-data">
               @csrf
                 <label for="">Nomor Telepon atau Email<span>*</span></label>
-                <input type="text" placeholder="Nomor Telepon atau Email" name="username" id="username" oninput="validatePhoneNumber(this)">
+                <input type="text" placeholder="Nomor Telepon atau Email" name="username" id="username">
                 <label for="">Password<span>*</span></label>
                 <div class="row">
                     <div class="col-md-10">
