@@ -159,7 +159,7 @@
                               @endphp
                               @forelse($checkout as $dt)
                               @php
-                                $total += $dt['harga']*$dt['qty'];
+                                $total += $dt['harga'];
                               @endphp
                               <tr>
                                 <td><a class="aa-cart-title" href="#">{{ $dt['nama_barang'] }}</a></td>
