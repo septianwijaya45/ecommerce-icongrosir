@@ -141,7 +141,55 @@
     </div>
 </section>
 
-
+<div class="modal fade" id="cartProduct" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Pilih varian terlebih dahulu</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <form action="" id="formCart">
+                <input type="hidden" name="product_name_id" id="product_name_id">
+                <div class="form-group">
+                    <label for="">Pilih Varian</label>
+                    <select id="varian"  name="varian" class="form-control">
+                        <option value="" selected>Silahkan Pilih Varian</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="">Warna</label>
+                    <select id="warna" name="warna" class="form-control">
+                        <option value="" selected>Silahkan Pilih Varian Terlebih Dahulu</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="">Ukuran</label>
+                    <select id="ukuran"  name="ukuran" class="form-control">
+                        <option value="" selected>Silahkan Pilih Varian Terlebih Dahulu</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="">Qty Pesanan</label>
+                    <input type="number" min="1" id="qty" placeholder="QTY Pesanan" class="form-control">
+                </div>
+                <div class="form-group">
+                    <p>Harga Produk: <span class="aa-product-view-price" id="harga-product">Rp 0</span></p>
+                </div>
+                <div class="form-group">
+                    <p>Stok Produk: <span class="aa-product-view-price" id="stock-data">0</span></p>
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+          <button type="button" class="btn btn-primary" id="btn-pesan">Pesan Sekarang</button>
+        </div>
+      </div>
+    </div>
+</div>
 @stop
 
 @section('script')
@@ -301,10 +349,13 @@ document.addEventListener('DOMContentLoaded', function() {
                         <figure>
                             <a class="aa-product-img"><img src="${product.image != null ? urlPhoto + product.image : 'img/default/defaultProduct.png'}"  width="250px" height="300px" alt="${product.nama_barang}"></a>`
 
-                if(product.T_Stocks.stock == 0){
+                if(product.T_Stocks.stock == 0 || product.T_Stocks.stock < 0){
                     productHtml += `<a class="aa-add-card-btn" @if($token == null) data-toggle="modal" data-target="#login-modal" @else href="javascript:void(0);" onclick="errorStock('${product.nama_barang}')" @endif><span class="fa fa-shopping-cart"></span>Add To Cart</a>`;
                 }else{
-                    productHtml += `<a class="aa-add-card-btn" @if($token == null) data-toggle="modal" data-target="#login-modal" @else href="javascript:void(0);" onclick="addToCart('${routeCreateCart}')" @endif><span class="fa fa-shopping-cart"></span>Add To Cart</a>`;
+                    let showPrice = newPrice < product.harga ? product.harga.toFixed(2) : newPrice.toFixed(2);
+                    productHtml += `<button type="button" class="aa-add-card-btn" @if($token == null) data-toggle="modal" data-target="#login-modal" @else  data-toggle="modal" data-target="#cartProduct" data-id="`+product.uuid+`" data-harga="`+showPrice+`" data-stock="`+product.T_Stocks.stock+`" @endif>
+                        <span class="fa fa-shopping-cart"></span>Add To Cart
+                    </button>`
                 }
 
                 productHtml += `<figcaption>
@@ -388,5 +439,164 @@ document.addEventListener('DOMContentLoaded', function() {
     fetchProducts(currentPage);
     fetchProductsTopView()
 });
+
+$(document).ready(function(){
+    // Cart Product Click
+    $('#cartProduct').on('hidden.bs.modal', function () {
+        $('#varian').html('<option value="" selected>Silahkan Pilih Varian</option>');
+        $('#warna').html('<option value="" selected>Silahkan Pilih Varian Terlebih Dahulu</option>');
+        $('#ukuran').html('<option value="" selected>Silahkan Pilih Varian Terlebih Dahulu</option>');
+        $('#qty').val('');
+        $('#product_name_id').val('')
+        $('#harga-product').html('')
+        $('#stock-data').html('')
+
+        $('#formCart')[0].reset();
+    });
+
+    $('#cartProduct').on('shown.bs.modal', function (e) {
+        $(`#varian`).html('');
+        let button = $(e.relatedTarget);
+        let productId = button.data('id')
+        let productHarga = button.data('harga')
+        let productStock = button.data('stock')
+        $('#product_name_id').val(productId)
+        $('#harga-product').html(productHarga)
+        $('#stock-data').html(productStock)
+
+        $.ajax({
+            url: '/Product/detail-product-variant/' + productId,
+            type: 'GET',
+            success: function(response) {
+                let variants = response.variants;
+                let variantSelect = $('#varian');
+                variantSelect.empty();
+                variantSelect.append('<option value="" selected>Silahkan Pilih Varian</option>');
+
+                $.each(variants, function(index, variant) {
+                    variantSelect.append('<option value="'+variant.variasi_detail+'" data-product="'+productId+'">'+variant.variasi_detail+'</option>');
+                });
+            },
+            error: function(xhr) {
+                console.log('Error:', xhr);
+            }
+        });
+    });
+
+    $('#varian').on('change', function(){
+        $(`#warna`).html('');
+        let product_id = $(this).find(':selected').data('product');
+        let varian = $(this).val();
+
+        $.ajax({
+            url: `{{ route('getWarnaProductId', [':product_id', ':varian']) }}`.replace(':product_id', product_id).replace(':varian', varian),
+            type: 'GET',
+            data: {
+                _token: '{{ csrf_token() }}'
+            },
+            success: function(response) {
+                let options = '<option value="">Pilih Warna</option>';
+                response.forEach(warna => {
+                    options += `<option value="${warna.warna}" data-product="`+product_id+`">${warna.warna}</option>`;
+                });
+                $(`#warna`).html(options);
+            },
+            error: function(xhr) {
+                swal("Error!", "Terdapat kesalahan saat menambahkan ke keranjang anda!", "error");
+            }
+        })
+    })
+
+    $('#warna').on('change', function(){
+        $(`#ukuran`).html('');
+        let product_id = $(this).find(':selected').data('product');
+        let varian = $('#varian').val();
+        let warna = $(this).val();
+
+        $.ajax({
+            url: `{{ route('getUkuranProductId', [':product_id', ':varian', ':warna']) }}`.replace(':product_id', product_id).replace(':varian', varian).replace(':warna', warna),
+            type: 'GET',
+            data: {
+                _token: '{{ csrf_token() }}'
+            },
+            success: function(response) {
+                let options = '<option value="">Pilih Ukuran</option>';
+                response.forEach(ukuran => {
+                    options += `<option value="${ukuran.ukuran}" data-product="`+product_id+`">${ukuran.ukuran}</option>`;
+                });
+                $(`#ukuran`).html(options);
+            },
+            error: function(xhr) {
+                swal("Error!", "Terdapat kesalahan saat menambahkan ke keranjang anda!", "error");
+            }
+        })
+    })
+
+    $('#ukuran').on('change', function(){
+        $(`#harga-product`).html('');
+        let product_id = $(this).find(':selected').data('product');
+        let varian = $('#varian').val();
+        let warna = $('#warna').val();
+        let ukuran = $(this).val();
+
+        $.ajax({
+            url: `{{ route('getHargaProductId', [':product_id', ':varian', ':warna', ':ukuran']) }}`.replace(':product_id', product_id).replace(':varian', varian).replace(':warna', warna).replace(':ukuran', ukuran),
+            type: 'GET',
+            data: {
+                _token: '{{ csrf_token() }}'
+            },
+            success: function(response) {
+                $(`#harga-product`).html('Rp. '+response.dataVarian.harga);
+                $(`#stock-data`).html(response.stock.stock);
+            },
+            error: function(xhr) {
+                swal("Error!", "Terdapat kesalahan saat menambahkan ke keranjang anda!", "error");
+            }
+        })
+    })
+
+    $('#btn-pesan').on('click', function(){
+        let product_id = $('#product_name_id').val();
+        let varian = $('#varian').val();
+        let warna = $('#warna').val();
+        let ukuran = $('#ukuran').val();
+        let qty = $('#qty').val()
+        let stock_data = parseInt($('#stock-data').text(), 10)
+
+        if(qty > stock_data){
+            showError('Stok Produck Tersisa: '+stock_data+'!');
+        } else if (!varian) {
+            showError('Silakan pilih varian.');
+        } else if (!warna) {
+            showError('Silakan pilih warna.');
+        } else if (!ukuran) {
+            showError('Silakan pilih ukuran.');
+        } else if (!qty || qty <= 0) {
+            showError('Silakan masukkan jumlah yang valid.');
+        }else{
+            swal({
+                title: "Apakah Anda Yakin?",
+                text: "Ingin Menambahkan Produk ke Keranjang?",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "Ya, Tambahkan!",
+                closeOnConfirm: false
+            }, function() {
+                swal({
+                    title: "Loading...",
+                    text: "Sedang Menambahkan ke Keranjang!",
+                    type: "warning",
+                    buttons: false,
+                    closeOnClickOutside: false,
+                    closeOnEsc: false,
+                    allowOutsideClick: false
+                });
+                window.location.href = `{{ route('cart.createCartByDetailProduct', [':product_id', ':varian', ':warna', ':ukuran', ':qty']) }}`.replace(':product_id', product_id).replace(':varian', varian).replace(':warna', warna).replace(':ukuran', ukuran).replace(':qty', qty)
+            });
+        }
+
+    })
+})
 </script>
 @stop

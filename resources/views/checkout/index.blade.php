@@ -282,6 +282,10 @@
                         setInterval(() => {
                             window.open(response.sendMessage, '_blank');
                         }, 1000);
+
+                        setInterval(() => {
+                            window.location.href = "{{ route('pesananSaya') }}"
+                        }, 5000);
                         }else{
                         swal("Gagal!", "Gagal Konfirmasi Pesanan Anda! Mungkin Sudah Terkonfirmasi.", "warning");
                         }

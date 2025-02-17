@@ -153,7 +153,8 @@ class MyCartController extends Controller
                     'status'  => $data['status'],
                     'message' => $data['message'],
                     'totalHarga' => formatRupiah($data['totalHarga'] ),
-                    'newQty'    => $data['newQty']
+                    'newQty'    => $data['newQty'],
+                    'stokKurang'    => $data['stokKurang'],
                 ]);
             } else {
                 $error = $response->json();

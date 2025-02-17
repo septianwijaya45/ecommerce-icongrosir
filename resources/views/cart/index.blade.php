@@ -58,7 +58,7 @@
                                         <p>{{ $data['nama_barang'] }}</p>
                                     </td>
                                     <td>
-                                    <select class="form-control" id="variant-{{ $data['id'] }}" onchange="loadVariant(`{{ $data['uuid'] }}`, this.value, `{{ $data['id'] }}`)" name="variant">
+                                    <select class="form-control" id="variant-{{ $data['id'] }}" onchange="loadVariant(`{{ $data['uuid'] }}`, this.value, `{{ $data['id'] }}`)" name="variant" readonly>
                                         <option value="">Pilih Varian</option>
                                         @foreach($data['variants'] as $variant)
                                         <option value="{{ $variant['variasi_detail'] }}" @if($variant['variasi_detail'] == $data['varian']) selected @endif>{{ $variant['variasi_detail'] }}</option>
@@ -66,7 +66,7 @@
                                     </select>
                                     </td>
                                     <td>
-                                    <select class="form-control" id="warna-{{ $data['id'] }}" onchange="loadColors(`{{ $data['uuid'] }}`, this.value, `{{ $data['id'] }}`)" name="warna">
+                                    <select class="form-control" id="warna-{{ $data['id'] }}" onchange="loadColors(`{{ $data['uuid'] }}`, this.value, `{{ $data['id'] }}`)" name="warna" readonly>
                                         <option value="">Pilih Warna</option>
                                         @foreach($data['warnas'] as $warna)
                                         <option value="{{ $warna['warna'] }}" @if($warna['warna'] == $data['warna']) selected @endif>{{ $warna['warna'] }}</option>
@@ -74,7 +74,7 @@
                                     </select>
                                     </td>
                                     <td>
-                                    <select class="form-control" id="ukuran-{{ $data['id'] }}" onchange="loadSizes(`{{ $data['uuid'] }}`, this.value, `{{ $data['id'] }}`)" name="ukuran">
+                                    <select class="form-control" id="ukuran-{{ $data['id'] }}" onchange="loadSizes(`{{ $data['uuid'] }}`, this.value, `{{ $data['id'] }}`)" name="ukuran" readonly>
                                         <option value="">Pilih Ukuran</option>
                                         @foreach($data['ukurans'] as $ukuran)
                                         <option value="{{ $ukuran['ukuran'] }}" @if($ukuran['ukuran'] == $data['ukuran']) selected @endif>{{ $ukuran['ukuran'] }}</option>
@@ -160,43 +160,43 @@
         });
     }
 
-    function addOtherVarian(id){
-        let variant = $('#variant-'+id).val()
-        let warna = $('#warna-'+id).val()
-        let ukuran = $('#ukuran-'+id).val()
-        let newRow = '';
+    // function addOtherVarian(id){
+    //     let variant = $('#variant-'+id).val()
+    //     let warna = $('#warna-'+id).val()
+    //     let ukuran = $('#ukuran-'+id).val()
+    //     let newRow = '';
 
-        swal({
-            title: "Loading...",
-            text: "Proses Tambah Produk Ke Keranjang Anda!",
-            type: "warning",
-            buttons: false,
-            closeOnClickOutside: false,
-            closeOnEsc: false,
-            allowOutsideClick: false
-        });
+    //     swal({
+    //         title: "Loading...",
+    //         text: "Proses Tambah Produk Ke Keranjang Anda!",
+    //         type: "warning",
+    //         buttons: false,
+    //         closeOnClickOutside: false,
+    //         closeOnEsc: false,
+    //         allowOutsideClick: false
+    //     });
 
-        $.ajax({
-            url: "{{ route('cart.duplicateProduct',[':id']) }}".replace(':id', id),
-            type: 'GET',
-            data: {
-                _token: '{{ csrf_token() }}'
-            },
-            success: function(response) {
-                if(response.status == true){
-                    swal("Success!", "Berhasil Tambah Produk ke Cart Anda!.", "success");
-                    setInterval(() => {
-                        window.location.reload();
-                    }, 1000);;
-                }else{
-                    swal("Gagal!", "Gagal Tambah Produk Pesanan Anda!.", "error");
-                }
-            },
-            error: function(xhr) {
-                swal("Error!", "Terdapat kesalahan saat menambahkan ke keranjang anda!", "error");
-            }
-        })
-    }
+    //     $.ajax({
+    //         url: "{{ route('cart.duplicateProduct',[':id']) }}".replace(':id', id),
+    //         type: 'GET',
+    //         data: {
+    //             _token: '{{ csrf_token() }}'
+    //         },
+    //         success: function(response) {
+    //             if(response.status == true){
+    //                 swal("Success!", "Berhasil Tambah Produk ke Cart Anda!.", "success");
+    //                 setInterval(() => {
+    //                     window.location.reload();
+    //                 }, 1000);;
+    //             }else{
+    //                 swal("Gagal!", "Gagal Tambah Produk Pesanan Anda!.", "error");
+    //             }
+    //         },
+    //         error: function(xhr) {
+    //             swal("Error!", "Terdapat kesalahan saat menambahkan ke keranjang anda!", "error");
+    //         }
+    //     })
+    // }
 
     function changeQty(product_id, qty, cart){
         let variant = $('#variant-'+cart).val()
@@ -214,9 +214,16 @@
                 },
                 success: function(response) {
                 if(response.status == true){
-                    swal("Success!", response.message, "success");
-                    $('#totalHarga').html(response.totalHarga)
-                    $('#qty-'+cart).val(response.newQty)
+                    console.log(response.stokKurang)
+                    if(response.stokKurang == true){
+                        swal("Warning!", response.message, "warning");
+                        $('#totalHarga').html(response.totalHarga)
+                        $('#qty-'+cart).val(response.newQty)
+                    }else{
+                        swal("Success!", response.message, "success");
+                        $('#totalHarga').html(response.totalHarga)
+                        $('#qty-'+cart).val(response.newQty)
+                    }
                 }else{
                     swal("Gagal!", "Gagal Update Qty Pesanan Anda! Mungkin QTY Melebihi Stok Toko!.", "error");
                     $('#qty-'+cart).val(response.newQty)
@@ -229,65 +236,65 @@
         }
     }
 
-    function loadVariant(product_id, variant, wishlist){
-      $.ajax({
-        url: `{{ route('cart.warna', [':product_id', ':variant', ':wishlist']) }}`.replace(':product_id', product_id).replace(':variant', variant).replace(':wishlist', wishlist),
-        type: 'GET',
-        data: {
-            _token: '{{ csrf_token() }}'
-        },
-        success: function(response) {
-          let options = '<option value="">Pilih Warna</option>';
-          response.forEach(color => {
-                  options += `<option value="${color.warna}">${color.warna}</option>`;
-              });
-          $(`#warna-${wishlist}`).html(options);
-        },
-        error: function(xhr) {
-            swal("Error!", "Terdapat kesalahan saat menambahkan ke keranjang anda!", "error");
-        }
-      })
-    }
+    // function loadVariant(product_id, variant, wishlist){
+    //   $.ajax({
+    //     url: `{{ route('cart.warna', [':product_id', ':variant', ':wishlist']) }}`.replace(':product_id', product_id).replace(':variant', variant).replace(':wishlist', wishlist),
+    //     type: 'GET',
+    //     data: {
+    //         _token: '{{ csrf_token() }}'
+    //     },
+    //     success: function(response) {
+    //       let options = '<option value="">Pilih Warna</option>';
+    //       response.forEach(color => {
+    //               options += `<option value="${color.warna}">${color.warna}</option>`;
+    //           });
+    //       $(`#warna-${wishlist}`).html(options);
+    //     },
+    //     error: function(xhr) {
+    //         swal("Error!", "Terdapat kesalahan saat menambahkan ke keranjang anda!", "error");
+    //     }
+    //   })
+    // }
 
 
-    function loadColors(product_id, warna, wishlist){
-        let variant = $('#variant-'+wishlist).val()
-        $.ajax({
-            url: `{{ route('cart.ukuran', [':product_id', ':variant', ':warna', ':wishlist']) }}`.replace(':product_id', product_id).replace(':variant', variant).replace(':warna', warna).replace(':wishlist', wishlist),
-            type: 'GET',
-            data: {
-                _token: '{{ csrf_token() }}'
-            },
-            success: function(response) {
-                console.log(response);
-                let options = '<option value="">Pilih Ukuran</option>';
-                response.forEach(ukuran => {
-                        options += `<option value="${ukuran.ukuran}">${ukuran.ukuran}</option>`;
-                    });
-                $(`#ukuran-${wishlist}`).html(options);
-            },
-            error: function(xhr) {
-                swal("Error!", "Terdapat kesalahan saat menambahkan ke keranjang anda!", "error");
-            }
-        })
-    }
+    // function loadColors(product_id, warna, wishlist){
+    //     let variant = $('#variant-'+wishlist).val()
+    //     $.ajax({
+    //         url: `{{ route('cart.ukuran', [':product_id', ':variant', ':warna', ':wishlist']) }}`.replace(':product_id', product_id).replace(':variant', variant).replace(':warna', warna).replace(':wishlist', wishlist),
+    //         type: 'GET',
+    //         data: {
+    //             _token: '{{ csrf_token() }}'
+    //         },
+    //         success: function(response) {
+    //             console.log(response);
+    //             let options = '<option value="">Pilih Ukuran</option>';
+    //             response.forEach(ukuran => {
+    //                     options += `<option value="${ukuran.ukuran}">${ukuran.ukuran}</option>`;
+    //                 });
+    //             $(`#ukuran-${wishlist}`).html(options);
+    //         },
+    //         error: function(xhr) {
+    //             swal("Error!", "Terdapat kesalahan saat menambahkan ke keranjang anda!", "error");
+    //         }
+    //     })
+    // }
 
-    function loadSizes(product_id, ukuran, wishlist){
-        let variant = $('#variant-'+wishlist).val()
-        let warna = $('#warna-'+wishlist).val()
-        $.ajax({
-        url: `{{ route('cart.harga', [':product_id', ':variant', ':warna', ':ukuran', ':wishlist']) }}`.replace(':product_id', product_id).replace(':variant', variant).replace(':warna', warna).replace(':ukuran', ukuran).replace(':wishlist', wishlist),
-        type: 'GET',
-        data: {
-            _token: '{{ csrf_token() }}'
-        },
-        success: function(response) {
-            $(`#harga-${wishlist}`).val(response.harga);
-        },
-        error: function(xhr) {
-            swal("Error!", "Terdapat kesalahan saat menambahkan ke keranjang anda!", "error");
-        }
-        })
-    }
+    // function loadSizes(product_id, ukuran, wishlist){
+    //     let variant = $('#variant-'+wishlist).val()
+    //     let warna = $('#warna-'+wishlist).val()
+    //     $.ajax({
+    //     url: `{{ route('cart.harga', [':product_id', ':variant', ':warna', ':ukuran', ':wishlist']) }}`.replace(':product_id', product_id).replace(':variant', variant).replace(':warna', warna).replace(':ukuran', ukuran).replace(':wishlist', wishlist),
+    //     type: 'GET',
+    //     data: {
+    //         _token: '{{ csrf_token() }}'
+    //     },
+    //     success: function(response) {
+    //         $(`#harga-${wishlist}`).val(response.harga);
+    //     },
+    //     error: function(xhr) {
+    //         swal("Error!", "Terdapat kesalahan saat menambahkan ke keranjang anda!", "error");
+    //     }
+    //     })
+    // }
 </script>
 @stop

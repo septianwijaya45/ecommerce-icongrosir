@@ -39,7 +39,7 @@ class ProductDetailController extends Controller
 
         $relatedProduct = $this->getRelatedProduct($category['category']);
         $getBanners = Http::get($this->apiUrl.'/home/banner-app/get-data/');
-        
+
         return view('product.detail-product', [
             'photoUrl'          => $this->photoUrl,
             'videoUrl'          => $this->videoUrl,
@@ -54,6 +54,16 @@ class ProductDetailController extends Controller
             'token'             => getToken($request),
             'banners'           => $getBanners['data'],
             'urlBanner'         => $this->banner,
+        ]);
+    }
+
+    public function getProductDetailVariant(Request $request, $productId){
+        $getProductById = Http::get($this->apiUrl.'/home/product/get-product-by-id/'.$productId);
+        $productById    = $getProductById->json();
+        $variants       = $productById['variants'];
+
+        return response()->json([
+            'variants'          => $variants
         ]);
     }
 }

@@ -76,6 +76,10 @@ Route::group(['prefix' => 'Product'], function(){
     Route::get('get-warna-product/{product_id}/{variant}', [GetDetailProductController::class, 'getWarnaProductId'])->name('getWarnaProductId');
     Route::get('get-ukuran-product/{product_id}/{variant}/{warna}', [GetDetailProductController::class, 'getUkuranProductId'])->name('getUkuranProductId');
     Route::get('get-harga-product/{product_id}/{variant}/{warna}/{ukuran}', [GetDetailProductController::class, 'getHargaProductId'])->name('getHargaProductId');
+
+    // Product Detail
+    Route::get('/detail-product-variant/{id}', [ProductDetailController::class, 'getProductDetailVariant'])->name('getProductDetailVariant');
+
 });
 
 Route::group(['prefix' => 'wishlist'], function(){
