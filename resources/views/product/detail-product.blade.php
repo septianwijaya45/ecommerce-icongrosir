@@ -367,6 +367,13 @@
                     confirmButtonText: "Ya, Tambahkan!",
                     closeOnConfirm: false
                 }, function() {
+                    let url = `{{ route('cart.createCartByDetailProduct', [':product_id', ':varian', ':warna', ':ukuran', ':qty']) }}`;
+                        url = url.replace(':product_id', product_id)
+                                .replace(':varian', varian)
+                                .replace(':warna', warna)
+                                .replace(':ukuran', ukuran)
+                                .replace(':qty', qty);
+
                     swal({
                         title: "Loading...",
                         text: "Sedang Menambahkan ke Keranjang!",
@@ -376,7 +383,44 @@
                         closeOnEsc: false,
                         allowOutsideClick: false
                     });
-                    window.location.href = `{{ route('cart.createCartByDetailProduct', [':product_id', ':varian', ':warna', ':ukuran', ':qty']) }}`.replace(':product_id', product_id).replace(':varian', varian).replace(':warna', warna).replace(':ukuran', ukuran).replace(':qty', qty)
+                    $.ajax({
+                        url: url,
+                        type: 'GET',
+                        data: {
+                            product_id: product_id,
+                            varian: varian,
+                            warna: warna,
+                            ukuran: ukuran,
+                            qty: qty
+                        },
+                        success: function(response) {
+
+                            if(response.status == true){
+                                swal({
+                                    title: "Berhasil!",
+                                    text: "Produk telah ditambahkan ke keranjang.",
+                                    type: "success"
+                                });
+
+                                setInterval(() => {
+                                    window.location.reload()
+                                }, 2000);
+                            }else{
+                                swal({
+                                    title: "Gagal!",
+                                    text: response.message,
+                                    type: "warning"
+                                });
+                            }
+                        },
+                        error: function(xhr) {
+                            swal({
+                                title: "Gagal!",
+                                text: "Terjadi kesalahan saat menambahkan produk ke keranjang.",
+                                type: "error"
+                            });
+                        }
+                    });
                 });
             }
 

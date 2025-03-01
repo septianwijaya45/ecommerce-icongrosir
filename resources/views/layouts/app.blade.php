@@ -144,10 +144,10 @@
                         _token: '{{ csrf_token() }}'
                     },
                     success: function(response) {
-                    swal("Success!", "Berhasil Hapus Cart Anda!.", "success");
-                    setInterval(() => {
-                        window.location.reload();
-                    }, 1000);
+                        swal("Success!", "Berhasil Hapus Cart Anda!.", "success");
+                        setInterval(() => {
+                            window.location.reload();
+                        }, 1000);
                     },
                     error: function(xhr) {
                         swal("Error!", "An error occurred while deleting the wishlist item.", "error");

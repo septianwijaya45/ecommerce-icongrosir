@@ -297,13 +297,13 @@ class MyCartController extends Controller
             ])->get($this->apiUrl.'/transaction/cart/create-cart-by-detail/'.$id.'/'.$varian.'/'.$warna.'/'.$ukuran.'/'.$qty);
             $jsoncreateWishlist = $createWishlist->json();
 
-            if($jsoncreateWishlist['status'] == true){
-                return redirect()->back()->with([
-                    'success' => $jsoncreateWishlist['message']
-                ]);
-            }else{
-                return redirect()->back()->with('error', $jsoncreateWishlist['message']);
-            }
+            \Log::info($jsoncreateWishlist);
+            return response()->json([
+                'message'   => $jsoncreateWishlist['message'],
+                'status'    => $jsoncreateWishlist['status'],
+                'stock'     => isset($jsoncreateWishlist['stock']) ? $jsoncreateWishlist['stock'] : '-',
+            ]);
+
         } catch (\Exception $e) {
             \Log::error($e);
             return redirect()->back()->with([

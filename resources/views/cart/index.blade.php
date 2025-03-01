@@ -218,7 +218,6 @@
                     if(response.stokKurang == true){
                         swal("Warning!", response.message, "warning");
                         $('#totalHarga').html(response.totalHarga)
-                        $('#qty-'+cart).val(response.newQty)
                     }else{
                         swal("Success!", response.message, "success");
                         $('#totalHarga').html(response.totalHarga)
