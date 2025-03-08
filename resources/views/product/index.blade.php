@@ -555,16 +555,16 @@ $(document).ready(function(){
         })
     })
 
-    $('#btn-pesan').on('click', function(){
+    $('#btn-pesan').on('click', function() {
         let product_id = $('#product_name_id').val();
         let varian = $('#varian').val();
         let warna = $('#warna').val();
         let ukuran = $('#ukuran').val();
-        let qty = $('#qty').val()
-        let stock_data = parseInt($('#stock-data').text(), 10)
+        let qty = $('#qty').val();
+        let stock_data = parseInt($('#stock-data').text(), 10);
 
-        if(qty > stock_data){
-            showError('Stok Produck Tersisa: '+stock_data+'!');
+        if (qty > stock_data) {
+            showError('Stok Produk Tersisa: ' + stock_data + '!');
         } else if (!varian) {
             showError('Silakan pilih varian.');
         } else if (!warna) {
@@ -573,7 +573,7 @@ $(document).ready(function(){
             showError('Silakan pilih ukuran.');
         } else if (!qty || qty <= 0) {
             showError('Silakan masukkan jumlah yang valid.');
-        }else{
+        } else {
             swal({
                 title: "Apakah Anda Yakin?",
                 text: "Ingin Menambahkan Produk ke Keranjang?",
@@ -592,11 +592,52 @@ $(document).ready(function(){
                     closeOnEsc: false,
                     allowOutsideClick: false
                 });
-                window.location.href = `{{ route('cart.createCartByDetailProduct', [':product_id', ':varian', ':warna', ':ukuran', ':qty']) }}`.replace(':product_id', product_id).replace(':varian', varian).replace(':warna', warna).replace(':ukuran', ukuran).replace(':qty', qty)
+
+                let url = `{{ route('cart.createCartByDetailProduct', [':product_id', ':varian', ':warna', ':ukuran', ':qty']) }}`
+                            .replace(':product_id', product_id)
+                            .replace(':varian', varian)
+                            .replace(':warna', warna)
+                            .replace(':ukuran', ukuran)
+                            .replace(':qty', qty);
+
+                $.ajax({
+                    url: url,
+                    method: 'GET',
+                    success: function(response) {
+                        if (response.status) {
+                            swal({
+                                title: "Produk Ditambahkan!",
+                                text: response.message,
+                                type: "success",
+                                confirmButtonText: "OK"
+                            });
+
+                            setInterval(() => {
+                                window.location.reload()
+                            }, 1000);
+                        } else {
+                            swal({
+                                title: "Gagal!",
+                                text: response.message,
+                                type: "error",
+                                confirmButtonText: "Coba Lagi"
+                            });
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        swal.close(); // Tutup swal loading
+                        swal({
+                            title: "Terjadi Kesalahan!",
+                            text: "Silakan coba lagi nanti.",
+                            type: "error",
+                            confirmButtonText: "OK"
+                        });
+                    }
+                });
             });
         }
+    });
 
-    })
 })
 </script>
 @stop
