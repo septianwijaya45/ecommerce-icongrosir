@@ -78,9 +78,10 @@
                                                     $message .= "\nTerima Kasih";
 
                                                     $message = urlencode($message);
+                                                    $no = 0;
                                                 @endphp
                                                 <tr class="text-center">
-                                                    <td>{{ $index + 1 }}</td>
+                                                    <td>{{ $no +=1 }}</td>
                                                     <td>{{ $transaction['kode_invoice'] }}</td>
                                                     <td>{{ $transaction['tanggal_pesan'] }}</td>
                                                     <td>{{ count($transaction['products']) }}</td>
