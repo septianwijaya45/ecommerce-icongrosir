@@ -39,7 +39,10 @@ class PesananSayaController extends Controller
         $transactions = [];
 
         $data = $jsoncreateWishlist['data'];
+
+        $total_harga = 0;
         foreach ($data as $item) {
+            $total_harga += $item['total_harga'];
             $kode_invoice = $item['kode_invoice'];
 
             if (!isset($transactions[$kode_invoice])) {
@@ -49,10 +52,9 @@ class PesananSayaController extends Controller
                     'kode_invoice' => $kode_invoice,
                     'ekspedisi' => $item['ekspedisi'],
                     'products' => [],
-                    'total_harga' => 0,
                     'konfirmasi_admin' => $item['konfirmasi_admin'],
                     'tanggal_pesan' => date('d F Y H:i:s', strtotime($item['createdAt'])),
-                    'total_harga' => $item['total_harga']
+                    'total_harga' => $total_harga
                 ];
             }
 
@@ -91,6 +93,7 @@ class PesananSayaController extends Controller
         $data['banners']    = $getBanners['data'];
         $data['urlBanner']  = $this->banner;
         $data['historyTransaction'] = $transactions;
+        $data['total_harga'] = $total_harga;
         return view('transaction.history', $data);
     }
 }

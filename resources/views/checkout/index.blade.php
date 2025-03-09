@@ -92,41 +92,41 @@
                </div>
                <div class="col-md-4">
                     <div class="row">
-                        @if(isset($checkout[0]['kode_invoice']))
-                        <div class="col-md-12">
-                            <div class="checkout-right">
-                              <h4>Kode Pesanan: </h4>
-                              <div class="aa-payment-method text-center">
-                                <p class="text-center" style="font-weight: bold">{{ $checkout[0]['kode_invoice'] }}</p>
-                              </div>
-                            </div>
-                        </div>
-                        <div class="col-md-12 mt-2">
-                            <div class="checkout-right">
-                                <br>
-                              <h4>Pilih Ekspedisi</h4>
-                              <div class="aa-payment-method text-center">
-                                <div class="form-group">
-                                    <label for="ekspedisi_id">Pilih Ekspedisi Yang Digunakan</label>
-                                    <select name="ekspedisi_id" id="ekspedisi" class="form-control">
-                                        <option value="" selected disabled>Pilih Ekspedisi</option>
-                                        @foreach($expeditions as $expedition)
-                                            <option value="{{ $expedition['id'] }}">{{ $expedition['ekspedisi'] }}</option>
-                                        @endforeach
-                                    </select>
+                        @if(isset($checkout['kode_invoice']))
+                            <div class="col-md-12">
+                                <div class="checkout-right">
+                                <h4>Kode Pesanan: </h4>
+                                <div class="aa-payment-method text-center">
+                                    <p class="text-center" style="font-weight: bold">{{ $checkout['kode_invoice'] }}</p>
                                 </div>
-                              </div>
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-md-12 mt-2">
-                            <div class="checkout-right">
-                                <br>
-                              <h4>Konfirmasi Pesanan</h4>
-                              <div class="aa-payment-method text-center">
-                                <button type="button" class="btn btn-success text-center" id="confirm-pesanan">Konfirmasi Pesanan Sekarang!</button>
-                              </div>
+                            <div class="col-md-12 mt-2">
+                                <div class="checkout-right">
+                                    <br>
+                                <h4>Pilih Ekspedisi</h4>
+                                <div class="aa-payment-method text-center">
+                                    <div class="form-group">
+                                        <label for="ekspedisi_id">Pilih Ekspedisi Yang Digunakan</label>
+                                        <select name="ekspedisi_id" id="ekspedisi" class="form-control">
+                                            <option value="" selected disabled>Pilih Ekspedisi</option>
+                                            @foreach($expeditions as $expedition)
+                                                <option value="{{ $expedition['id'] }}">{{ $expedition['ekspedisi'] }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                                </div>
                             </div>
-                        </div>
+                            <div class="col-md-12 mt-2">
+                                <div class="checkout-right">
+                                    <br>
+                                <h4>Konfirmasi Pesanan</h4>
+                                <div class="aa-payment-method text-center">
+                                    <button type="button" class="btn btn-success text-center" id="confirm-pesanan">Konfirmasi Pesanan Sekarang!</button>
+                                </div>
+                                </div>
+                            </div>
                         @endif
                     </div>
                </div>
@@ -148,6 +148,7 @@
                               <tr>
                                 <th>Produk</th>
                                 <th>Varian</th>
+                                <th>Warna</th>
                                 <th>Ukuran</th>
                                 <th>QTY Dibeli</th>
                                 <th>Harga</th>
@@ -157,13 +158,14 @@
                               @php
                                 $total = 0;
                               @endphp
-                              @forelse($checkout as $dt)
+                              @forelse($checkouts as $dt)
                               @php
                                 $total += $dt['harga'];
                               @endphp
                               <tr>
                                 <td><a class="aa-cart-title" href="#">{{ $dt['nama_barang'] }}</a></td>
                                 <td>{{ $dt['variasi'] }}</td>
+                                <td>{{ $dt['warna'] }}</td>
                                 <td>{{ $dt['ukuran'] }}</td>
                                 <td>{{ $dt['qty'] }}</td>
                                 <td>{{ formatRupiah($dt['harga']) }}</td>
@@ -180,7 +182,7 @@
                                 <th></th>
                                 <th></th>
                                 <th class="text-right">Subtotal:</th>
-                                <td>{{ formatRupiah($total) }}</td>
+                                <td colspan="2" class="bg-primary" style="font-weight: bolder">{{ formatRupiah($total) }}</td>
                               </tr>
                             </tfoot>
                           </table>

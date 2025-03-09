@@ -23,94 +23,96 @@
       @endif
     @endforeach
     <div class="aa-catg-head-banner-area">
-      <div class="container">
-       <div class="aa-catg-head-banner-content">
-         <h2>Pesanan Saya</h2>
-         <ol class="breadcrumb">
-           <li><a href="{{ route('home') }}">Home</a></li>
-           <li class="active">Pesanan Saya</li>
-         </ol>
-       </div>
-      </div>
+        <div class="container">
+            <div class="aa-catg-head-banner-content">
+                <h2>Pesanan Saya</h2>
+                <ol class="breadcrumb">
+                    <li><a href="{{ route('home') }}">Home</a></li>
+                    <li class="active">Pesanan Saya</li>
+                </ol>
+            </div>
+        </div>
     </div>
 </section>
 
 
-<section id="aa-myaccount">
+<section id="cart-view" style="margin-bottom: 30px">
     <div class="container">
-      <div class="row">
-        <div class="col-md-12">
-         <div class="aa-myaccount-area">
-             <div class="row">
-               <div class="col-md-12">
-                 <div class="aa-myaccount-register">
-                    {{-- INI DETAIL --}}
-                    <h4>Detail Pesanan Saya</h4>
-                    <table id="transactionTable" class="table table-bordered">
-                        <thead>
-                            <tr>
-                                <th>No</th>
-                                <th>Nomor Transaksi</th>
-                                <th>Tanggal Dipesan</th>
-                                <th>Total Product</th>
-                                <th>Detail Product</th>
-                                <th>Total Harga</th>
-                                <th>Status Konfirmasi</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($historyTransaction as $index => $transaction)
+        <div class="row">
+            <div class="col-md-12">
+                <div class="cart-view-area">
+                    <div class="cart-view-table">
+                        <div class="card">
+                            <div class="col-md-12">
+                                <div class="table-responsive">
+                                    {{-- INI DETAIL --}}
+                                    <h4>Detail Pesanan Saya</h4>
+                                    <table id="transactionTable" class="table table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th>No</th>
+                                                <th>Nomor Transaksi</th>
+                                                <th>Tanggal Dipesan</th>
+                                                <th>Total Product</th>
+                                                <th>Detail Product</th>
+                                                <th>Total Harga</th>
+                                                <th>Status Konfirmasi</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($historyTransaction as $index => $transaction)
 
-                                @php
-                                    $message = "Hallo Permisi,\n";
-                                    $message .= "Saya " . $transaction['name'] . " ingin memesan produk yang sudah saya checkout melalui aplikasi website icongrosir.com dengan detail ini:\n";
+                                                @php
+                                                    $message = "Hallo Permisi,\n";
+                                                    $message .= "Saya " . $transaction['name'] . " ingin memesan produk yang sudah saya checkout melalui aplikasi website icongrosir.com dengan detail ini:\n";
 
-                                    $message .= "Nomor Order:".$transaction['kode_invoice'].'\n';
-                                    $message .= "Ekspedisi yang Dipilih:".$transaction['ekspedisi'].'\n';
-                                    foreach ($transaction['products'] as $index => $product) {
-                                        $message .= ($index + 1) . ". " . $product['nama_barang'] . " (" . $product['variasi'] . ") - " . $product['warna'] . " | ukuran: " . $product['ukuran'] . " sebanyak Qty: " . $product['qty'] . "\n";
-                                    }
+                                                    $message .= "Nomor Order:".$transaction['kode_invoice']."\n";
+                                                    $message .= "Ekspedisi yang Dipilih:".$transaction['ekspedisi']."\n";
+                                                    foreach ($transaction['products'] as $index => $product) {
+                                                        $message .= ($index + 1) . ". " . $product['nama_barang'] . " (" . $product['variasi'] . ") - " . $product['warna'] . " | ukuran: " . $product['ukuran'] . " sebanyak Qty: " . $product['qty'] . "\n";
+                                                    }
 
-                                    $message .= "\nMohon bisa diproses di alamat saya ya:\n";
-                                    $message .= $transaction['alamat'] . "\n";
-                                    $message .= "\nTerima Kasih";
+                                                    $message .= "\nMohon bisa diproses di alamat saya ya:\n";
+                                                    $message .= $transaction['alamat'] . "\n";
+                                                    $message .= "\nTerima Kasih";
 
-                                    $message = urlencode($message);
-                                @endphp
-                                <tr class="text-center">
-                                    <td>{{ $index + 1 }}</td>
-                                    <td>{{ $transaction['kode_invoice'] }}</td>
-                                    <td>{{ $transaction['tanggal_pesan'] }}</td>
-                                    <td>{{ count($transaction['products']) }}</td>
-                                    <td>
-                                        <ul>
-                                            @foreach ($transaction['products'] as $product)
-                                                <li>{{ $product['nama_barang'] }} (Qty: {{ $product['qty'] }})</li>
+                                                    $message = urlencode($message);
+                                                @endphp
+                                                <tr class="text-center">
+                                                    <td>{{ $index + 1 }}</td>
+                                                    <td>{{ $transaction['kode_invoice'] }}</td>
+                                                    <td>{{ $transaction['tanggal_pesan'] }}</td>
+                                                    <td>{{ count($transaction['products']) }}</td>
+                                                    <td>
+                                                        <ul>
+                                                            @foreach ($transaction['products'] as $product)
+                                                                <li>{{ $product['nama_barang'] }} (Qty: {{ $product['qty'] }})</li>
+                                                            @endforeach
+                                                        </ul>
+                                                    </td>
+                                                    <td>Rp{{ number_format($total_harga, 2, ',', '.') }}</td>
+                                                    <td>
+                                                        @if($transaction['konfirmasi_admin'] == 1)
+                                                            <span class="text-success">Terkonfirmasi</span>
+                                                        @else
+                                                            <span class="text-danger">Belum Dikonfirmasi</span>
+                                                        @endif
+                                                    </td>
+                                                    <td>
+                                                        <a href="https://api.whatsapp.com/send?phone={{ convertPhoneToInternational($setting['no_telp']) }}&text={{ $message }}" class="btn btn-success" target="_blank">Kirim Pesan WA</a>
+                                                    </td>
+                                                </tr>
                                             @endforeach
-                                        </ul>
-                                    </td>
-                                    <td>Rp{{ number_format($transaction['total_harga'], 2, ',', '.') }}</td>
-                                    <td>
-                                        @if($transaction['konfirmasi_admin'] == 1)
-                                            <span class="text-success">Terkonfirmasi</span>
-                                        @else
-                                            <span class="text-danger">Belum Dikonfirmasi</span>
-                                        @endif
-                                    </td>
-                                    <td>
-                                        <a href="https://api.whatsapp.com/send?phone={{ convertPhoneToInternational($setting['no_telp']) }}&text={{ $message }}" class="btn btn-success" target="_blank">Kirim Pesan WA</a>
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                 </div>
-               </div>
-             </div>
-          </div>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
 </section>
 
