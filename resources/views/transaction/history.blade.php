@@ -61,6 +61,9 @@
                                             </tr>
                                         </thead>
                                         <tbody>
+                                            @php
+                                                $no = 0;
+                                            @endphp
                                             @foreach ($historyTransaction as $index => $transaction)
 
                                                 @php
@@ -78,7 +81,6 @@
                                                     $message .= "\nTerima Kasih";
 
                                                     $message = urlencode($message);
-                                                    $no = 0;
                                                 @endphp
                                                 <tr class="text-center">
                                                     <td>{{ $no +=1 }}</td>
