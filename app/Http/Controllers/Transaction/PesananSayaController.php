@@ -39,6 +39,7 @@ class PesananSayaController extends Controller
         $transactions = [];
 
         $data = $jsoncreateWishlist['data'];
+        // dd($data);
 
         $total_harga = 0;
         foreach ($data as $item) {
@@ -54,17 +55,15 @@ class PesananSayaController extends Controller
                     'products' => [],
                     'konfirmasi_admin' => $item['konfirmasi_admin'],
                     'tanggal_pesan' => date('d F Y H:i:s', strtotime($item['createdAt'])),
-                    'total_harga' => $total_harga
+                    'total_harga' => 0
                 ];
             }
+
+            $transactions[$kode_invoice]['total_harga'] += $item['total_harga'];
 
             $productExists = false;
 
             foreach ($transactions[$kode_invoice]['products'] as $product) {
-                \Log::info(
-                $product['variasi'] == $item['variasi'] &&
-                $product['warna'] == $item['warna'] &&
-                $product['ukuran'] == $item['ukuran']);
                 if (
                     $product['nama_barang'] === $item['nama_barang'] &&
                     $product['variasi'] === $item['variasi'] &&

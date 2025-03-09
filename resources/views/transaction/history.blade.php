@@ -94,7 +94,7 @@
                                                             @endforeach
                                                         </ul>
                                                     </td>
-                                                    <td>Rp{{ number_format($total_harga, 2, ',', '.') }}</td>
+                                                    <td>Rp{{ number_format($transaction['total_harga'], 2, ',', '.') }}</td>
                                                     <td>
                                                         @if($transaction['konfirmasi_admin'] == 1)
                                                             <span class="text-success">Terkonfirmasi</span>
