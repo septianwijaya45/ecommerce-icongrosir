@@ -1031,7 +1031,47 @@
                         closeOnEsc: false,
                         allowOutsideClick: false
                     });
-                    window.location.href = `{{ route('cart.createCartByDetailProduct', [':product_id', ':varian', ':warna', ':ukuran', ':qty']) }}`.replace(':product_id', product_id).replace(':varian', varian).replace(':warna', warna).replace(':ukuran', ukuran).replace(':qty', qty)
+                    let url = `{{ route('cart.createCartByDetailProduct', [':product_id', ':varian', ':warna', ':ukuran', ':qty']) }}`
+                            .replace(':product_id', product_id)
+                            .replace(':varian', varian)
+                            .replace(':warna', warna)
+                            .replace(':ukuran', ukuran)
+                            .replace(':qty', qty);
+
+                    $.ajax({
+                        url: url,
+                        method: 'GET',
+                        success: function(response) {
+                            if (response.status) {
+                                swal({
+                                    title: "Produk Ditambahkan!",
+                                    text: response.message,
+                                    type: "success",
+                                    confirmButtonText: "OK"
+                                });
+
+                                setInterval(() => {
+                                    window.location.reload()
+                                }, 1000);
+                            } else {
+                                swal({
+                                    title: "Gagal!",
+                                    text: response.message,
+                                    type: "error",
+                                    confirmButtonText: "Coba Lagi"
+                                });
+                            }
+                        },
+                        error: function(xhr, status, error) {
+                            swal.close(); // Tutup swal loading
+                            swal({
+                                title: "Terjadi Kesalahan!",
+                                text: "Silakan coba lagi nanti.",
+                                type: "error",
+                                confirmButtonText: "OK"
+                            });
+                        }
+                    });
                 });
             }
 
